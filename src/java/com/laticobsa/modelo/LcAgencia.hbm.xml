@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31/03/2017 06:57:26 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.laticobsa.modelo.LcAgencia" table="lc_agencia" schema="public" optimistic-lock="version">
+        <id name="idAgencia" type="int">
+            <column name="id_agencia" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="lcEmpresa" class="com.laticobsa.modelo.LcEmpresa" fetch="select">
+            <column name="id_empresa" />
+        </many-to-one>
+        <property name="nombre" type="string">
+            <column name="nombre" length="100" />
+        </property>
+        <property name="opcion" type="string">
+            <column name="opcion" length="100" />
+        </property>
+        <property name="direccion" type="string">
+            <column name="direccion" length="100" />
+        </property>
+        <property name="telefono" type="string">
+            <column name="telefono" length="100" />
+        </property>
+        <property name="telefono2" type="string">
+            <column name="telefono2" length="100" />
+        </property>
+        <property name="celular" type="string">
+            <column name="celular" length="100" />
+        </property>
+        <property name="email" type="string">
+            <column name="email" length="100" />
+        </property>
+        <property name="fechaCreacion" type="timestamp">
+            <column name="fecha_creacion" length="29" />
+        </property>
+        <property name="estado" type="string">
+            <column name="estado" length="1" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31/03/2017 06:57:26 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.laticobsa.modelo.LcCiudad" table="lc_ciudad" schema="public" optimistic-lock="version">
+        <id name="idCiudad" type="int">
+            <column name="id_ciudad" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="lcProvincia" class="com.laticobsa.modelo.LcProvincia" fetch="select">
+            <column name="id_provincia" />
+        </many-to-one>
+        <property name="ciudad" type="string">
+            <column name="ciudad" length="100" />
+        </property>
+        <property name="estado" type="string">
+            <column name="estado" length="1" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31/03/2017 06:57:26 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.laticobsa.modelo.LcEmpleados" table="lc_empleados" schema="public" optimistic-lock="version">
+        <comment>Registro los empleados</comment>
+        <id name="idEmpleado" type="int">
+            <column name="id_empleado" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="lcCargos" class="com.laticobsa.modelo.LcCargos" fetch="select">
+            <column name="id_cargo" />
+        </many-to-one>
+        <many-to-one name="lcEmpresa" class="com.laticobsa.modelo.LcEmpresa" fetch="select">
+            <column name="id_empresa" not-null="true">
+                <comment>Identificador &#250;nico de la empresa</comment>
+            </column>
+        </many-to-one>
+        <property name="tipoIdentificacion" type="string">
+            <column name="tipo_identificacion" length="10">
+                <comment>Tipo de Identificaci&#243;n</comment>
+            </column>
+        </property>
+        <property name="identificacion" type="string">
+            <column name="identificacion" length="13">
+                <comment>Identificaci&#243;n</comment>
+            </column>
+        </property>
+        <property name="nombres" type="string">
+            <column name="nombres" length="100">
+                <comment>Nombres del empleado</comment>
+            </column>
+        </property>
+        <property name="apellidos" type="string">
+            <column name="apellidos" length="100">
+                <comment>Apellidos del empleado</comment>
+            </column>
+        </property>
+        <property name="lugarNacimiento" type="string">
+            <column name="lugar_nacimiento" length="100">
+                <comment>Lugar de nacimiento</comment>
+            </column>
+        </property>
+        <property name="fechaNacimiento" type="date">
+            <column name="fecha_nacimiento" length="13">
+                <comment>Fecha de nacimiento</comment>
+            </column>
+        </property>
+        <property name="email" type="string">
+            <column name="email" length="200">
+                <comment>Correo</comment>
+            </column>
+        </property>
+        <property name="telefonos" type="string">
+            <column name="telefonos" length="20">
+                <comment>Telefonos</comment>
+            </column>
+        </property>
+        <property name="celular" type="string">
+            <column name="celular" length="11">
+                <comment>Celular</comment>
+            </column>
+        </property>
+        <property name="direccionDomicilio" type="string">
+            <column name="direccion_domicilio" length="200">
+                <comment>Direcci&#243;n de Domicilio</comment>
+            </column>
+        </property>
+        <property name="estadoCivil" type="string">
+            <column name="estado_civil" length="1">
+                <comment>Estado Civila</comment>
+            </column>
+        </property>
+        <property name="genero" type="string">
+            <column name="genero" length="1">
+                <comment>Masculino (M), Fenemino F</comment>
+            </column>
+        </property>
+        <property name="profesion" type="string">
+            <column name="profesion" length="200">
+                <comment>Profesion del empleado</comment>
+            </column>
+        </property>
+        <property name="idJefeInmediato" type="java.lang.Integer">
+            <column name="id_jefe_inmediato">
+                <comment>Id empleado</comment>
+            </column>
+        </property>
+        <property name="observacion" type="string">
+            <column name="observacion" length="1000">
+                <comment>Observaci&#243;n del usuario</comment>
+            </column>
+        </property>
+        <property name="fechaCreacion" type="timestamp">
+            <column name="fecha_creacion" length="29">
+                <comment>Fecha de creaci&#243;n del registro</comment>
+            </column>
+        </property>
+        <property name="fechaActualizacion" type="timestamp">
+            <column name="fecha_actualizacion" length="29" />
+        </property>
+        <property name="estado" type="string">
+            <column name="estado" length="1">
+                <comment>"A" Activo, "I" Inactivo</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

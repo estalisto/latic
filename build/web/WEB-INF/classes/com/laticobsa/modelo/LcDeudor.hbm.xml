@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31/03/2017 06:57:26 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.laticobsa.modelo.LcDeudor" table="lc_deudor" schema="public" optimistic-lock="version">
+        <id name="idDeudor" type="int">
+            <column name="id_deudor" />
+            <generator class="assigned" />
+        </id>
+        <property name="idEmpresa" type="java.lang.Integer">
+            <column name="id_empresa" />
+        </property>
+        <property name="idCliente" type="java.lang.Integer">
+            <column name="id_cliente" />
+        </property>
+        <property name="nombreCartera" type="string">
+            <column name="nombre_cartera" length="100" />
+        </property>
+        <property name="observacion" type="string">
+            <column name="observacion" length="100" />
+        </property>
+        <property name="datosAdicional" type="string">
+            <column name="datos_adicional" length="100" />
+        </property>
+        <property name="fechaCreacion" type="timestamp">
+            <column name="fecha_creacion" length="29" />
+        </property>
+        <property name="fechaActualizacion" type="timestamp">
+            <column name="fecha_actualizacion" length="29" />
+        </property>
+        <property name="estado" type="string">
+            <column name="estado" length="1" />
+        </property>
+    </class>
+</hibernate-mapping>

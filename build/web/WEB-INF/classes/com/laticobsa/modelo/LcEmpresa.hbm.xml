@@ -1,0 +1,126 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31/03/2017 06:57:26 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.laticobsa.modelo.LcEmpresa" table="lc_empresa" schema="public" optimistic-lock="version">
+        <comment>Registro de Empresas que existen en el sistema ARGUS</comment>
+        <id name="idEmpresa" type="int">
+            <column name="id_empresa" />
+            <generator class="assigned" />
+        </id>
+        <property name="idPais" type="string">
+            <column name="id_pais" length="10" />
+        </property>
+        <property name="idCiudad" type="string">
+            <column name="id_ciudad" length="10">
+                <comment>Identificador &#250;nico de Ciudad</comment>
+            </column>
+        </property>
+        <property name="idProvincia" type="java.lang.Integer">
+            <column name="id_provincia">
+                <comment>Identificador &#250;nico de Provincia</comment>
+            </column>
+        </property>
+        <property name="tipoIdentificacion" type="string">
+            <column name="tipo_identificacion" length="10">
+                <comment>Tipo de Identificaci&#243;n</comment>
+            </column>
+        </property>
+        <property name="identificacion" type="string">
+            <column name="identificacion" length="13">
+                <comment>N&#250;mero de Identificaci&#243;n</comment>
+            </column>
+        </property>
+        <property name="razonSocial" type="string">
+            <column name="razon_social" length="100">
+                <comment>Raz&#243;n Social de la Empresa</comment>
+            </column>
+        </property>
+        <property name="direccion" type="string">
+            <column name="direccion" length="100">
+                <comment>Direcci&#243;n de la Empresa</comment>
+            </column>
+        </property>
+        <property name="telefonos" type="string">
+            <column name="telefonos" length="100">
+                <comment>telefonos de la empresa</comment>
+            </column>
+        </property>
+        <property name="email" type="string">
+            <column name="email" length="100">
+                <comment>Email de la empresa (Contacto)</comment>
+            </column>
+        </property>
+        <property name="fechaCreacion" type="timestamp">
+            <column name="fecha_creacion" length="29">
+                <comment>Fecha en que se crea la Empresa</comment>
+            </column>
+        </property>
+        <property name="fechaActualizacion" type="timestamp">
+            <column name="fecha_actualizacion" length="29">
+                <comment>fecha de actualizaci&#243;n</comment>
+            </column>
+        </property>
+        <property name="estado" type="string">
+            <column name="estado" length="1">
+                <comment>"A" Activo, "I" Inactivo</comment>
+            </column>
+        </property>
+        <property name="telfonos2" type="string">
+            <column name="telfonos2" length="100" />
+        </property>
+        <property name="celular" type="string">
+            <column name="celular" length="100" />
+        </property>
+        <property name="sucursal" type="java.lang.Integer">
+            <column name="sucursal" />
+        </property>
+        <set name="lcRoleses" table="lc_roles" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_empresa">
+                    <comment>Id de la empresa</comment>
+                </column>
+            </key>
+            <one-to-many class="com.laticobsa.modelo.LcRoles" />
+        </set>
+        <set name="lcEmpleadoses" table="lc_empleados" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_empresa" not-null="true">
+                    <comment>Identificador &#250;nico de la empresa</comment>
+                </column>
+            </key>
+            <one-to-many class="com.laticobsa.modelo.LcEmpleados" />
+        </set>
+        <set name="lcAgencias" table="lc_agencia" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_empresa" />
+            </key>
+            <one-to-many class="com.laticobsa.modelo.LcAgencia" />
+        </set>
+        <set name="lcZonases" table="lc_zonas" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_empresa" />
+            </key>
+            <one-to-many class="com.laticobsa.modelo.LcZonas" />
+        </set>
+        <set name="lcUsuarioses" table="lc_usuarios" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_empresa" />
+            </key>
+            <one-to-many class="com.laticobsa.modelo.LcUsuarios" />
+        </set>
+        <set name="lcCargoses" table="lc_cargos" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_empresa" />
+            </key>
+            <one-to-many class="com.laticobsa.modelo.LcCargos" />
+        </set>
+        <set name="lcClienteses" table="lc_clientes" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_empresa" />
+            </key>
+            <one-to-many class="com.laticobsa.modelo.LcClientes" />
+        </set>
+    </class>
+</hibernate-mapping>

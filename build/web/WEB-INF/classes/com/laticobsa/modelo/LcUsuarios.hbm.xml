@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31/03/2017 06:57:26 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.laticobsa.modelo.LcUsuarios" table="lc_usuarios" schema="public" optimistic-lock="version">
+        <comment>Registro de usuarios que existen en el sistema ARGUS</comment>
+        <id name="idUsuario" type="int">
+            <column name="id_usuario" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="lcEmpresa" class="com.laticobsa.modelo.LcEmpresa" fetch="select">
+            <column name="id_empresa" />
+        </many-to-one>
+        <many-to-one name="lcRoles" class="com.laticobsa.modelo.LcRoles" fetch="select">
+            <column name="id_rol">
+                <comment>Rol del usuario</comment>
+            </column>
+        </many-to-one>
+        <property name="idEmpleado" type="java.lang.Integer">
+            <column name="id_empleado">
+                <comment>Id de la Persona</comment>
+            </column>
+        </property>
+        <property name="usuario" type="string">
+            <column name="usuario" length="10">
+                <comment>Nombre de Usuario</comment>
+            </column>
+        </property>
+        <property name="contrasenia" type="string">
+            <column name="contrasenia" length="100" />
+        </property>
+        <property name="observacion" type="string">
+            <column name="observacion" length="1000">
+                <comment>Observaci&#243;n del usuario</comment>
+            </column>
+        </property>
+        <property name="fechaCreacion" type="timestamp">
+            <column name="fecha_creacion" length="29">
+                <comment>Fecha de creaci&#243;n del registro</comment>
+            </column>
+        </property>
+        <property name="estado" type="string">
+            <column name="estado" length="1">
+                <comment>"A" Activo, "I" Inactivo</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31/03/2017 06:57:26 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.laticobsa.modelo.LcModuloRol" table="lc_modulo_rol" schema="public" optimistic-lock="version">
+        <comment>Registros de los M&#243;dulos del sistema</comment>
+        <id name="idModuloRol" type="int">
+            <column name="id_modulo_rol" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="lcModulos" class="com.laticobsa.modelo.LcModulos" fetch="select">
+            <column name="id_modulo" />
+        </many-to-one>
+        <many-to-one name="lcRoles" class="com.laticobsa.modelo.LcRoles" fetch="select">
+            <column name="id_rol" />
+        </many-to-one>
+        <property name="idEmpresa" type="java.lang.Integer">
+            <column name="id_empresa" />
+        </property>
+        <property name="nivelModulo" type="java.lang.Integer">
+            <column name="nivel_modulo" />
+        </property>
+        <property name="grupoMod" type="java.lang.Integer">
+            <column name="grupo_mod" />
+        </property>
+        <property name="fechaCreacion" type="timestamp">
+            <column name="fecha_creacion" length="29" />
+        </property>
+        <property name="estado" type="string">
+            <column name="estado" length="1" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+    <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+    <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/bdjsp1</property>
+    <property name="hibernate.connection.username">postgres</property>
+    <property name="hibernate.connection.password">sebas2008</property>
+    <mapping resource="com/laticobsa/modelo/LcDeudor.hbm.xml"/>
+    <mapping resource="com/laticobsa/modelo/LcCargos.hbm.xml"/>
+    <mapping resource="com/laticobsa/modelo/LcPais.hbm.xml"/>
+    <mapping resource="com/laticobsa/modelo/LcClientes.hbm.xml"/>
+    <mapping resource="com/laticobsa/modelo/LcEmpleados.hbm.xml"/>
+    <mapping resource="com/laticobsa/modelo/LcParametros.hbm.xml"/>
+    <mapping resource="com/laticobsa/modelo/LcModuloRol.hbm.xml"/>
+    <mapping resource="com/laticobsa/modelo/LcTiposIdentificacion.hbm.xml"/>
+    <mapping resource="com/laticobsa/modelo/LcEmpresa.hbm.xml"/>
+    <mapping resource="com/laticobsa/modelo/LcCiudad.hbm.xml"/>
+    <mapping resource="com/laticobsa/modelo/LcEstadoCivil.hbm.xml"/>
+    <mapping resource="com/laticobsa/modelo/LcPassword.hbm.xml"/>
+    <mapping resource="com/laticobsa/modelo/LcAgencia.hbm.xml"/>
+    <mapping resource="com/laticobsa/modelo/LcUsuarios.hbm.xml"/>
+    <mapping resource="com/laticobsa/modelo/LcZonas.hbm.xml"/>
+    <mapping resource="com/laticobsa/modelo/LcRoles.hbm.xml"/>
+    <mapping resource="com/laticobsa/modelo/LcSucursal.hbm.xml"/>
+    <mapping resource="com/laticobsa/modelo/LcModulos.hbm.xml"/>
+    <mapping resource="com/laticobsa/modelo/LcProvincia.hbm.xml"/>
+  </session-factory>
+</hibernate-configuration>

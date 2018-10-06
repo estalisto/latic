@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31/03/2017 06:57:26 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.laticobsa.modelo.LcClientes" table="lc_clientes" schema="public" optimistic-lock="version">
+        <id name="idCliente" type="int">
+            <column name="id_cliente" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="lcEmpresa" class="com.laticobsa.modelo.LcEmpresa" fetch="select">
+            <column name="id_empresa" />
+        </many-to-one>
+        <property name="tipoIdentificacion" type="string">
+            <column name="tipo_identificacion" length="100" />
+        </property>
+        <property name="identificacion" type="string">
+            <column name="identificacion" length="100" />
+        </property>
+        <property name="razonSocial" type="string">
+            <column name="razon_social" length="100" />
+        </property>
+        <property name="direccion" type="string">
+            <column name="direccion" length="100" />
+        </property>
+        <property name="pais" type="string">
+            <column name="pais" length="100" />
+        </property>
+        <property name="provincia" type="java.lang.Integer">
+            <column name="provincia" />
+        </property>
+        <property name="ciudad" type="string">
+            <column name="ciudad" length="100" />
+        </property>
+        <property name="contacto" type="string">
+            <column name="contacto" length="100" />
+        </property>
+        <property name="email" type="string">
+            <column name="email" length="100" />
+        </property>
+        <property name="telefono" type="string">
+            <column name="telefono" length="100" />
+        </property>
+        <property name="extensioon" type="string">
+            <column name="extensioon" length="10" />
+        </property>
+        <property name="celular" type="string">
+            <column name="celular" length="50" />
+        </property>
+        <property name="fechaCreacion" type="timestamp">
+            <column name="fecha_creacion" length="29" />
+        </property>
+        <property name="estado" type="string">
+            <column name="estado" length="1" />
+        </property>
+    </class>
+</hibernate-mapping>
