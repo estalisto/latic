@@ -1,5 +1,5 @@
 package com.laticobsa.modelo;
-// Generated 31/03/2017 06:57:24 PM by Hibernate Tools 4.3.1
+// Generated 14-ene-2018 19:02:18 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -14,6 +14,7 @@ public class LcParametros  implements java.io.Serializable {
      private Integer idParametro;
      private String parametro;
      private String valor;
+     private String descripcion;
      private Date fechaRegistro;
      private String estado;
 
@@ -24,11 +25,12 @@ public class LcParametros  implements java.io.Serializable {
     public LcParametros(int id) {
         this.id = id;
     }
-    public LcParametros(int id, Integer idParametro, String parametro, String valor, Date fechaRegistro, String estado) {
+    public LcParametros(int id, Integer idParametro, String parametro, String valor, String descripcion, Date fechaRegistro, String estado) {
        this.id = id;
        this.idParametro = idParametro;
        this.parametro = parametro;
        this.valor = valor;
+       this.descripcion = descripcion;
        this.fechaRegistro = fechaRegistro;
        this.estado = estado;
     }
@@ -60,6 +62,13 @@ public class LcParametros  implements java.io.Serializable {
     
     public void setValor(String valor) {
         this.valor = valor;
+    }
+    public String getDescripcion() {
+        return this.descripcion;
+    }
+    
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
     public Date getFechaRegistro() {
         return this.fechaRegistro;

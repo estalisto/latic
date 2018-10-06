@@ -1,19 +1,28 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 31/03/2017 06:57:26 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated 14-ene-2018 19:02:21 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.laticobsa.modelo.LcClientes" table="lc_clientes" schema="public" optimistic-lock="version">
         <id name="idCliente" type="int">
             <column name="id_cliente" />
             <generator class="assigned" />
         </id>
+        <many-to-one name="lcCiudad" class="com.laticobsa.modelo.LcCiudad" fetch="select">
+            <column name="ciudad" />
+        </many-to-one>
         <many-to-one name="lcEmpresa" class="com.laticobsa.modelo.LcEmpresa" fetch="select">
             <column name="id_empresa" />
         </many-to-one>
-        <property name="tipoIdentificacion" type="string">
-            <column name="tipo_identificacion" length="100" />
-        </property>
+        <many-to-one name="lcPais" class="com.laticobsa.modelo.LcPais" fetch="select">
+            <column name="pais" />
+        </many-to-one>
+        <many-to-one name="lcProvincia" class="com.laticobsa.modelo.LcProvincia" fetch="select">
+            <column name="provincia" />
+        </many-to-one>
+        <many-to-one name="lcTiposIdentificacion" class="com.laticobsa.modelo.LcTiposIdentificacion" fetch="select">
+            <column name="tipo_identificacion" />
+        </many-to-one>
         <property name="identificacion" type="string">
             <column name="identificacion" length="100" />
         </property>
@@ -22,15 +31,6 @@
         </property>
         <property name="direccion" type="string">
             <column name="direccion" length="100" />
-        </property>
-        <property name="pais" type="string">
-            <column name="pais" length="100" />
-        </property>
-        <property name="provincia" type="java.lang.Integer">
-            <column name="provincia" />
-        </property>
-        <property name="ciudad" type="string">
-            <column name="ciudad" length="100" />
         </property>
         <property name="contacto" type="string">
             <column name="contacto" length="100" />
@@ -53,5 +53,47 @@
         <property name="estado" type="string">
             <column name="estado" length="1" />
         </property>
+        <set name="lcTransaccioneses" table="lc_transacciones" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_cliente" />
+            </key>
+            <one-to-many class="com.laticobsa.modelo.LcTransacciones" />
+        </set>
+        <set name="lcRecordatorioses" table="lc_recordatorios" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_cliente" />
+            </key>
+            <one-to-many class="com.laticobsa.modelo.LcRecordatorios" />
+        </set>
+        <set name="lcDetCampaniases" table="lc_det_campanias" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_cliente" />
+            </key>
+            <one-to-many class="com.laticobsa.modelo.LcDetCampanias" />
+        </set>
+        <set name="lcDeudors" table="lc_deudor" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_cliente" />
+            </key>
+            <one-to-many class="com.laticobsa.modelo.LcDeudor" />
+        </set>
+        <set name="lcClienteResultados" table="lc_cliente_resultado" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_cliente" />
+            </key>
+            <one-to-many class="com.laticobsa.modelo.LcClienteResultado" />
+        </set>
+        <set name="lcCarteras" table="lc_cartera" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_cliente" />
+            </key>
+            <one-to-many class="com.laticobsa.modelo.LcCartera" />
+        </set>
+        <set name="lcGestioneses" table="lc_gestiones" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_cliente" />
+            </key>
+            <one-to-many class="com.laticobsa.modelo.LcGestiones" />
+        </set>
     </class>
 </hibernate-mapping>

@@ -7,153 +7,227 @@
 
 function frm_zona()
 {
-        jQuery("#page-wrapper").html("<br/><br/><center><img alt='cargando' src='dist/img/hourglass.gif' /><center>"); 
-        jQuery("#page-wrapper").load("sectores?accion=agregar",{},function(){ });
+    var empresa = $('#empresa2').val();
+    jQuery("#page-wrapper").html("<br/><br/><center><img alt='cargando' src='dist/img/hourglass.gif' /><center>");
+    jQuery("#page-wrapper").load("sectores?accion=agregar", {}, function () {
+        if (empresa !== "") {
+            $('#empresa').css("display", "none");
+            $('#empresa2').css("display", "block");
+            document.getElementById("empresa2").disabled = true;
+        }
+    });
 }
 function sectores()
-{       jQuery("#page-wrapper").html("<br/><br/><center><img alt='cargando' src='dist/img/hourglass.gif' /><center>"); 
-        jQuery("#page-wrapper").load("sectores?accion=listar",{},function(){ });
+{
+    jQuery("#page-wrapper").html("<br/><br/><center><img alt='cargando' src='dist/img/hourglass.gif' /><center>");
+    jQuery("#page-wrapper").load("sectores?accion=listar", {}, function () { });
 }
 
-function validaDatos(empresa,nombre,pais,provincia,ciudad,descripcion,accion){
-         
-             if(nombre.length > 1  ){
-                 if(pais.length > 1 ){
-                      
-                            if(ciudad.length > 0 ){
-                                     if(descripcion.length > 1 && descripcion.length < 100 ){
-                                             return true;
-                                 }else{ alert("Debe ingresar una descripcion");}
-                           }else{ alert("Debe elegir una ciudad");}
-                           
-                    }else{ alert("Debe elegir un pais");}
-             }else{ alert("Debe ingresar un Nombre");}
-                 
-   return false; 
+function validaDatos(empresa, empresa2, nombre, pais, provincia, ciudad, descripcion, accion) {
+    if (empresa !== "" || empresa2 !== "") {
+        if (nombre.length > 1) {
+            if (pais !== "") {
+                if (provincia !== "") {
+                    if (ciudad !== "") {
+                        if (descripcion.length > 1 && descripcion.length < 100) {
+                            return true;
+                        } else {
+                            MsgSalidaModalA("Debe ingresar una descripcion");
+                        }
+                    } else {
+                        MsgSalidaModalA("Debe elegir una ciudad");
+                    }
+                } else {
+                    MsgSalidaModalA("Debe elegir una provincia");
+                }
+            } else {
+                MsgSalidaModalA("Debe elegir un pais");
+            }
+        } else {
+            MsgSalidaModalA("Debe ingresar un Nombre");
+        }
+    } else {
+        MsgSalidaModalA("Debe elegir una Empresa");
+    }
+    return false;
 }
 
 function deletezona(data)
-        
-{      if(confirm("Realmente desea eliminar los datos")){
-    jQuery("#page-wrapper").html("<br/><br/><center><img alt='cargando' src='dist/img/hourglass.gif' /><center>"); 
-        jQuery("#page-wrapper").load("sectores?accion=eliminar&id=" + data,{},function(){ });
-        }
+
+{
+    if (confirm("Realmente desea eliminar los datos")) {
+        jQuery("#page-wrapper").html("<br/><br/><center><img alt='cargando' src='dist/img/hourglass.gif' /><center>");
+        jQuery("#page-wrapper").load("sectores?accion=eliminar&id=" + data, {}, function () { });
         sectores();
-}
+    }
 
-//function updatezona(id,empresa,pais,provincia,ciudad,nombre,descripcion)
-//        
-//{      
-//    jQuery("#page-wrapper").html("<br/><br/><center><img alt='cargando' src='dist/img/hourglass.gif' /><center>"); 
-//        jQuery("#page-wrapper").load("sectores?accion=editar&id=" + id+"&empresa=" + empresa+"&pais=" + pais+"&provincia=" + provincia+"&ciudad=" + ciudad+"&nombre=" + nombre+"&descripcion=" + descripcion,{},function(){ });
-//   
-//}
-
-
-function ConnsultaDatosID(str)        
-{  
-
-  if(confirm("Realmente desea actualizar los datos")){
-     jQuery("#page-wrapper").html("<br/><br/><center><img alt='cargando' src='dist/img/hourglass.gif' /><center>"); 
-      jQuery("#page-wrapper").load("sectores?accion=buscaID&id=" + str,{},function(){ });
-  }
-    
 }
 
 
-function elimino(url){
-    if(confirm("Realmente desea eliminar este registro")){
-        window.location=url;
+function ConnsultaDatosID(str)
+{
+
+    if (confirm("Realmente desea actualizar los datos")) {
+        jQuery("#page-wrapper").html("<br/><br/><center><img alt='cargando' src='dist/img/hourglass.gif' /><center>");
+        jQuery("#page-wrapper").load("sectores?accion=buscaID&id=" + str, {}, function () { });
+    }
+
+}
+
+
+function elimino(url) {
+    if (confirm("Realmente desea eliminar este registro")) {
+        window.location = url;
     }
 }
 
+function obtenerProvincia() {
+    var pais = $("#pais").val();
 
-$('#btncrearzona').click(function(e){
-   e.preventDefault();
-   
-   var empresa = $("#empresa").val();
-   var nombre  = $("#nombre").val();
-   var pais = $("#pais").val();
-   var provincia = $("#provincia").val();
-   var ciudad = $("#ciudad").val();
-   var descripcion  = $("#descripcion").val();
-  var accion = $("#accion").val();
-   
-   if(validaDatos(empresa,nombre,pais,provincia,ciudad,descripcion,accion)){
-      
-          var parametros = {
-              "accion" : accion,
-                "empresa" : empresa,
-                "nombre" : nombre,
-                "pais" : pais,
-                "provincia" : provincia,
-                "ciudad" : ciudad,
-                "descripcion" : descripcion
-                
-                 };
-        $.ajax({
-                data:  parametros,
-                url:   'sectores',
-                type:  'GET',
-                beforeSend: function () {                      
-                } ,
-               success:  function (response) {
-                      if(response){
-                           alert(response);
-                           frm_zona();//vuelvo a llamar a la pantalla
-                      }                        
-                }
+    if (pais !== "") {
+        $.post("sistema/combo_prov.jsp", $("#data").serialize(), function (data) {
+            $("#provincia").html(data);
         });
-       
-       
-        
-   }
-    
+        document.getElementById("provincia").disabled = false;
+    }
+}
+
+function obtenerCiudad() {
+    var provincia = $("#provincia").val();
+
+    if (provincia !== "") {
+        $.post("sistema/combo_ciudad.jsp", $("#data").serialize(), function (data) {
+            $("#ciudad").html(data);
+        });
+        document.getElementById("ciudad").disabled = false;
+    }
+}
+
+$('#btncrearzona').click(function (e) {
+    e.preventDefault();
+
+    var empresa = $("#empresa").val();
+    var nombre = $("#nombre").val();
+    var pais = $("#pais").val();
+    var provincia = $("#provincia").val();
+    var ciudad = $("#ciudad").val();
+    var descripcion = $("#descripcion").val();
+    var accion = $("#accion").val();
+    var empresa2 = $('#empresa2').val();
+    if (empresa === "") {
+        empresa = 0;
+        if (validaDatos(empresa, empresa2, nombre, pais, provincia, ciudad, descripcion, accion)) {
+
+            var parametros = {
+                "accion": accion,
+                "empresa": empresa,
+                "empresa2": empresa2,
+                "nombre": nombre,
+                "pais": pais,
+                "provincia": provincia,
+                "ciudad": ciudad,
+                "descripcion": descripcion
+
+            };
+            $.ajax({
+                data: parametros,
+                url: 'sectores',
+                type: 'GET',
+                beforeSend: function () {
+                },
+                success: function (response) {
+                    if (response) {
+                        MsgSalidaModalM(response);
+                        frm_zona();//vuelvo a llamar a la pantalla
+                    } else {
+                        MsgSalidaModalA("ZONA NO REGISTRADA");
+                    }
+
+                }
+            });
+
+
+
+        }
+    }
+    if(empresa2 === ""){
+        empresa2 = 0;
+    if (validaDatos(empresa, empresa2, nombre, pais, provincia, ciudad, descripcion, accion)) {
+
+            var parametros = {
+                "accion": accion,
+                "empresa": empresa,
+                "empresa2": empresa2,
+                "nombre": nombre,
+                "pais": pais,
+                "provincia": provincia,
+                "ciudad": ciudad,
+                "descripcion": descripcion
+
+            };
+            $.ajax({
+                data: parametros,
+                url: 'sectores',
+                type: 'GET',
+                beforeSend: function () {
+                },
+                success: function (response) {
+                    if (response) {
+                        MsgSalidaModalM(response);
+                        frm_zona();//vuelvo a llamar a la pantalla
+                    } else {
+                        MsgSalidaModalA("ZONA NO REGISTRADA");
+                    }
+
+                }
+            });
+        }
+    }
 });
 
 
 
-$('#btnactzona').click(function(e){
-   e.preventDefault();
-   
+$('#btnactzona').click(function (e) {
+    e.preventDefault();
 
-       
-       var idzona = $("#idzona").val();
-   var empresa = $("#empresa").val();
-   var nombre  = $("#nombre").val();
-   var pais = $("#pais").val();
-   var provincia = $("#provincia").val();
-   var ciudad = $("#ciudad").val();
-   var descripcion  = $("#descripcion").val();
-  var accion = $("#accion").val();
-   
-             var parametros = {
-              "accion" : accion,
-                "idzona" : idzona,
-                "empresa" : empresa,
-                "nombre" : nombre,
-                "pais" : pais,
-                "provincia" : provincia,
-                "ciudad" : ciudad,
-                "descripcion" : descripcion
-                
-                 };
-        $.ajax({
-                data:  parametros,
-                url:   'sectores',
-                type:  'GET',
-                beforeSend: function () {                      
-                } ,
-               success:  function (response) {
-                      if(response){
-                           alert(response);
-                           sectores();//vuelvo a llamar a la pantalla
-                      }                        
-                }
-        });  
-   
-   
- 
-    
-       
+
+
+    var idzona = $("#idzona").val();
+    var empresa = $("#empresa").val();
+    var nombre = $("#nombre").val();
+    var pais = $("#pais").val();
+    var provincia = $("#provincia").val();
+    var ciudad = $("#ciudad").val();
+    var descripcion = $("#descripcion").val();
+    var accion = $("#accion").val();
+
+    var parametros = {
+        "accion": accion,
+        "idzona": idzona,
+        "empresa": empresa,
+        "nombre": nombre,
+        "pais": pais,
+        "provincia": provincia,
+        "ciudad": ciudad,
+        "descripcion": descripcion
+
+    };
+    $.ajax({
+        data: parametros,
+        url: 'sectores',
+        type: 'GET',
+        beforeSend: function () {
+        },
+        success: function (response) {
+            if (response) {
+                MsgSalidaModalM(response);
+                sectores();//vuelvo a llamar a la pantalla
+            }
+        }
+    });
+
+
+
+
+
 });

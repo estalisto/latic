@@ -14,7 +14,10 @@
 
     <!DOCTYPE html>
 <html>
+    
 <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css">
 </head>
 <body>
 <div> 
@@ -27,11 +30,11 @@
               <h3 class="box-title">Usuarios de la Empresa</h3>
             </div>
             <!-- /.box-header -->
-            <div class="box-body" style="overflow-x:scroll;">
+            <div id="tbusuarios" class="box-body" style="overflow-x:scroll;">
               <table id="example1" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                  <th>ID</th>
+                  <th class="hidden">ID</th>
                   <th>Empresa</th>
                   <th>Rol</th>
                   <th>Identificacion Empleados</th>                  
@@ -42,20 +45,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                    
-                    <c:forEach items="${usuarios}" var="usuario">
-                        <tr>
-                          <td><c:out value="${usuario.getIdUsuario()}" /> </td>
-                          <td><c:out value="${usuario.getLcEmpresa().getRazonSocial()}" /> </td>
-                          <td><c:out value="${usuario.getLcRoles().getDescripcion()}" /> </td>
-                          <td><c:out value="${usuario.getIdEmpleado()}" /> </td>
-                          <td><c:out value="${usuario.getUsuario()}" /> </td>
-                          <td><c:out value="${usuario.getFechaCreacion()}" /> </td>
-                          <td><c:out value="${usuario.getObservacion()}" /> </td>                     
-                          <td><a  onclick="ConnsultaDatosID(${usuario.getIdUsuario()})" ><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
-                              <a onclick="deleteusuario(${usuario.getIdUsuario()})"> <span  class="glyphicon glyphicon-trash" aria-hidden="true"></span></a> </td>     
-                        </tr>     
-                    </c:forEach> 
+
                 </tbody>
 
               </table>
@@ -77,17 +67,18 @@
   </div>
 <script src="dist/js/usuario.js"></script>   
 <script>
-  $(function () {
+ /* $(function () {
     $("#example2").DataTable();
     $('#example1').DataTable({
       "paging": true,
       "lengthChange": false,
-      "searching": false,
+      "searching": true,
       "ordering": true,
       "info": true,
       "autoWidth": false
     });
-  });
+  });*/
+     consulta_usuarios();
 </script>
 </body>
 </html>

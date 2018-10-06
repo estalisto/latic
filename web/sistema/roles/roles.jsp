@@ -31,7 +31,7 @@
               <table id="example1" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                  <th>ID</th>
+                  <th class="hidden">ID</th>
                   <th>Nombre Rol</th>
                   <th>Empresa</th>
                   <th>Acción </th>
@@ -41,7 +41,7 @@
                 <tbody>
                     <c:forEach items="${datos}" var="dato">
                         <tr>
-                          <td><c:out value="${dato.getIdRol()}" /> </td>
+                            <td class="hidden"><c:out value="${dato.getIdRol()}" /> </td>
                           <td><c:out value="${dato.getDescripcion()}" /> </td>
                           <td><c:out value="${dato.getLcEmpresa().getRazonSocial()}" /> </td>
                           <td><a onclick="ConnsultaDatosID(${dato.getIdRol()})" ><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
@@ -78,11 +78,11 @@
 <script src="dist/js/roles.js"></script>    
 <script>
   $(function () {
-    $("#example1").DataTable();
-    $('#example2').DataTable({
+    $("#example2").DataTable();
+    $('#example1').DataTable({
       "paging": true,
       "lengthChange": false,
-      "searching": false,
+      "searching": true,
       "ordering": true,
       "info": true,
       "autoWidth": false

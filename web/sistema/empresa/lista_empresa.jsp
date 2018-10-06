@@ -37,7 +37,7 @@
               <table id="example1" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                  <th>ID</th>
+                  <th class="hidden">ID</th>
                   <th>Identificación</th>
                   <th>Nombre</th>
                   <th>Dirección </th>
@@ -51,23 +51,12 @@
                 <tbody>
                     
                     <c:forEach items="${empresas}" var="empresa">
-                        <% 
-                            String estado="${empresa.getEstado()}";
-                            String  variable = "";
-                            if(estado == "A"){
-                                variable = "Activo";
-                            }
-                            if(estado == "I"){
-                                variable = "Inactivo";
-                            }
-                           
-                        %>
                         <tr>
-                          <td><c:out value="${empresa.getIdEmpresa()}" /> </td>
+                          <td class="hidden"><c:out value="${empresa.getIdEmpresa()}" /> </td>
                           <td><c:out value="${empresa.getIdentificacion()}" /> </td>
                           <td><c:out value="${empresa.getRazonSocial()}" /> </td>
                           <td><c:out value="${empresa.getDireccion()}" /> </td>
-                          <td><c:out value="${empresa.getTelefonos()}" /> </td>
+                          <td><c:out value="${empresa.getTelefonos()} - ${empresa.getTelfonos2()}" /> </td>
                           <td><c:out value="${empresa.getEmail()}" /> </td>
                           <td><c:out value="${empresa.getFechaCreacion()}" /> </td>                 
                           <td><c:out value="${empresa.getEstado()}" /> </td>
@@ -97,7 +86,7 @@
     $('#example1').DataTable({
       "paging": true,
       "lengthChange": false,
-      "searching": false,
+      "searching": true,
       "ordering": true,
       "info": true,
       "autoWidth": false

@@ -1,158 +1,176 @@
 <%-- 
-    Document   : login
-    Created on : 05-feb-2017, 22:36:36
+    Document   : login2
+    Created on : 12-ago-2018, 11:58:15
     Author     : CIMA2015
 --%>
 
+
+<%
+    String Sidentificacion = "", id_empresa = "", USER_SESION="";
+    HttpSession sesion = request.getSession(true);
+    
+    try {
+     if (sesion.getAttribute("SstrUsuarioRol")!= null && sesion.getAttribute("Sstrempresa")!=null && sesion.getAttribute("SstrUSER")!= null){
+                  
+                  //sesion.invalidate();
+                  response.sendRedirect("/laticobsa/home");
+              //out.print("<script>location.replace('login.jsp');<script>");
+              return;
+
+        }
+        
+    } catch (Exception e) {
+        Sidentificacion = "000";
+       response.sendRedirect("/laticobsa/login"); 
+    }
+%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 
-<!DOCTYPE html>
-<html>
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en">
     <head>
-        <meta charset="utf-8"/>
+        <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <link rel="icon" type="image/png" href="dist/img/favicon.png"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+       
         <title>LatiCobsa S.A.</title>
-
-        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-        <!-- Bootstrap 3.3.6 -->
-        <link rel="stylesheet" href="resources/bootstrap/css/bootstrap.min.css">
-        <!-- Font Awesome -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
-        <!-- Ionicons -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
-        <!-- Theme style -->
-        <link rel="stylesheet" href="resources/dist/css/AdminLTE.min.css">
-        <!-- iCheck -->
-        <link rel="stylesheet" href="resources/plugins/iCheck/square/blue.css">
-
-        <link href="resources/css/master.css" rel="stylesheet">
+        <link rel="icon" type="image/png" href="dist/img/favicon.png"/>
         
 
+        <!-- CSS -->
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="assets/css/form-elements.css">
+        <link rel="stylesheet" href="assets/css/style.css">
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <!-- Favicon and touch icons 
+        <link rel="shortcut icon" href="assets/ico/favicon.png">-->
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-14x4-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
+
     </head>
-    <body class="m-404" data-scrolling-animations="true">
 
-        <!-- Loader -->
+    <body>
 
-        <!-- Loader end -->
-        <nav class="b-nav" style="background-color: rgba(0, 198, 243, 0.05);">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-3 col-xs-4">
-                        <div class="b-nav__logo wow slideInLeft" data-wow-delay="0.3s">
-                            <h3><a href="#">LATICOBSA</a></h3>
-                            <h2><a href="#">ADMINISTRACIÓN WEB</a></h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </nav><!--b-nav-->
-        <section class="b-error b-login" style="background-color: rgba(0, 198, 243, 0.05);">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-4"></div>
-                    <div class="col-lg-4">
-                        <div class="b-contacts__form">
-                            <header class="b-contacts__form-header s-lineDownLeft wow zoomInUp" data-wow-delay="0.5s">
-                                <h2 style="padding: 0 30px 0px 30px;" class="s-titleDet">ARGUS</h2> 
-                            </header>
-                            <!--div id="success"></div-->
-                            <form action="autoriza" method="get">
-                                    <div class="form-group hidden">
-                                    <input type="text" class="form-control" placeholder="Ingrese Nombre Rol" value="autorizar" required="required" name="accion" id="accion">
+        <!-- Top content -->
+        <div class="top-content">        	
+            <div class="inner-bg">
+                <div class="container">
+				
 
-                                   </div>
-                                <div id="form" class="b-blog__aside-search">
-                                    <div>
-                                        <input id ="usuario"type="text"  placeholder="USUARIO" value="" name="usuario" />
-                                        <button type="submit"><span class="fa fa-user"></span></button>
-                                    </div>
-                                    <div>
-                                        <input id="password"  type="password" placeholder="PASSWORD" value="" name="password"/>
-                                        <button type="submit"><span class="fa fa-key"></span></button>
-                                    </div> 
-                                    <div id="contactForm" novalidate class="s-form wow zoomInUp" data-wow-delay="0.5s">
-                                        <div class="col-xs-8">
-                                            <div class="checkbox icheck">
-                                                <label>
-                                                    <input type="checkbox"> Recordar Contraseña
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <!--button  type="submit" class="btn btn-primary btn-block btn-lg">LOGIN<span class="fa fa-angle-right"></span></button-->
-                                    </div>
-                               </div>
-                                <!--button id="btn-login" type="submit" class="btn btn-primary btn-block btn-lg" style="right: -40px">Ingresar</button-->
-                                <input id="btn-login" type="submit" value="Ingresar" class="btn btn-primary btn-block btn-lg"  title="Ingresar Usuarios">
-                            </form>
-                        </div>
-                    </div>
-                    <!--div class="col-lg-4"> </div-->
-                </div>
-                <p class="wow zoomInUp" data-wow-delay="0.7s"></p>
-            </div>
-        </section><!--b-error-->
 
-        <footer class="b-footer" >
-            <a id="to-top" href="#this-is-top"><i class="fa fa-chevron-up"></i></a>
-            <div class="container">
-                <div class="row">
-                    <div class="col-xs-4">
-                        <div class="b-footer__company wow fadeInLeft" data-wow-delay="0.3s">
-                            <div class="b-nav__logo">
-                                <h3><a href="#" style="color: #FFF" >LATICOBSA</a></h3>
+                    <div class="row">
+                        <div class="col-sm-8 col-sm-offset-2 text">
+                            <h1><strong>LATICOBSA S.A.</strong></h1>
+                            <div class="description">                            	
                             </div>
-                            <p>&copy; 2016 Designed by Templines &amp; Powered by <a>LATICOBSA</a>.</p>
                         </div>
                     </div>
-                    <div class="col-xs-8">
-                        <div class="b-footer__content wow fadeInRight" data-wow-delay="0.3s">
-                            <div class="b-footer__content-social">
-                                <a href="#"><span class="fa fa-facebook-square"></span></a>
-                                <a href="#"><span class="fa fa-twitter-square"></span></a>
-                                <a href="#"><span class="fa fa-google-plus-square"></span></a>
-                                <a href="#"><span class="fa fa-instagram"></span></a>
-                                <a href="#"><span class="fa fa-youtube-square"></span></a>
-                                <a href="#"><span class="fa fa-skype"></span></a>
+                    <div class="row">
+                        <div class="col-sm-6 col-sm-offset-3 form-box">
+                        	<div class="form-top">
+                        		<div class="form-top-left">
+                        			<h3>INICIAR SESI&Oacute;N</h3>
+                            		<p>Bienvenidos al Sistema Gesti&oacute;n de Cobranzas ARGUS</p>
+                        		</div>
+                        		<div class="form-top-right">
+                        			<i class="fa fa-lock"></i>
+                        		</div>
                             </div>
-                            <nav class="b-footer__content-nav">
-                                <!--ul>
-                                    <li><a href="#">Home</a></li>
-                                    <li><a href="#">Pages</a></li>
-                                    <li><a href="#">Inventory</a></li>
-                                    <li><a href="#">About</a></li>
-                                    <li><a href="#">Services</a></li>
-                                    <li><a href="#">Blog</a></li>
-                                    <li><a href="#">Shop</a></li>
-                                    <li><a href="#">Contact</a></li>
-                                </ul-->
-                            </nav>
+                            <div class="form-bottom">
+			                    <form role="form" action="" method="post" class="login-form">
+			                    	<div class="form-group">
+			                    		<label class="sr-only" for="form-username">EMPRESA: </label>
+			                        	<!--select type="text" class="form-select form-control" id="id_empresa">
+								<option value=1>LATICOBSA </option>
+							</select-->
+                                                        <select class="form-control" name="empresa" required="required" id="empresa">
+                                                            <!--option value='0'> -- Seleccionar Empresa -- </option-->
+                                                              <c:forEach items="${empresas}" var="empresa">
+                                                               <option value='<c:out value="${empresa.getIdEmpresa()}"/>'><c:out value="${empresa.getRazonSocial()}" /> </option>                         
+                                                            </c:forEach>      
+                                                        </select>
+			                        </div>
+									<div class="form-group">
+			                    		<label class="sr-only" for="form-username">USUARIO: </label>
+			                        	<input type="text" name="form-username" placeholder="Ingrese su ID USUARIO" class="form-username form-control" id="usuario">
+			                        </div>
+			                        <div class="form-group">
+			                        	<label class="sr-only" for="form-password">CONTRASEÑA</label>
+			                        	<input type="password" name="form-password" placeholder="Ingrese su CONTRASE&Ntilde;A" class="form-password form-control" id="password">
+			                        </div>
+			                        <button  id="btn_logeo" type="submit" class="btn">INGRESAR</button>
+			                    </form>
+                                            <div id="DivMensajeError" class="alert alert-warning alert-dismissible" style="display:none;">
+                                                    <button type="button" class="close" data-dismiss="alert" onclick=" location.reload(true);" aria-hidden="true">&times;</button>
+                                                <h4><i class="icon fa fa-warning"></i> Alert!
+                                                <div id="idMensajeError"></div></h4>
+                                              </div>
+		                    </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-sm-offset-3 social-login">
+                        	<h3></h3>
+                        	<!--div class="social-login-buttons">
+	                        	<a class="btn btn-link-2" href="#">
+	                        		<i class="fa fa-facebook"></i> Facebook
+	                        	</a>
+	                        	<a class="btn btn-link-2" href="#">
+	                        		<i class="fa fa-twitter"></i> Twitter
+	                        	</a>
+	                        	<a class="btn btn-link-2" href="#">
+	                        		<i class="fa fa-google-plus"></i> Google Plus
+	                        	</a>
+                        	</div-->
                         </div>
                     </div>
                 </div>
             </div>
-        </footer><!--b-footer-->
-        <!--Main-->   
+            
+        </div>
 
 
-
-        <script src="resources/plugins/jQuery/jquery-2.2.3.min.js"></script>
-        <!-- Bootstrap 3.3.6 -->
-        <script src="resources/bootstrap/js/bootstrap.min.js"></script>
-        <!-- iCheck -->
-        <script src="resources/plugins/iCheck/icheck.min.js"></script>
-
-        <!--script src="resources/js/administracion.js"></script-->
-
+        <!-- Javascript -->
+        <script src="assets/js/jquery-1.11.1.min.js"></script>
+        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+        <script src="assets/js/jquery.backstretch.min.js"></script>
+        <script src="assets/js/scripts.js"></script>
+        <script src="dist/js/usuario.js"></script>
         <script>
             $(function () {
-                $('input').iCheck({
-                    checkboxClass: 'icheckbox_square-blue',
-                    radioClass: 'iradio_square-blue',
-                    increaseArea: '20%' // optional
-                });
+                              
+                var URLactual = window.location;
+                var url =URLactual.toString();
+                if(/login.jsp/.test(URLactual)){                 
+                   url=url.replace("login.jsp","login");                 
+                  location.href=url;
+                }
+                
+                
             });
+            
         </script>
+        
+        <!--[if lt IE 10]>
+            <script src="assets/js/placeholder.js"></script>
+        <![endif]-->
+
     </body>
+
 </html>

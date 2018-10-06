@@ -32,7 +32,7 @@
               <table id="example1" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                  <th>ID</th>
+                    <th class="hidden">ID</th>
                   <th>Empresa</th>
                   <th>Pais</th>
                   <th>Provincia </th>
@@ -47,11 +47,11 @@
                     
                     <c:forEach items="${zonas}" var="zona">
                         <tr>
-                          <td id="id_fila"><c:out value="${zona.getIdZona()}" /> </td>
+                          <td class="hidden"><c:out value="${zona.getIdZona()}" /> </td>
                           <td><c:out value="${zona.getLcEmpresa().getRazonSocial()}" /> </td>
-                          <td><c:out value="${zona.getIdPais()}" /> </td>
-                          <td><c:out value="${zona.getIdProvincia()}" /> </td>
-                          <td><c:out value="${zona.getIdCiudad()}" /> </td>
+                          <td><c:out value="${zona.getLcPais().getPais()}" /> </td>
+                          <td><c:out value="${zona.getLcProvincia().getProvincia()}" /> </td>
+                          <td><c:out value="${zona.getLcCiudad().getCiudad()}" /> </td>
                           <td><c:out value="${zona.getNombreZona()}" /> </td>
                           <td><c:out value="${zona.getSectorDescripcion()}" /> </td>                 
                           <td><c:out value="${zona.getFechaCreacion()}" /> </td>
@@ -81,7 +81,7 @@
     $('#example1').DataTable({
       "paging": true,
       "lengthChange": false,
-      "searching": false,
+      "searching": true,
       "ordering": true,
       "info": true,
       "autoWidth": false

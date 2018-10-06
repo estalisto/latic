@@ -36,28 +36,60 @@ public class CrearRol extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        RolesOperaciones op =new RolesOperaciones();
+        RolesOperaciones op = new RolesOperaciones();
         ArrayList<LcRoles> datos = op.getLCRoles();
+
+        Date fecha_reg = new Date();
+
+        int id_rol, id_rol2;
+
+        if (datos.isEmpty()) {
+            id_rol2 = 1;
+        } else {
+//            int secuencia = Integer.parseInt(op.getNext().toString());
+//            id_rol = secuencia;
+        id_rol2 = Integer.parseInt(op.getNext().toString());
+        }
+        int empresa = Integer.parseInt(request.getParameter("empresa"));
+        //int empresa2 = Integer.parseInt(request.getParameter("empresa2"));
         
-       
-       Date fecha_reg=new Date();
-   
-       int id_rol;
-       
-       if(datos.isEmpty()){
-             id_rol = 1;
-         }else {
-                LcRoles idRol =datos.get(datos.size() -1);
-                id_rol=idRol.getIdRol()+1;
-                }
-       int empresa=Integer.parseInt(request.getParameter("empresa"));
-       //int cargo=Integer.parseInt(request.getParameter("cargo"));
-       String rol= request.getParameter("rol");
-       op.addRol(new LcRoles(id_rol,(new LcEmpresa(empresa)),rol, rol,fecha_reg,"A",null,null));
-      
-       response.getWriter().println("Rol Creado Exitosamente");
-       //out.println("Nivel de acceso ingresado correctamente");
-      // response.sendRedirect("/laticobsa/lista_roles");
+        int nivel = 0;
+        String rol = request.getParameter("rol");
+        if (rol.equals("SUPERADMIN")) {
+            if (empresa == 0) {
+                op.addRol(new LcRoles(id_rol2, (new LcEmpresa(empresa)), rol, rol, fecha_reg, "A", nivel, null, null));
+                response.getWriter().println("Rol Creado Exitosamente");
+            }
+           /* if (empresa2 == 0) {
+                op.addRol(new LcRoles(id_rol2, (new LcEmpresa(empresa)), rol, rol, fecha_reg, "A", nivel, null, null));
+                response.getWriter().println("Rol Creado Exitosamente");
+            }*/
+        }
+        if (rol.equals("ADMIN")) {
+            nivel = 1;
+            if (empresa == 0) {
+                op.addRol(new LcRoles(id_rol2, (new LcEmpresa(empresa)), rol, rol, fecha_reg, "A", nivel, null, null));
+                response.getWriter().println("Rol Creado Exitosamente");
+            }
+           /* if (empresa2 == 0) {
+                op.addRol(new LcRoles(id_rol2, (new LcEmpresa(empresa)), rol, rol, fecha_reg, "A", nivel, null, null));
+                response.getWriter().println("Rol Creado Exitosamente");
+            }*/
+        }
+        if (!rol.equals("SUPERADMIN") && !rol.equals("ADMIN")) {
+            nivel = 2;
+           
+                op.addRol(new LcRoles(id_rol2, (new LcEmpresa(empresa)), rol, rol, fecha_reg, "A", nivel, null, null));
+                response.getWriter().println("Rol Creado Exitosamente");
+           
+           /* if (empresa == 0) {
+                op.addRol(new LcRoles(id_rol2, (new LcEmpresa(empresa)), rol, rol, fecha_reg, "A", nivel, null, null));
+                response.getWriter().println("Rol Creado Exitosamente");
+            }*/
+        }
+
+        //out.println("Nivel de acceso ingresado correctamente");
+        // response.sendRedirect("/laticobsa/lista_roles");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

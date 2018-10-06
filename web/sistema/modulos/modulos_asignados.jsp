@@ -23,8 +23,8 @@
                         <div class="row">
                             <div id="asig_modulo" class="col-xs-12" >
                                 <form name="form1" action="modulos" method="get" class="well">
-                                <!--a href="#" class="btn btn-success " >  Asignar +</a-->
-                                <input id="btn_nuevo" onclick="modulos()" type="submit" value="Nuevo" class="btn btn-success"  title="Asignar modulos" >
+                                <!--a href="#" class="btn btn-success " >  Asignar +</a
+                                <input id="btn_nuevo" onclick="modulos()" type="submit" value="Nuevo" class="btn btn-success"  title="Asignar modulos" >-->
                                 <div class="box ">
                                     <div class="box-header">
                                         <h3 class="box-title"  > Módulos del sistema asignado por Rol:</h3> 
@@ -37,16 +37,18 @@
                                                     <th>Empresa</th>
                                                     <th>Rol</th>
                                                     <th>Módulos</th>
-                                                    <th><center>Opción</center></th>
+                                                    <th class="hidden">Orden</th>
+                                                    <!--th><center>Opción</center></th-->
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                <c:forEach items="${moduloss}" var="asignar">
                                                     <tr>
-                                                      <td><c:out value="${asignar.getIdEmpresa()}" /></td>
+                                                      <td><c:out value="${asignar.getLcEmpresa().getRazonSocial()}" /></td>
                                                       <td><c:out value="${asignar.getLcRoles().getDescripcion()}" /></td>
                                                       <td><c:out value="${asignar.getLcModulos().getMenuOpciones()}"/></td>
-                                                      <td><center><label>Inactivar &nbsp;</label> <input id="check_inactive" onclick="Desactivar(${asignar.getIdModuloRol()})" name="check_inactive"  type="checkbox"></center></td> 
+                                                      <td class="hidden"><c:out value="${asignar.getOrdenReg()}"/></td>
+                                                      <!--td><center><label>Inactivar &nbsp;</label> <input id="check_inactive" onclick="Desactivar(${asignar.getIdModuloRol()})" name="check_inactive"  type="checkbox"></center></td--> 
                                                     </tr>     
                                                 </c:forEach> 
                                             </tbody>

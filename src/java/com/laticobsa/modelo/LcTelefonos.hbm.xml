@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 14-ene-2018 19:02:21 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.laticobsa.modelo.LcTelefonos" table="lc_telefonos" schema="public" optimistic-lock="version">
+        <id name="idTelefono" type="int">
+            <column name="id_telefono" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="lcTipoPersona" class="com.laticobsa.modelo.LcTipoPersona" fetch="select">
+            <column name="tipo_persona" />
+        </many-to-one>
+        <many-to-one name="lcTiposTelefono" class="com.laticobsa.modelo.LcTiposTelefono" fetch="select">
+            <column name="id_tipo_tlf" />
+        </many-to-one>
+        <property name="idPersona" type="java.lang.Integer">
+            <column name="id_persona" />
+        </property>
+        <property name="identificacionDeudor" type="string">
+            <column name="identificacion_deudor" length="50" />
+        </property>
+        <property name="telefono" type="string">
+            <column name="telefono" length="15" />
+        </property>
+        <property name="scoring" type="java.lang.Integer">
+            <column name="scoring" />
+        </property>
+        <property name="fechaCreacion" type="timestamp">
+            <column name="fecha_creacion" length="29" />
+        </property>
+        <property name="estado" type="string">
+            <column name="estado" length="1" />
+        </property>
+        <property name="descripcionCarga" type="string">
+            <column name="descripcion_carga" length="500" />
+        </property>
+    </class>
+</hibernate-mapping>

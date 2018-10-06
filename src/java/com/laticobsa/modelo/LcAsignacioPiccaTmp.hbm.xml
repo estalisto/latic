@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 14-ene-2018 19:02:21 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.laticobsa.modelo.LcAsignacioPiccaTmp" table="lc_asignacio_picca_tmp" schema="public" optimistic-lock="version">
+        <composite-id name="id" class="com.laticobsa.modelo.LcAsignacioPiccaTmpId">
+            <key-property name="identificacion" type="string">
+                <column name="identificacion" length="15" />
+            </key-property>
+            <key-property name="monto" type="big_decimal">
+                <column name="monto" precision="10" />
+            </key-property>
+            <key-property name="idUsuario" type="java.lang.Long">
+                <column name="id_usuario" precision="10" scale="0" />
+            </key-property>
+            <key-property name="nomUsuario" type="string">
+                <column name="nom_usuario" length="50" />
+            </key-property>
+        </composite-id>
+    </class>
+</hibernate-mapping>

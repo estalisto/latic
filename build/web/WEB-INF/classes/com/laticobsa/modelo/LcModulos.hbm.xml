@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 31/03/2017 06:57:26 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated 14-ene-2018 19:02:21 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.laticobsa.modelo.LcModulos" table="lc_modulos" schema="public" optimistic-lock="version">
         <id name="idModulo" type="int">
@@ -28,6 +28,9 @@
         </property>
         <property name="estado" type="string">
             <column name="estado" length="1" />
+        </property>
+        <property name="orden" type="java.lang.Integer">
+            <column name="orden" />
         </property>
         <set name="lcModuloRols" table="lc_modulo_rol" inverse="true" lazy="true" fetch="select">
             <key>

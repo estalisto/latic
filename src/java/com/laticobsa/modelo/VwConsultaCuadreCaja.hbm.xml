@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 14-ene-2018 19:02:21 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.laticobsa.modelo.VwConsultaCuadreCaja" table="vw_consulta_cuadre_caja" schema="public" optimistic-lock="version">
+        <composite-id name="id" class="com.laticobsa.modelo.VwConsultaCuadreCajaId">
+            <key-property name="idRecaudacion" type="java.lang.Integer">
+                <column name="id_recaudacion" />
+            </key-property>
+            <key-property name="tformaPagos" type="string">
+                <column name="tforma_pagos" length="50" />
+            </key-property>
+            <key-property name="cedente" type="string">
+                <column name="cedente" length="100" />
+            </key-property>
+            <key-property name="cliente" type="string">
+                <column name="cliente" length="120" />
+            </key-property>
+            <key-property name="fechaRegistro" type="timestamp">
+                <column name="fecha_registro" length="29" />
+            </key-property>
+            <key-property name="valorRecaudado" type="big_decimal">
+                <column name="valor_recaudado" precision="10" />
+            </key-property>
+        </composite-id>
+    </class>
+</hibernate-mapping>

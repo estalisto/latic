@@ -1,5 +1,5 @@
 package com.laticobsa.modelo;
-// Generated 31/03/2017 06:57:24 PM by Hibernate Tools 4.3.1
+// Generated 14-ene-2018 19:02:18 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -13,10 +13,10 @@ public class LcEmpresa  implements java.io.Serializable {
 
 
      private int idEmpresa;
-     private String idPais;
-     private String idCiudad;
-     private Integer idProvincia;
-     private String tipoIdentificacion;
+     private LcCiudad lcCiudad;
+     private LcPais lcPais;
+     private LcProvincia lcProvincia;
+     private LcTiposIdentificacion lcTiposIdentificacion;
      private String identificacion;
      private String razonSocial;
      private String direccion;
@@ -31,10 +31,14 @@ public class LcEmpresa  implements java.io.Serializable {
      private Set lcRoleses = new HashSet(0);
      private Set lcEmpleadoses = new HashSet(0);
      private Set lcAgencias = new HashSet(0);
+     private Set lcDatosDeudoreses = new HashSet(0);
      private Set lcZonases = new HashSet(0);
      private Set lcUsuarioses = new HashSet(0);
      private Set lcCargoses = new HashSet(0);
      private Set lcClienteses = new HashSet(0);
+     private Set lcDeudors = new HashSet(0);
+     private Set lcRecordatorioses = new HashSet(0);
+     private Set lcModuloRols = new HashSet(0);
 
     public LcEmpresa() {
     }
@@ -43,12 +47,12 @@ public class LcEmpresa  implements java.io.Serializable {
     public LcEmpresa(int idEmpresa) {
         this.idEmpresa = idEmpresa;
     }
-    public LcEmpresa(int idEmpresa, String idPais, String idCiudad, Integer idProvincia, String tipoIdentificacion, String identificacion, String razonSocial, String direccion, String telefonos, String email, Date fechaCreacion, Date fechaActualizacion, String estado, String telfonos2, String celular, Integer sucursal, Set lcRoleses, Set lcEmpleadoses, Set lcAgencias, Set lcZonases, Set lcUsuarioses, Set lcCargoses, Set lcClienteses) {
+    public LcEmpresa(int idEmpresa, LcCiudad lcCiudad, LcPais lcPais, LcProvincia lcProvincia, LcTiposIdentificacion lcTiposIdentificacion, String identificacion, String razonSocial, String direccion, String telefonos, String email, Date fechaCreacion, Date fechaActualizacion, String estado, String telfonos2, String celular, Integer sucursal, Set lcRoleses, Set lcEmpleadoses, Set lcAgencias, Set lcDatosDeudoreses, Set lcZonases, Set lcUsuarioses, Set lcCargoses, Set lcClienteses, Set lcDeudors, Set lcRecordatorioses, Set lcModuloRols) {
        this.idEmpresa = idEmpresa;
-       this.idPais = idPais;
-       this.idCiudad = idCiudad;
-       this.idProvincia = idProvincia;
-       this.tipoIdentificacion = tipoIdentificacion;
+       this.lcCiudad = lcCiudad;
+       this.lcPais = lcPais;
+       this.lcProvincia = lcProvincia;
+       this.lcTiposIdentificacion = lcTiposIdentificacion;
        this.identificacion = identificacion;
        this.razonSocial = razonSocial;
        this.direccion = direccion;
@@ -63,10 +67,14 @@ public class LcEmpresa  implements java.io.Serializable {
        this.lcRoleses = lcRoleses;
        this.lcEmpleadoses = lcEmpleadoses;
        this.lcAgencias = lcAgencias;
+       this.lcDatosDeudoreses = lcDatosDeudoreses;
        this.lcZonases = lcZonases;
        this.lcUsuarioses = lcUsuarioses;
        this.lcCargoses = lcCargoses;
        this.lcClienteses = lcClienteses;
+       this.lcDeudors = lcDeudors;
+       this.lcRecordatorioses = lcRecordatorioses;
+       this.lcModuloRols = lcModuloRols;
     }
    
     public int getIdEmpresa() {
@@ -76,33 +84,33 @@ public class LcEmpresa  implements java.io.Serializable {
     public void setIdEmpresa(int idEmpresa) {
         this.idEmpresa = idEmpresa;
     }
-    public String getIdPais() {
-        return this.idPais;
+    public LcCiudad getLcCiudad() {
+        return this.lcCiudad;
     }
     
-    public void setIdPais(String idPais) {
-        this.idPais = idPais;
+    public void setLcCiudad(LcCiudad lcCiudad) {
+        this.lcCiudad = lcCiudad;
     }
-    public String getIdCiudad() {
-        return this.idCiudad;
-    }
-    
-    public void setIdCiudad(String idCiudad) {
-        this.idCiudad = idCiudad;
-    }
-    public Integer getIdProvincia() {
-        return this.idProvincia;
+    public LcPais getLcPais() {
+        return this.lcPais;
     }
     
-    public void setIdProvincia(Integer idProvincia) {
-        this.idProvincia = idProvincia;
+    public void setLcPais(LcPais lcPais) {
+        this.lcPais = lcPais;
     }
-    public String getTipoIdentificacion() {
-        return this.tipoIdentificacion;
+    public LcProvincia getLcProvincia() {
+        return this.lcProvincia;
     }
     
-    public void setTipoIdentificacion(String tipoIdentificacion) {
-        this.tipoIdentificacion = tipoIdentificacion;
+    public void setLcProvincia(LcProvincia lcProvincia) {
+        this.lcProvincia = lcProvincia;
+    }
+    public LcTiposIdentificacion getLcTiposIdentificacion() {
+        return this.lcTiposIdentificacion;
+    }
+    
+    public void setLcTiposIdentificacion(LcTiposIdentificacion lcTiposIdentificacion) {
+        this.lcTiposIdentificacion = lcTiposIdentificacion;
     }
     public String getIdentificacion() {
         return this.identificacion;
@@ -202,6 +210,13 @@ public class LcEmpresa  implements java.io.Serializable {
     public void setLcAgencias(Set lcAgencias) {
         this.lcAgencias = lcAgencias;
     }
+    public Set getLcDatosDeudoreses() {
+        return this.lcDatosDeudoreses;
+    }
+    
+    public void setLcDatosDeudoreses(Set lcDatosDeudoreses) {
+        this.lcDatosDeudoreses = lcDatosDeudoreses;
+    }
     public Set getLcZonases() {
         return this.lcZonases;
     }
@@ -229,6 +244,27 @@ public class LcEmpresa  implements java.io.Serializable {
     
     public void setLcClienteses(Set lcClienteses) {
         this.lcClienteses = lcClienteses;
+    }
+    public Set getLcDeudors() {
+        return this.lcDeudors;
+    }
+    
+    public void setLcDeudors(Set lcDeudors) {
+        this.lcDeudors = lcDeudors;
+    }
+    public Set getLcRecordatorioses() {
+        return this.lcRecordatorioses;
+    }
+    
+    public void setLcRecordatorioses(Set lcRecordatorioses) {
+        this.lcRecordatorioses = lcRecordatorioses;
+    }
+    public Set getLcModuloRols() {
+        return this.lcModuloRols;
+    }
+    
+    public void setLcModuloRols(Set lcModuloRols) {
+        this.lcModuloRols = lcModuloRols;
     }
 
 

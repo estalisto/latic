@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 14-ene-2018 19:02:21 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.laticobsa.modelo.AuditTrail" table="audit_trail" schema="public" optimistic-lock="version">
+        <composite-id name="id" class="com.laticobsa.modelo.AuditTrailId">
+            <key-property name="oldEmail" type="string">
+                <column name="old_email" />
+            </key-property>
+            <key-property name="newEmail" type="string">
+                <column name="new_email" />
+            </key-property>
+        </composite-id>
+    </class>
+</hibernate-mapping>

@@ -52,7 +52,7 @@
                                     <div class="form-group">
                                         <label>Empresa:</label>
                                         <select id="empresa" class="form-control" name="empresa" >
-                                            <option value="<c:out value="${deudor.getIdEmpresa()}" />"><c:out value="${deudor.getIdEmpresa()}" /></option>
+                                            <option value="<c:out value="${deudor.getLcEmpresa().getIdEmpresa()}" />"><c:out value="${deudor.getLcEmpresa().getRazonSocial()}" /></option>
                                             <c:forEach items="${empresas}" var="empresa">
                                                 <option value="<c:out value="${empresa.getIdEmpresa()}" />"><c:out value="${empresa.getRazonSocial()}" /> </option>                         
                                             </c:forEach>                 
@@ -63,7 +63,7 @@
                                     <div class="form-group">
                                         <label>Clientes:</label>
                                         <select id="cliente" class="form-control" name="cliente" >
-                                            <option value="<c:out value="${deudor.getIdCliente()}" />"><c:out value="${deudor.getIdCliente()}" /></option>
+                                            <option value="<c:out value="${deudor.getLcClientes().getIdCliente()}" />"><c:out value="${deudor.getLcClientes().getRazonSocial()}" /></option>
                                             <c:forEach items="${clientes}" var="cliente">
                                                 <option value="<c:out value="${cliente.getIdCliente()}" />"><c:out value="${cliente.getRazonSocial()}" /> </option>                         
                                             </c:forEach>                 

@@ -1,5 +1,5 @@
 package com.laticobsa.modelo;
-// Generated 31/03/2017 06:57:24 PM by Hibernate Tools 4.3.1
+// Generated 14-ene-2018 19:02:18 by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -12,10 +12,12 @@ public class LcProvincia  implements java.io.Serializable {
 
 
      private int idProvincia;
-     private Integer idPais;
+     private LcPais lcPais;
      private String provincia;
      private String estado;
-     private Set lcCiudads = new HashSet(0);
+     private Set lcEmpresas = new HashSet(0);
+     private Set lcZonases = new HashSet(0);
+     private Set lcClienteses = new HashSet(0);
 
     public LcProvincia() {
     }
@@ -24,12 +26,14 @@ public class LcProvincia  implements java.io.Serializable {
     public LcProvincia(int idProvincia) {
         this.idProvincia = idProvincia;
     }
-    public LcProvincia(int idProvincia, Integer idPais, String provincia, String estado, Set lcCiudads) {
+    public LcProvincia(int idProvincia, LcPais lcPais, String provincia, String estado, Set lcEmpresas, Set lcZonases, Set lcClienteses) {
        this.idProvincia = idProvincia;
-       this.idPais = idPais;
+       this.lcPais = lcPais;
        this.provincia = provincia;
        this.estado = estado;
-       this.lcCiudads = lcCiudads;
+       this.lcEmpresas = lcEmpresas;
+       this.lcZonases = lcZonases;
+       this.lcClienteses = lcClienteses;
     }
    
     public int getIdProvincia() {
@@ -39,12 +43,12 @@ public class LcProvincia  implements java.io.Serializable {
     public void setIdProvincia(int idProvincia) {
         this.idProvincia = idProvincia;
     }
-    public Integer getIdPais() {
-        return this.idPais;
+    public LcPais getLcPais() {
+        return this.lcPais;
     }
     
-    public void setIdPais(Integer idPais) {
-        this.idPais = idPais;
+    public void setLcPais(LcPais lcPais) {
+        this.lcPais = lcPais;
     }
     public String getProvincia() {
         return this.provincia;
@@ -60,12 +64,26 @@ public class LcProvincia  implements java.io.Serializable {
     public void setEstado(String estado) {
         this.estado = estado;
     }
-    public Set getLcCiudads() {
-        return this.lcCiudads;
+    public Set getLcEmpresas() {
+        return this.lcEmpresas;
     }
     
-    public void setLcCiudads(Set lcCiudads) {
-        this.lcCiudads = lcCiudads;
+    public void setLcEmpresas(Set lcEmpresas) {
+        this.lcEmpresas = lcEmpresas;
+    }
+    public Set getLcZonases() {
+        return this.lcZonases;
+    }
+    
+    public void setLcZonases(Set lcZonases) {
+        this.lcZonases = lcZonases;
+    }
+    public Set getLcClienteses() {
+        return this.lcClienteses;
+    }
+    
+    public void setLcClienteses(Set lcClienteses) {
+        this.lcClienteses = lcClienteses;
     }
 
 

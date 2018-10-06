@@ -35,19 +35,20 @@ public class ModulosRoles {
         Transaction tx= session.beginTransaction();
         // hacemos la transaccion
         ArrayList<LcModuloRol> arreglo = new ArrayList<LcModuloRol>();
-        Query q = session.createQuery("From LcModuloRol E WHERE E.nivelModulo = :nivel_Modulo and E.idEmpresa = :id_empresa and E.lcRoles.idRol = :idRol" );
+        Query q = session.createQuery("From LcModuloRol E WHERE E.nivelModulo = :nivel_Modulo and E.lcEmpresa.idEmpresa = :id_empresa and E.lcRoles.idRol = :idRol AND E.estado= :estado ORDER BY E.ordenReg" );
         q.setParameter("nivel_Modulo",0);
         q.setParameter("idRol",rolID);
         q.setParameter("id_empresa",empresaID);
-        
+         q.setParameter("estado","A");
         
         List<LcModuloRol> lista=q.list();
          for(LcModuloRol mrol:lista )
         {
-             System.out.println("ok: "+mrol.getIdModuloRol()+", "+mrol.getLcModulos().getMenuOpciones());
+             System.out.println("ok: "+mrol.getIdModuloRol()+", "+mrol.getLcModulos().getMenuOpciones()+", "+mrol.getLcModulos().getGrupo());
         }
         
-      
+          tx.commit();
+    session.close();
          return lista;
     }
      
@@ -58,20 +59,21 @@ public class ModulosRoles {
         session = sesion.openSession();
         Transaction tx= session.beginTransaction();
         // hacemos la transaccion
-        ArrayList<LcModuloRol> arreglo = new ArrayList<LcModuloRol>();
-        Query q = session.createQuery("From LcModuloRol E WHERE E.grupoMod = :grupoMod  and E.idEmpresa = :id_empresa and E.lcRoles.idRol = :idRol" );
+        Query q = session.createQuery("From LcModuloRol E WHERE E.grupoMod = :grupoMod  and E.lcEmpresa.idEmpresa = :id_empresa and E.lcRoles.idRol = :idRol and E.estado = :estado" );
         q.setParameter("grupoMod",nivel_cab);
         q.setParameter("idRol",rolID);
         q.setParameter("id_empresa",empresaID);
-        
+        q.setParameter("estado", "A");
         
         List<LcModuloRol> lista=q.list();
          for(LcModuloRol mrol:lista )
         {
              System.out.println("ok: "+mrol.getIdModuloRol()+", "+mrol.getLcModulos().getMenuOpciones());
+             System.out.println("ok: "+mrol.getIdModuloRol()+", "+mrol.getLcEmpresa().getRazonSocial());
         }
         
-      
+          tx.commit();
+    session.close();
          return lista;
     }
       
@@ -107,7 +109,7 @@ public class ModulosRoles {
     tx.commit();
     session.close();
     }
-    
+ 
       public List<LcModuloRol> getDatoEncontrado(int empresaID ,int rolID, int modulo){
      
         SessionFactory sesion = HibernateUtil.getSessionFactory();
@@ -115,19 +117,20 @@ public class ModulosRoles {
         session = sesion.openSession();
         Transaction tx= session.beginTransaction();
         // hacemos la transaccion
-        ArrayList<LcModuloRol> arreglo = new ArrayList<LcModuloRol>();
-        Query q = session.createQuery("From LcModuloRol E WHERE E.lcModulos.idModulo = :idModulo and E.idEmpresa = :id_empresa and E.lcRoles.idRol = :idRol" );
+        Query q = session.createQuery("From LcModuloRol E WHERE E.lcModulos.idModulo = :idModulo and E.lcEmpresa.idEmpresa = :id_empresa and E.lcRoles.idRol = :idRol and E.estado = :estado" );
         q.setParameter("idModulo",modulo);
         q.setParameter("idRol",rolID);
         q.setParameter("id_empresa",empresaID);
-        
+        q.setParameter("estado", "A");
         
         List<LcModuloRol> lista=q.list();
          for(LcModuloRol mrol:lista )
         {
              System.out.println("ok: "+mrol.getIdModuloRol()+", "+mrol.getLcModulos().getMenuOpciones());
+             System.out.println("ok: "+mrol.getIdModuloRol()+", "+mrol.getLcEmpresa().getRazonSocial());
         }
-        
+            tx.commit();
+    session.close();
       
          return lista;
     }  
@@ -139,11 +142,11 @@ public class ModulosRoles {
         session = sesion.openSession();
         Transaction tx= session.beginTransaction();
         // hacemos la transaccion
-        ArrayList<LcModuloRol> arreglo = new ArrayList<LcModuloRol>();
-        Query q = session.createQuery("From LcModuloRol E WHERE E.nivelModulo != :nivel_Modulo and E.idEmpresa = :id_empresa and E.lcRoles.idRol = :idRol");
+        Query q = session.createQuery("From LcModuloRol E WHERE E.nivelModulo != :nivel_Modulo and E.lcEmpresa.idEmpresa = :id_empresa and E.lcRoles.idRol = :idRol and E.estado = :estado ORDER BY E.ordenReg");
          q.setParameter("nivel_Modulo",0);
          q.setParameter("idRol",rolID);
          q.setParameter("id_empresa",empresaID);
+         q.setParameter("estado", "A");
         List<LcModuloRol> lista=q.list();
   
          for(LcModuloRol mrol:lista )
@@ -163,7 +166,6 @@ public class ModulosRoles {
         session = sesion.openSession();
         Transaction tx= session.beginTransaction();
         // hacemos la transaccion
-        ArrayList<LcModuloRol> arreglo = new ArrayList<LcModuloRol>();
         Query q = session.createQuery("from LcModuloRol E WHERE E.estado = :estado ");
         q.setParameter("estado","A");
         List<LcModuloRol> lista=q.list();
@@ -172,7 +174,8 @@ public class ModulosRoles {
              System.out.println("ok: "+mrol.getIdModuloRol()+", "+mrol.getLcModulos().getMenuOpciones());
              System.out.println("ok: "+mrol.getIdModuloRol()+", "+mrol.getLcRoles().getDescripcion());
         }
-        
+            tx.commit();
+    session.close();
       
          return lista;
     } 
@@ -208,9 +211,8 @@ try{
         Session session;
         session = sesion.openSession();
         Transaction tx= session.beginTransaction();
-        // hacemos la transaccion
         
-        Query q = session.createQuery("from LcModuloRol E  WHERE E.lcRoles.idRol = :idRol AND E.idEmpresa = :id_empresa AND E.estado = :estado");
+        Query q = session.createQuery("from LcModuloRol E  WHERE E.lcRoles.idRol = :idRol AND E.lcEmpresa.idEmpresa = :id_empresa AND E.estado = :estado order by E.ordenReg asc");
         q.setParameter("idRol",ID_rol);
         q.setParameter("id_empresa",IDEmpresa);
         q.setParameter("estado","A"); 
@@ -219,7 +221,10 @@ try{
         {
              System.out.println("ok: "+mrol.getIdModuloRol()+", "+mrol.getLcModulos().getMenuOpciones());
              System.out.println("ok: "+mrol.getIdModuloRol()+", "+mrol.getLcRoles().getDescripcion());
-        }                
+             System.out.println("ok: "+mrol.getIdModuloRol()+", "+mrol.getLcEmpresa().getRazonSocial());
+        }  
+             tx.commit();
+    session.close();
  } catch (Exception e) {
                 System.out.println(e);
             }       
@@ -241,8 +246,21 @@ try{
         {
              System.out.println("ok: "+mrol.getIdModuloRol()+", "+mrol.getLcModulos().getMenuOpciones());
         }
+            tx.commit();
+    session.close();
            return lista;
-        
+    }
+    
+    public int  SecuenciaModulo(){
+         
+        SessionFactory sesion = HibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        Transaction tx= session.beginTransaction();
+        int q = (int)session.createQuery("SELECT MAX(idModuloRol) FROM LcModuloRol").uniqueResult();
+            tx.commit();
+        session.close();
+        return q;
     }
     
     public void addModulosrol(LcModuloRol modulo){
@@ -253,18 +271,72 @@ try{
     tx.commit();
     session.close();
     }
+    
+    public ArrayList<LcModuloRol> getLcdeleteModulo(int IDEmpresa, int IdRol, int IdModulo){
+         
+        SessionFactory sesion = HibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        Transaction tx= session.beginTransaction();
+        // hacemos la transaccion
+        ArrayList<LcModuloRol> arreglo = new ArrayList<LcModuloRol>();
+        Query q = session.createQuery("from LcModuloRol E WHERE E.estado = :estado AND E.lcRoles.idRol = :idRol AND E.lcEmpresa.idEmpresa = :id_empresa AND E.lcModulos.idModulo= :idModulo");
+        q.setParameter("idModulo",IdModulo);
+        q.setParameter("id_empresa",IDEmpresa);
+        q.setParameter("idRol",IdRol);
+        q.setParameter("estado","A");
+        List<LcModuloRol> lista=q.list();
+        Iterator<LcModuloRol> iter=lista.iterator();
+        tx.commit();
+        session.close();
+        //agrega los datos en la lista
+        while(iter.hasNext())
+        {
+            LcModuloRol rol= (LcModuloRol) iter.next();
+            arreglo.add(rol);
+        }
+        
+        return arreglo;
+    }
+    
     public void deleteModal(int id){
     SessionFactory factory=HibernateUtil.getSessionFactory();
     Session session= factory.openSession();
     Transaction tx=session.beginTransaction();
-    LcModuloRol agen = (LcModuloRol)session.get(LcModuloRol.class, id);    
+    LcModuloRol agen = (LcModuloRol)session.get(LcModuloRol.class, id);
+    
+    //if(agen.getEstado().equals("A"))
+    //{
     agen.setEstado("I");
-   // agen.getGrupoMod();
+    
+   // }
     session.update(agen);
     tx.commit();
     session.close();
     }
-    
+     public void deleteModal2(int id,int IdEmpresa,int IdRol){
+        SessionFactory factory=HibernateUtil.getSessionFactory();
+        Session session= factory.openSession();
+        session.clear();
+        Transaction tx=session.beginTransaction();
+        String hqlupdate="UPDATE LcModuloRol  "
+                + "set estado = :estadoI "
+                + "WHERE idModuloRol = :idModuloRol "
+                + "and estado=:estadoA  "
+                + "and idEmpresa= :Empresa "
+                + "and idRol= :Rol " ;
+        int valor;
+         valor = session.createQuery(hqlupdate)
+                 .setParameter("idModuloRol", id)
+                 .setParameter("estadoI", "I")
+                 .setParameter("estadoA", "A")
+                 .setParameter("Empresa", IdEmpresa)
+                 .setParameter("Rol", IdRol)
+                 .executeUpdate();
+        tx.commit();
+        session.flush();
+        session.close();
+     }
     
     public ArrayList<LcModuloRol> getLcModulo(){
          
@@ -274,8 +346,8 @@ try{
         Transaction tx= session.beginTransaction();
         // hacemos la transaccion
         ArrayList<LcModuloRol> arreglo = new ArrayList<LcModuloRol>();
-        Query q = session.createQuery("from LcModuloRol E WHERE E.estado = :estado ");
-        q.setParameter("estado","A");
+        Query q = session.createQuery("from LcModuloRol");
+       // q.setParameter("estado","A");
         List<LcModuloRol> lista=q.list();
         Iterator<LcModuloRol> iter=lista.iterator();
         tx.commit();
@@ -298,6 +370,31 @@ try{
         // hacemos la transaccion
         ArrayList<LcModulos> arreglo = new ArrayList<LcModulos>();
         Query q = session.createQuery("from LcModulos E WHERE E.estado = :estado ");
+        q.setParameter("estado","A");
+        List<LcModulos> lista=q.list();
+        Iterator<LcModulos> iter=lista.iterator();
+        tx.commit();
+        session.close();
+        //agrega los datos en la lista
+        while(iter.hasNext())
+        {
+            LcModulos rol= (LcModulos) iter.next();
+            arreglo.add(rol);
+        }
+        
+        return arreglo;
+    }
+    
+        public ArrayList<LcModulos> getLcModelXEmpresa(int empresa){
+         
+        SessionFactory sesion = HibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        Transaction tx= session.beginTransaction();
+        // hacemos la transaccion
+        ArrayList<LcModulos> arreglo = new ArrayList<LcModulos>();
+        Query q = session.createQuery("from LcModulos E WHERE E.idEmpresa= :idEmpresa and E.estado = :estado ORDER BY E.orden ");
+        q.setParameter("idEmpresa",empresa);
         q.setParameter("estado","A");
         List<LcModulos> lista=q.list();
         Iterator<LcModulos> iter=lista.iterator();
@@ -336,43 +433,6 @@ try{
         return arreglo;
         
     }
-    
-    //***************************************************************************************
-//        public List SelectModuloRol(int roles, int empresas){
-//        
-//        String cadena = "jdbc:postgresql://localhost:5432/bdjsp";
-//        String user = "postgres";
-//        String pass = "databasejim5";
-//        
-//        int rol ,empresa,modulo;
-//        LcModuloRol lis =  new LcModuloRol();
-//        List listamodulos = new ArrayList();
-//        try{
-//            Class.forName("org.postgresql.Driver");
-//            Connection conex = DriverManager.getConnection(cadena, user, pass);
-//            java.sql.Statement st = conex.createStatement();
-//
-//            String sql="select * from lc_modulo_rol A where A.id_rol ="+roles+"and A.id_empresa="+empresas+ "and A.estado ='A'";
-//            ResultSet result = st.executeQuery(sql);
-//            while(result.next()){
-//                modulo = result.getInt(1);
-//                empresa = result.getInt(2);
-//                rol = result.getInt(3);
-//                int name_modulo = result.getInt(4);
-//                int nivel = result.getInt(5);
-//                Date fecha = result.getDate(6);
-//                String estado = result.getString(7);
-//                lis = new LcModuloRol(modulo,rol,empresa);
-//                listamodulos.add(lis);
-//            }
-//            result.close();
-//            st.close();
-//            conex.close();
-//        }catch(Exception e){
-//            System.out.println("Error:"+e.getMessage());
-//        }
-//       return listamodulos;
-//    }
     
     
     

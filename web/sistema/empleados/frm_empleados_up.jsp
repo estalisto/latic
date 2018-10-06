@@ -51,29 +51,48 @@
                             </div> 
                         </div>
                         <div class="form-group">
+                        <div class="row">
+                         <div class="col-lg-6">     
                           <label>Empresa:</label>
-                          <select class="form-control" name="empresa"  required="required" id="empresa" >
+                          <select class="form-control" name="empresa"  required="required" id="empresa" disabled="true">
                             <option value="<c:out value="${empleao.getLcEmpresa().getIdEmpresa()}"/>"><c:out value="${empleao.getLcEmpresa().getRazonSocial()}" /></option>
                              <c:forEach items="${empresas}" var="empresa">
                                  <option value="<c:out value="${empresa.getIdEmpresa()}" />" ><c:out value="${empresa.getRazonSocial()}" /></option>
                              </c:forEach>  
                             
                           </select>
+                         </div>   
+                          <div class="col-lg-6">    
+                                        <label>Agencia:</label>
+                                        <select class="form-control" name="sucursal"  required="required" id="sucursal">
+                                            <option value="<c:out value="${empleao.getLcAgencia().getIdAgencia()}"/>"><c:out value="${empleao.getLcAgencia().getNombre()}" /></option>
+                                            <c:forEach items="${agencias}" var="agencia">
+                                                <option value="<c:out value="${agencia.getIdAgencia()}" />" ><c:out value="${agencia.getNombre()}" /></option>
+                                            </c:forEach>  
+                                        </select>
+                           </div>
+                        </div>
                         </div>
                         
                         <div class="form-group ">
                           <label class="">Tipo de Identificación</label>
                                 <div class="row">
                                   <div class="col-lg-6">
-                                    <select class="form-control" name="t_identificacion" required="required" id="t_identificacion">
-                                        <option value="<c:out value="${empleao.getTipoIdentificacion()}" />"><c:out value="${empleao.getTipoIdentificacion()}" /></option>
-                                        <option value='CED' >CÉDULA</option>
-                                        <option value='RUC' >R.U.C.</option>
-                                        <option value='PAS' >PASSAPORTE</option>
+                                    <select class="form-control" name="t_identificacion" required="required" id="t_identificacion" onchange="validaselector()">
+                                        <option value="<c:out value="${empleao.getLcTiposIdentificacion().getIdTipoIdentificacion()}" />"><c:out value="${empleao.getLcTiposIdentificacion().getDescripcion()}" /></option>
+                                        <c:forEach items="${tipIDE}" var="tipo">
+                                         <option value="<c:out value="${tipo.getIdTipoIdentificacion()}"/>" ><c:out value="${tipo.getDescripcion()}" /></option>
+                                     </c:forEach> 
                                    </select>
                                   </div>
                                   <div class="col-lg-6">
-                                    <input type="text" class="form-control" placeholder="Ingrese Identificación" required="required" name="identificacion" id="identificacion" onkeypress="ValidaSoloNumeros()" value="<c:out value="${empleao.getIdentificacion()}" />">
+                                    <input type="text" class="form-control" placeholder="Ingrese Identificación" required="required" name="identificacion" id="identificacion"  onkeypress="ValidaSoloNumeros()" value="<c:out value="${empleao.getIdentificacion()}" />">
+                                    <div id="valido" class="form-group has-success" style="display: none"> <!--hidden-->
+                                            <span class="help-block">Identificación Válida.</span>
+                                        </div>
+                                        <div id="no_value" class="form-group has-error" style="display: none"> <!--hidden-->
+                                            <span class="help-block">Identificación Inválida.</span>
+                                        </div> 
                                   </div>
 
                                 </div>
@@ -150,7 +169,7 @@
                                     <div class="input-group-addon">
                                       <i class="fa fa-phone"></i>
                                     </div>
-                                    <input type="text" class="form-control" data-inputmask='"mask": "(99) 999-9999"' data-mask name="telefono" onkeypress="ValidaSoloNumeros()" id="telefono" value="<c:out value="${empleao.getTelefonos() }"/>">
+                                    <input type="text" class="form-control" maxlength="15" data-inputmask='"mask": "(99) 999-9999"' data-mask name="telefono" onkeypress="ValidaSoloNumeros()" id="telefono" value="<c:out value="${empleao.getTelefonos() }"/>">
                                   </div>
                                   <!-- /.input group -->
                                 </div>
@@ -163,7 +182,7 @@
                                     <div class="input-group-addon">
                                       <i class="fa fa-phone"></i>
                                     </div>
-                                    <input type="text" class="form-control" data-inputmask='"mask": "(99) 999-99999"' data-mask name="celular" onkeypress="ValidaSoloNumeros()" id="celular" value="<c:out value="${empleao.getCelular()}"/>">
+                                    <input type="text" class="form-control" maxlength="15" data-inputmask='"mask": "(99) 999-99999"' data-mask name="celular" onkeypress="ValidaSoloNumeros()" id="celular" value="<c:out value="${empleao.getCelular()}"/>">
                                   </div>
                                   <!-- /.input group -->
                                 </div>
@@ -172,12 +191,10 @@
                                <div class="form-group ">                                  
                                   <label class="">Estado Civil:</label>
                                   <select class="form-control" name="est_civil" required="required" id="est_civil" > 
-                                       <option value="<c:out value="${empleao.getEstadoCivil()}"/>" ><c:out value="${empleao.getEstadoCivil()}"/></option>
-                                       <option value='S' >SOLTERO</option>
-                                       <option value='C' >CASADO</option>
-                                       <option value='U'>UNIÓN LIBRE</option>
-                                       <option value='D' >DIVORCIADO</option>
-                                       <option value='V' >VIUDO</option>                            
+                                       <option value="<c:out value="${empleao.getLcEstadoCivil().getIdEstcivil()}"/>" ><c:out value="${empleao.getLcEstadoCivil().getDescripcion()}"/></option>
+                                       <c:forEach items="${estacivil}" var="civil">
+                                         <option value="<c:out value="${civil.getIdEstcivil()}" />" ><c:out value="${civil.getDescripcion()}" /></option>
+                                     </c:forEach>                            
                                   </select>
                                 </div>
 
@@ -187,9 +204,10 @@
                                 <div class="form-group ">
                                   <label class="">Genero:</label>
                                   <select class="form-control" name="genero" required="required" id="genero" >
-                                       <option value="<c:out value="${empleao.getGenero()}"/>" ><c:out value="${empleao.getGenero()}"/></option>
-                                       <option value='M' >MASCULINO</option>
-                                       <option value='F' >FEMENINO</option>                          
+                                       <option value="<c:out value="${empleao.getLcGenero().getIdGenero()}"/>" ><c:out value="${empleao.getLcGenero().getDescripcion()}"/></option>
+                                        <c:forEach items="${generos}" var="genero">
+                                         <option value="<c:out value="${genero.getIdGenero()}" />" ><c:out value="${genero.getDescripcion()}" /></option>
+                                     </c:forEach>                         
                                   </select>
                                 </div>  
 
@@ -221,7 +239,7 @@
                                 <div class="form-group ">
                                   <label class="">Jefe Directo:</label>
                                   <select class="form-control" name="jefe_directo" required="required" id="jefe_directo">
-                                       <option value="<c:out value="${empleao.getIdJefeInmediato()}"/>" ><c:out value="${empleao.getIdJefeInmediato()}" /></option>
+                                       <option value="<c:out value="${empleao.getIdJefeInmediato()}"/>" ><c:out value="${empleado.getNombres()} ${empleado.getApellidos()}" /></option>
                                         <c:forEach items="${empleados}" var="empleado">
                                             <option value="<c:out value="${empleado.getIdEmpleado()}" />" ><c:out value="${empleado.getNombres()} ${empleado.getApellidos()}" /></option>
                                         </c:forEach>  
@@ -246,9 +264,6 @@
                         <div class=" form-group">
                            <input id="btnactempleados" type="submit" value="Actualizar" class="btn btn-primary"  title="Actualizar Empleados">
                         </div>
-
-                       
-
                 </div>
                 </c:forEach> 
             </form> 
@@ -262,6 +277,7 @@
       
   </div>
   <!-- /.content-wrapper -->
+  <script src="dist/ruc_jquery_validator.min.js"></script>
   <script src="dist/js/empleados.js"></script>
 </body>
 </html>

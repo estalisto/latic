@@ -1,8 +1,10 @@
 function frm_cargos()
 {
-   // alert("Url  ="+document.location);
+
         jQuery("#page-wrapper").html("<br/><br/><center><img alt='cargando' src='dist/img/hourglass.gif' /><center>"); 
-        jQuery("#page-wrapper").load("cargos?accion=agregar",{},function(){ });
+        jQuery("#page-wrapper").load("cargos?accion=agregar",{},function(){ 
+
+        });
 }
 function cargos()
 {       jQuery("#page-wrapper").html("<br/><br/><center><img alt='cargando' src='dist/img/hourglass.gif' /><center>"); 
@@ -15,8 +17,8 @@ function validaDatos(empresa,cargo,observacion,accion){
                  if(cargo.length > 1 ){
                         if(observacion.length > 0 ){
                                 return true;
-                        }else{ alert("Debe dar un abservacion");}
-                    }else{ alert("Debe escoger un cargo");}
+                        }else{ MsgSalidaModalA("Debe dar un abservacion");}
+                    }else{ MsgSalidaModalA("Debe escoger un cargo");}
              
                  
    return false; 
@@ -44,36 +46,39 @@ function ConnsultaDatosID(str)
 }
 
 $('#btncrearcargo').click(function(e){
-   e.preventDefault();
-   
+   e.preventDefault();   
    var empresa = $("#empresa").val();
    var cargo  = $("#cargo").val();
    var observacion = $("#observacion").val();
    var accion = $("#accion").val();
-   
-   if(validaDatos(empresa,cargo,observacion,accion)){
-      
-          var parametros = {
-              "accion" : accion,
-                "empresa" : empresa,
-                "cargo" : cargo,
-                "observacion" : observacion
-                
-                 };
-        $.ajax({
-                data:  parametros,
-                url:   'cargos',
-                type:  'GET',
-                beforeSend: function () {                      
-                } ,
-               success:  function (response) {
-                      if(response){
-                           alert(response);
-                           frm_cargos();//vuelvo a llamar a la pantalla
-                      }                        
-                }
-        });
-   }
+
+        if(validaDatos(empresa,cargo,observacion,accion)){
+
+               var parametros = {
+                   "accion" : accion,
+                     "empresa" : empresa,
+                     //"empresa2":empresa2,
+                     "cargo" : cargo,
+                     "observacion" : observacion
+
+                      };
+             $.ajax({
+                     data:  parametros,
+                     url:   'cargos',
+                     type:  'GET',
+                     beforeSend: function () {                      
+                     } ,
+                    success:  function (response) {
+                           if(response){
+                                MsgSalidaModalM(response);
+                                frm_cargos();//vuelvo a llamar a la pantalla
+                           }  else{
+                               MsgSalidaModalA("Ya existe ese Cargo para esa Empresa");
+                           }                         
+                     }
+             });
+        }
+  
 });
 
 
@@ -105,7 +110,7 @@ $('#btnactcargo').click(function(e){
                 } ,
                success:  function (response) {
                       if(response){
-                           alert(response);
+                           MsgSalidaModalM(response);
                            cargos();//vuelvo a llamar a la pantalla
                       }                        
                 }

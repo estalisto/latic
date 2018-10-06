@@ -31,7 +31,7 @@
                     <div class="box-header with-border bg-yellow"   >
                         <h3 class="box-title" >Registrar Empresas</h3>
                     </div>
-                    <form name="form" action="empresa" method="get" class="well" id="frmnuevorol">  
+                    <form name="form" action="empresa" method="post" class="well" id="data">  
                         <div class="box-body">
                             <!-- Color Picker -->
                             <div class="form-group hidden">
@@ -42,17 +42,26 @@
                                 <div class="col-xs-6">
                                     <div class="form-group">
                                         <label>Tipo Identificación:</label>
-                                        <select class="form-control" name="t_identificacion" required="required" id="t_identificacion" >
+                                        <select class="form-control" name="t_identificacion" required="required" id="t_identificacion" onchange="validaselector()">
                                             <option value='' >Seleccionar tipo de identificación</option>
-                                            <option value='CED' >CÉDULA</option>
-                                            <option value='RUC' >R.U.C.</option>
+                                            <c:forEach items="${tipIDE}" var="tipo">
+                                                <option value="<c:out value="${tipo.getIdTipoIdentificacion()}"/>" ><c:out value="${tipo.getDescripcion()}" /></option>
+                                            </c:forEach> 
                                         </select>
                                     </div>          
                                 </div>
                                 <div class="col-xs-6">
                                     <div class="form-group">
                                         <label>Identificación:</label>
-                                        <input type="text" class="form-control" placeholder="Ingrese numero identificación" required="required" name="identificacion" id="identificacion" onkeypress="ValidaSoloNumeros();">
+                                        <input type="text" class="form-control" maxlength="13" placeholder="Ingrese numero identificación" required="required" name="identificacion" id="identificacion" onkeyup="validaLongitudCED_RUC_HTML();"  disabled="true">
+                                        <!--input type="text" class="form-control" maxlength="13" placeholder="Ingrese numero identificación" required="required" name="identificacion" id="identificacion" onchange="ValidaIdentificacion()" onkeypress="ValidaSoloNumeros();" disabled="true" style="display: none">
+                                        <input type="text" class="form-control" maxlength="6" placeholder="Ingrese numero identificación" required="required" name="identificacion" id="identificacion" onchange="ValidaIdentificacion()"  disabled="true" style="display: none"-->
+                                        <div id="valido" class="form-group has-success" style="display: none"> <!--hidden-->
+                                            <span class="help-block">Identificación Válida.</span>
+                                        </div>
+                                        <div id="no_value" class="form-group has-error" style="display: none"> <!--hidden-->
+                                            <span class="help-block">Identificación Inválida.</span>
+                                        </div><span id="validaLength"></span>
                                     </div>
                                 </div>
                             </div>
@@ -64,25 +73,22 @@
                                 <div class="col-xs-4">
                                     <div class="form-group">
                                         <label>País</label>
-                                        <select class="form-control" name="pais" required="required" id="pais" >
+                                        <select class="form-control" name="pais" required="required" id="pais" onchange="obtenerProvincia()">
                                             <option value='' >Seleccionar País</option>
-                                            <option value='ECU' >Ecuador</option>
-                                            <option value='CO' >Colombia</option>
-                                            <option value='PE' >Peru</option>
-                                            <option value='EU' >EE.UU</option>
-                                            <option value='BR' >Brasil</option>
-                                            <option value='AR' >Argentina</option>
+                                            <c:forEach items="${paises}" var="pais">
+                                                <option value="<c:out value="${pais.getIdPais()}" />" ><c:out value="${pais.getPais()}" /></option>
+                                            </c:forEach>
                                         </select>
                                     </div>      
                                 </div>    
                                 <div class="col-xs-4">
                                     <div class="form-group">
                                         <label>Provincia</label>
-                                        <select class="form-control" name="provincia" required="required" id="provincia" >
+                                        <select class="form-control" name="provincia" required="required" id="provincia" disabled="true" onchange="obtenerCiudad()">
                                             <option value='' >Seleccionar Provincia</option>
-                                            <option value='1' >Guayas</option>
-                                            <option value='2' >Pichincha</option>
-                                            <option value='3' >Azuay</option>
+                                            <!-- <c:forEach items="${provincias}" var="prov">
+                                             <option value="<c:out value="${prov.getIdProvincia()}" />" ><c:out value="${prov.getProvincia()}" /></option>
+                                            </c:forEach>-->
 
                                         </select>
                                     </div>
@@ -90,12 +96,11 @@
                                 <div class="col-xs-4">
                                     <div class="form-group">
                                         <label>Ciudad</label>
-                                        <select class="form-control" name="ciudad" required="required" id="ciudad" >
+                                        <select class="form-control" name="ciudad" required="required" id="ciudad" disabled="true">
                                             <option value='' >Seleccionar Ciudad</option>
-                                            <option value='GYE' >Guayaquil</option>
-                                            <option value='UIO' >Quito</option>
-                                            <option value='CUE' >Cuenca</option>
-                                            <option value='AMB' >Ambato</option>
+                                            <!--<c:forEach items="${ciudades}" var="ciudad">
+                                            <option value="<c:out value="${ciudad.getIdCiudad()}" />" ><c:out value="${ciudad.getCiudad()}" /></option>
+                                            </c:forEach>-->
                                         </select>
                                     </div>
                                 </div>
@@ -109,8 +114,9 @@
                                 <label>Email de Contacto:</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                                    <input type="email" class="form-control" placeholder="Email" name="email" required="required" name="mail" id="mail">
-                                </div>
+                                    <input type="email" onkeyup="ValidaEmailOk();"  class="form-control" placeholder="Email"  required="required" name="mail" id="mail">
+                                  
+                                </div>  <span id="emailOK"></span>
                             </div>
                             <div class="row">
                                 <div class="col-xs-4">
@@ -120,7 +126,7 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-phone"></i>
                                             </div>
-                                            <input type="text" class="form-control" data-inputmask='"mask": "(99) 999-9999"' data-mask name="telefono" id="telefono" onkeypress="ValidaSoloNumeros();">
+                                            <input type="number" maxlength="10" class="form-control" placeholder="029999999" name="telefono" id="telefono"   >
                                         </div>
 
                                     </div>
@@ -132,7 +138,7 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-phone"></i>
                                             </div>
-                                            <input type="text" class="form-control" data-inputmask='"mask": "(99) 999-9999"' data-mask name="telefono2" id="telefono2" onkeypress="ValidaSoloNumeros();">
+                                            <input type="number" maxlength="10" class="form-control"  placeholder="029999999"   name="telefono2" id="telefono2" >
                                         </div>                
                                     </div>
                                 </div>
@@ -143,35 +149,36 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-phone"></i>
                                             </div>
-                                            <input type="text" class="form-control" data-inputmask='"mask": "(99) 999-9999"' data-mask name="celular" id="celular" onkeypress="ValidaSoloNumeros();">
+                                            <input type="number" SIZE="10" class="form-control"  placeholder="0999999999"  name="celular" id="celular" >
                                         </div>
                                     </div>  
                                 </div>
                             </div>
-
-
-
                             <div class=" form-group">
                                 <!-- <button type="submit" class="btn btn-primary fa fa-save"> Registrar</button>-->
                                 <input id="btncrearempresa" type="submit" value="Registrar" class="btn btn-primary"  title="Crea Empresa">
                             </div>
-
                         </div>  
                     </form>
-                    <!-- /.box-body -->
                 </div>
-
-
-
-
             </div>
             <!-- /.content-wrapper -->
-
-
         </div>
-        <!-- /.content-wrapper -->
-        <!-- ./wrapper -->
+        <script src="dist/ruc_jquery_validator.min.js"></script>
         <script src="dist/js/empresa.js"></script> 
+        <script src="dist/js/validar_cedula_ecuador.js"></script>
+        <script src="dist/js/ValidaNumeros.js"></script>
+        <script type="text/javascript">
+            $(function(){
+                //Para escribir solo numeros    
+                $('#celular').validCampoFranz('0123456789');    
+                $('#telefono').validCampoFranz('0123456789');  
+                $('#telefono2').validCampoFranz('0123456789');  
+               
+                
+            });
+        </script> 
+       
     </body>
 </html>
 

@@ -64,6 +64,71 @@
         <servlet-name>RolesController</servlet-name>
         <servlet-class>com.laticobsa.controller.RolesController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CobranzaController</servlet-name>
+        <servlet-class>com.laticobsa.controller.CobranzaController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ConsultaxCartera</servlet-name>
+        <servlet-class>com.laticobsa.controller.ConsultaxCartera</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CompromisosPagos</servlet-name>
+        <servlet-class>com.laticobsa.controller.CompromisosPagos</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RecaudacionController</servlet-name>
+        <servlet-class>com.laticobsa.controller.RecaudacionController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet>
+        <servlet-name>Reportes</servlet-name>
+        <servlet-class>com.laticobsa.controller.Reportes</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DocumentosController</servlet-name>
+        <servlet-class>com.laticobsa.controller.DocumentosController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CuadreCajaController</servlet-name>
+        <servlet-class>com.laticobsa.controller.CuadreCajaController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>NuevoPagoController</servlet-name>
+        <servlet-class>com.laticobsa.controller.NuevoPagoController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AsignacionCarteraController</servlet-name>
+        <servlet-class>com.laticobsa.controller.AsignacionCarteraController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MisReportes</servlet-name>
+        <servlet-class>com.laticobsa.controller.MisReportes</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GenerarDocumentos</servlet-name>
+        <servlet-class>com.laticobsa.controller.GenerarDocumentos</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RecepcionDocumentoController</servlet-name>
+        <servlet-class>com.laticobsa.controller.RecepcionDocumentoController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ConsultaClienteController</servlet-name>
+        <servlet-class>com.laticobsa.controller.ConsultaClienteController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>campanias</servlet-name>
+        <servlet-class>com.laticobsa.controller.CampaniasController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>NotificacionesPagos</servlet-name>
+        <servlet-class>com.laticobsa.controller.NotificacionesPagos</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -127,6 +192,70 @@
     <servlet-mapping>
         <servlet-name>RolesController</servlet-name>
         <url-pattern>/roles</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CobranzaController</servlet-name>
+        <url-pattern>/cobranzas</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ConsultaxCartera</servlet-name>
+        <url-pattern>/consultacartera</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CompromisosPagos</servlet-name>
+        <url-pattern>/compromisos_pagos</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RecaudacionController</servlet-name>
+        <url-pattern>/recaudacion</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>/faces/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Reportes</servlet-name>
+        <url-pattern>/reportes</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DocumentosController</servlet-name>
+        <url-pattern>/documentos</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CuadreCajaController</servlet-name>
+        <url-pattern>/cuadrecaja</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NuevoPagoController</servlet-name>
+        <url-pattern>/nuevopago</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AsignacionCarteraController</servlet-name>
+        <url-pattern>/asignacioncartera</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MisReportes</servlet-name>
+        <url-pattern>/misreportes</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GenerarDocumentos</servlet-name>
+        <url-pattern>/generardocumentos</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RecepcionDocumentoController</servlet-name>
+        <url-pattern>/recepcion</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ConsultaClienteController</servlet-name>
+        <url-pattern>/consultacliente</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>campanias</servlet-name>
+        <url-pattern>/campanias</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NotificacionesPagos</servlet-name>
+        <url-pattern>/notificacionespagos</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

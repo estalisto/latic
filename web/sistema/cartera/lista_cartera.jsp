@@ -50,8 +50,8 @@
                     <c:forEach items="${deudor}" var="cartera">
                         <tr>
                           <td><c:out value="${cartera.getIdDeudor()}" /> </td>
-                          <td><c:out value="${cartera.getIdEmpresa()}" /> </td>
-                          <td><c:out value="${cartera.getIdCliente()}" /> </td>
+                          <td><c:out value="${cartera.getLcEmpresa().getRazonSocial()}" /> </td>
+                          <td><c:out value="${cartera.getLcClientes().getRazonSocial()}" /> </td>
                           <td><c:out value="${cartera.getNombreCartera()}" /> </td>
                           <td><c:out value="${cartera.getObservacion()}" /> </td>
                           <td><c:out value="${cartera.getDatosAdicional()}" /> </td>
@@ -86,7 +86,7 @@
     $('#example1').DataTable({
       "paging": true,
       "lengthChange": false,
-      "searching": false,
+      "searching": true,
       "ordering": true,
       "info": true,
       "autoWidth": false

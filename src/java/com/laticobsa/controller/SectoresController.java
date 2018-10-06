@@ -6,13 +6,17 @@
 package com.laticobsa.controller;
 
 import com.laticobsa.modelo.LcCargos;
+import com.laticobsa.modelo.LcCiudad;
 import com.laticobsa.modelo.LcEmpresa;
+import com.laticobsa.modelo.LcPais;
+import com.laticobsa.modelo.LcProvincia;
 import com.laticobsa.modelo.LcRoles;
 import com.laticobsa.modelo.LcZonas;
 import com.laticobsa.servicios.CargosServicios;
 import com.laticobsa.servicios.EmpresaServicios;
 import com.laticobsa.servicios.RolesOperaciones;
 import com.laticobsa.servicios.ZonasServicios;
+//import com.laticobsa.utils.DefaultPostgresKeyServer;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -23,6 +27,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -43,136 +48,166 @@ public class SectoresController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-          EmpresaServicios es =new EmpresaServicios();
+        EmpresaServicios es = new EmpresaServicios();
         CargosServicios cs = new CargosServicios();
-        RolesOperaciones ro = new  RolesOperaciones();
+        RolesOperaciones ro = new RolesOperaciones();
         ZonasServicios lz = new ZonasServicios();
-         PrintWriter out = response.getWriter();
+
+        PrintWriter out = response.getWriter();
         String accion;
-        accion= request.getParameter("accion");
+        accion = request.getParameter("accion");
+        String id_empresas;
+        HttpSession sesion = request.getSession(true);
+        id_empresas = sesion.getAttribute("Sstrempresa").toString();
+        int EmpresaID = Integer.parseInt(id_empresas);
+        String id_rol;
+        id_rol = sesion.getAttribute("SstrRolID").toString();
+        int RolID = Integer.parseInt(id_rol);
+        String nivel;
+        nivel = sesion.getAttribute("SstrNivelUser").toString();
+        int NivelID = Integer.parseInt(nivel);
+        
+        if (accion.equals("listar")) {
 
-
-      
-        
-        if(accion.equals("listar"))
-        {
-            
-        
-       List<LcZonas> zonas = lz.getLcZonass();
-       request.setAttribute("zonas", zonas);
-         request.getRequestDispatcher("sistema/sectores/lista_sectores.jsp").forward(request, response);   
-          
-        //request.getContextPath()+
-        }
-        
-        if(accion.equals("validar")){
-        String ide = request.getParameter("nombre");
-        boolean sector = lz.ValidaLCZonas(ide);
-        
-        out.println(sector);
-        
-        }
-        
-        if(accion.equals("agregar"))
-        {
-            
-                    
-               
-       ArrayList<LcEmpresa> empresas = es.getLcEmpresa();
-       request.setAttribute("empresas", empresas);
-       ArrayList<LcRoles> roles = ro.getLCRoles();
-       request.setAttribute("roles", roles);
-       
-       request.getRequestDispatcher("sistema/sectores/frm_sectores.jsp").forward(request, response);
-        //request.getContextPath()+
-        }
-        
-        if(accion.equals("registrar"))
-        { int id_zona;
-            
-          //mpresaOperaciones op =new EmpresaOperaciones();
-        ArrayList<LcZonas> zona = lz.getLCZonas();
-        
-
-                
-         if(zona.isEmpty()){
-             id_zona = 1;
-         }else {
-                LcZonas iduser =zona.get(zona.size() -1);
-                id_zona=iduser.getIdZona()+1;
-                }
-         
-                int  empresa=Integer.parseInt(request.getParameter("empresa"));
-                String nombre=request.getParameter("nombre");
-                String pais=request.getParameter("pais");
-                int  provincia=Integer.parseInt(request.getParameter("provincia"));
-                String ciudad=request.getParameter("ciudad");
-                String descripcion=request.getParameter("descripcion");
-                
-                lz.addZonas(new LcZonas
-                                (id_zona,
-                                 (new LcEmpresa(empresa)),
-                                 pais,
-                                 provincia,
-                                 ciudad,
-                                 nombre,       
-                                 descripcion, 
-                                 null,"A"));
-       
-             //response.sendRedirect("/laticobsa/sectores?accion=listar");
-            response.getWriter().println("Zona Creada Exitosamente");  
-            
-    }
-        if(accion.equals("buscaID")){
-
-            int id= Integer.parseInt(request.getParameter("id"));
-            
-            if(id!=0){
-               
-                List<LcZonas> zonas = lz.getDatosLCZonasID(id);
+            if (NivelID == 0) {
+                List<LcZonas> zonas = lz.getLcZonass();
                 request.setAttribute("zonas", zonas);
+            } 
+            if(NivelID == 1) {
+                List<LcZonas> zonas = lz.getLcZonasxEmpresa(EmpresaID);
+                request.setAttribute("zonas", zonas);
+            }
+            if ((NivelID != 0) && (NivelID != 1)) {
+                List<LcZonas> zonas = lz.getLcZonasxEmpresa(EmpresaID);
+                request.setAttribute("zonas", zonas);            
+            }
+            request.getRequestDispatcher("sistema/sectores/lista_sectores.jsp").forward(request, response);
+
+        }
+
+        if (accion.equals("validar")) {
+            String ide = request.getParameter("nombre");
+            boolean sector = lz.ValidaLCZonas(ide);
+
+            out.println(sector);
+
+        }
+
+        if (accion.equals("agregar")) {
+
+            if (EmpresaID == 1) {
                 ArrayList<LcEmpresa> empresas = es.getLcEmpresa();
                 request.setAttribute("empresas", empresas);
+            } else {
+
+                List<LcRoles> empresaso = es.getLcEmpresaRol(EmpresaID, RolID);
+                int Empresa = empresaso.get(0).getLcEmpresa().getIdEmpresa();
+                ArrayList<LcEmpresa> empresao = es.getLcEmpresalog(Empresa);
+                request.setAttribute("empresao", empresao);
+            }
+            ArrayList<LcRoles> roles = ro.getLCRoles();
+            request.setAttribute("roles", roles);
+            ArrayList<LcPais> paises = es.getLcEmpPais();
+            request.setAttribute("paises", paises);
+
+            request.getRequestDispatcher("sistema/sectores/frm_sectores.jsp").forward(request, response);
+        }
+
+        if (accion.equals("registrar")) {
+            int id_zona = 0;
+            ArrayList<LcZonas> zona = lz.getLCZonas();
+
+            if (zona.isEmpty()) {
+                id_zona = 1;
+            } else {
+
+               // int secuencia = lz.SecuenciaModulo();// traigo el 
+                int secuencia = Integer.parseInt(lz.getNext().toString());
+                id_zona = secuencia;
+            }
+            int empresa2 = Integer.parseInt(request.getParameter("empresa2"));
+            int empresa = Integer.parseInt(request.getParameter("empresa"));
+            String nombre = request.getParameter("nombre");
+            int pais = Integer.parseInt(request.getParameter("pais"));
+            int provincia = Integer.parseInt(request.getParameter("provincia"));
+            int ciudad = Integer.parseInt(request.getParameter("ciudad"));
+            String descripcion = request.getParameter("descripcion");
+            if (empresa == 0) {
+                lz.addZonas(new LcZonas(id_zona,
+                        (new LcCiudad(ciudad)),
+                        (new LcEmpresa(empresa2)),
+                        (new LcPais(pais)),
+                        (new LcProvincia(provincia)),
+                        nombre,
+                        descripcion,
+                        null, "A"));
+
                 
+            }
+            if (empresa2 == 0) {
+                lz.addZonas(new LcZonas(id_zona,
+                        (new LcCiudad(ciudad)),
+                        (new LcEmpresa(empresa)),
+                        (new LcPais(pais)),
+                        (new LcProvincia(provincia)),
+                        nombre,
+                        descripcion,
+                        null, "A"));
+
+                
+            }
+            response.getWriter().println("Zona Creada Exitosamente");
+        }
+        if (accion.equals("buscaID")) {
+
+            int id = Integer.parseInt(request.getParameter("id"));
+
+            if (id != 0) {
+
+                List<LcZonas> zonas = lz.getDatosLCZonasID(id);
+                request.setAttribute("zonas", zonas);
+                if (EmpresaID == 1) {
+                    ArrayList<LcEmpresa> empresas = es.getLcEmpresa();
+                    request.setAttribute("empresas", empresas);
+                } else {
+
+                    ArrayList<LcEmpresa> empresas = es.getLcEmpresalog(EmpresaID);
+                    request.setAttribute("empresas", empresas);
+                }
+
                 //se envia los datos al formulario para actualizar
                 request.getRequestDispatcher("sistema/sectores/frm_sectores_up.jsp").forward(request, response);
-                
-                
-            }else{
-                 response.getWriter().println("No existen datos a consultar");
-                 
-            }
-            
-             
-             
-                
-         }
-        
-        
-        
-        if(accion.equals("editar")){
-                      
-                //request.getRequestDispatcher("sistema/sectores/frm_sectores.jsp").forward(request, response);
-                int id= Integer.parseInt(request.getParameter("idzona"));
-                int  empresa=Integer.parseInt(request.getParameter("empresa"));
-                String nombre=request.getParameter("nombre");
-                String pais=request.getParameter("pais");
-                int  provincia=Integer.parseInt(request.getParameter("provincia"));
-                String ciudad=request.getParameter("ciudad");
-                String descripcion=request.getParameter("descripcion");
-                lz.updateZona(id,empresa,pais,provincia,ciudad,nombre,descripcion);
-                response.getWriter().println("Registro de zona actualizado");
-               
-    }
-        
-        
-        if(accion.equals("eliminar")){
 
-                int id= Integer.parseInt(request.getParameter("id"));
-                lz.deleteZona(id);
-             //response.getWriter().println("Zona Eliminada");
-         }
+            } else {
+                response.getWriter().println("No existen datos a consultar");
+
+            }
+
+        }
+
+        if (accion.equals("editar")) {
+
+            //request.getRequestDispatcher("sistema/sectores/frm_sectores.jsp").forward(request, response);
+            int id = Integer.parseInt(request.getParameter("idzona"));
+            int empresa = Integer.parseInt(request.getParameter("empresa"));
+            String nombre = request.getParameter("nombre");
+            int pais = Integer.parseInt(request.getParameter("pais"));
+            int provincia = Integer.parseInt(request.getParameter("provincia"));
+            int ciudad = Integer.parseInt(request.getParameter("ciudad"));
+            String descripcion = request.getParameter("descripcion");
+            lz.updateZona(id, empresa, pais, provincia, ciudad, nombre, descripcion);
+            response.getWriter().println("Registro de zona actualizado");
+
+        }
+
+        if (accion.equals("eliminar")) {
+
+            int id = Integer.parseInt(request.getParameter("id"));
+            lz.deleteZona(id);
+            //response.getWriter().println("Zona Eliminada");
+        }
     }
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

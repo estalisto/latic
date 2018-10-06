@@ -1,5 +1,5 @@
 package com.laticobsa.modelo;
-// Generated 31/03/2017 06:57:24 PM by Hibernate Tools 4.3.1
+// Generated 14-ene-2018 19:02:18 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -11,8 +11,8 @@ public class LcDeudor  implements java.io.Serializable {
 
 
      private int idDeudor;
-     private Integer idEmpresa;
-     private Integer idCliente;
+     private LcClientes lcClientes;
+     private LcEmpresa lcEmpresa;
      private String nombreCartera;
      private String observacion;
      private String datosAdicional;
@@ -27,10 +27,10 @@ public class LcDeudor  implements java.io.Serializable {
     public LcDeudor(int idDeudor) {
         this.idDeudor = idDeudor;
     }
-    public LcDeudor(int idDeudor, Integer idEmpresa, Integer idCliente, String nombreCartera, String observacion, String datosAdicional, Date fechaCreacion, Date fechaActualizacion, String estado) {
+    public LcDeudor(int idDeudor, LcClientes lcClientes, LcEmpresa lcEmpresa, String nombreCartera, String observacion, String datosAdicional, Date fechaCreacion, Date fechaActualizacion, String estado) {
        this.idDeudor = idDeudor;
-       this.idEmpresa = idEmpresa;
-       this.idCliente = idCliente;
+       this.lcClientes = lcClientes;
+       this.lcEmpresa = lcEmpresa;
        this.nombreCartera = nombreCartera;
        this.observacion = observacion;
        this.datosAdicional = datosAdicional;
@@ -46,19 +46,19 @@ public class LcDeudor  implements java.io.Serializable {
     public void setIdDeudor(int idDeudor) {
         this.idDeudor = idDeudor;
     }
-    public Integer getIdEmpresa() {
-        return this.idEmpresa;
+    public LcClientes getLcClientes() {
+        return this.lcClientes;
     }
     
-    public void setIdEmpresa(Integer idEmpresa) {
-        this.idEmpresa = idEmpresa;
+    public void setLcClientes(LcClientes lcClientes) {
+        this.lcClientes = lcClientes;
     }
-    public Integer getIdCliente() {
-        return this.idCliente;
+    public LcEmpresa getLcEmpresa() {
+        return this.lcEmpresa;
     }
     
-    public void setIdCliente(Integer idCliente) {
-        this.idCliente = idCliente;
+    public void setLcEmpresa(LcEmpresa lcEmpresa) {
+        this.lcEmpresa = lcEmpresa;
     }
     public String getNombreCartera() {
         return this.nombreCartera;

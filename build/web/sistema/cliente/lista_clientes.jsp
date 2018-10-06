@@ -36,7 +36,7 @@
                            <table id="example1" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                  <th>ID</th>
+                    <th class="hidden">ID</th>
                   <th>Empresa</th>
                   <th>Identificacion</th>
                   <th>Razon social</th>
@@ -52,7 +52,7 @@
                     
                     <c:forEach items="${clientes}" var="cliente">
                         <tr>
-                          <td><c:out value="${cliente.getIdCliente()}" /> </td>
+                          <td class="hidden"><c:out value="${cliente.getIdCliente()}" /> </td>
                           <td><c:out value="${cliente.getLcEmpresa().getRazonSocial()}" /> </td>
                           <td><c:out value="${cliente.getIdentificacion()}" /> </td>
                           <td><c:out value="${cliente.getRazonSocial()}" /> </td>
@@ -92,7 +92,7 @@
     $('#example1').DataTable({
       "paging": true,
       "lengthChange": false,
-      "searching": false,
+      "searching": true,
       "ordering": true,
       "info": true,
       "autoWidth": false

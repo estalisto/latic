@@ -15,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -35,9 +36,27 @@ public class ListaRoles extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         RolesOperaciones op = new RolesOperaciones();
-       List<LcRoles> datos = op.getLCRolesoper();
-       
-       request.setAttribute("datos", datos);
+                HttpSession sesion = request.getSession(true);
+        String id_empresas;    
+        
+        id_empresas = sesion.getAttribute("Sstrempresa").toString();
+        int EmpresaID = Integer.parseInt(id_empresas);
+        String nivel;
+        nivel = sesion.getAttribute("SstrNivelUser").toString();
+        int NivelID = Integer.parseInt(nivel);
+
+        if (NivelID == 0) {
+            List<LcRoles> datos = op.getLCRolesoper();
+            request.setAttribute("datos", datos);
+        }
+        if (NivelID == 1) {
+            List<LcRoles> datos = op.getLCRolesxEmpresa(EmpresaID);
+            request.setAttribute("datos", datos);
+        }
+        if ((NivelID != 0) && (NivelID != 1)) {
+            List<LcRoles> datos = op.getLCRolesxEmpresa(EmpresaID);
+            request.setAttribute("datos", datos);
+        }
         request.getRequestDispatcher("sistema/roles/roles.jsp").forward(request, response);  
     }
 

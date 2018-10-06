@@ -21,11 +21,11 @@ function validaDatos(empresa,nombre,cliente,observacion,adicional,accion){
                     if(observacion.length > 1 ){
                         if(adicional.length > 0 ){
                             return true;
-                        }else{ alert("Debe elegir una informacion adicional");}
-                    }else{ alert("Debe elegir una observacion");}
-                }else{ alert("Debe ingresar un Nombre");}
-            }else{ alert("Debe elegir un cliente");} 
-        }else{ alert("Debe elegir una empresa");}    
+                        }else{ MsgSalidaModalA("Debe elegir una informacion adicional");}
+                    }else{ MsgSalidaModalA("Debe elegir una observacion");}
+                }else{ MsgSalidaModalA("Debe ingresar un Nombre");}
+            }else{ MsgSalidaModalA("Debe elegir un cliente");} 
+        }else{ MsgSalidaModalA("Debe elegir una empresa");}    
    return false; 
 }
 $('#btncrearcartera').click(function(e){
@@ -56,7 +56,7 @@ $('#btncrearcartera').click(function(e){
                 } ,
                success:  function (response) {
                       if(response){
-                           alert(response);
+                           MsgSalidaModalM(response);
                            frm_cartera();//vuelvo a llamar a la pantalla
                       }                        
                 }
@@ -69,8 +69,9 @@ function deletecartera(data)
 {      if(confirm("Realmente desea eliminar los datos")){
     jQuery("#page-wrapper").html("<br/><br/><center><img alt='cargando' src='dist/img/hourglass.gif' /><center>"); 
         jQuery("#page-wrapper").load("cartera?accion=eliminar&id=" + data,{},function(){ });
-        }
-        cartera();
+            cartera();
+    }
+        
 }
 
 function ConnsultaDatosID(str)        
@@ -112,7 +113,7 @@ $('#btnactcartera').click(function(e){
                 } ,
                success:  function (response) {
                       if(response){
-                           alert(response);
+                           MsgSalidaModalM(response);
                            cartera();//vuelvo a llamar a la pantalla
                       }                        
                 }

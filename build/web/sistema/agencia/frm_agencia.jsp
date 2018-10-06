@@ -40,13 +40,20 @@
                             </div>
                             <div class="row">
                                 <div class="col-xs-6">
-                                    <div class="form-group">
+                                    
                                         <label>Empresa:</label>
                                         <select id="empresa" class="form-control" name="empresa" required="required">
                                             <option value=''>Seleccionar Empresa</option>
                                             <c:forEach items="${empresas}" var="empresa">
                                                 <option value="<c:out value="${empresa.getIdEmpresa()}" />"><c:out value="${empresa.getRazonSocial()}" /> </option>                         
                                             </c:forEach>                 
+                                        </select>
+                                      <div class="form-group">
+                                        <select class="form-control" name="empresa" id="empresa2"  required="required" style="display: none">
+                                            <c:forEach items="${empresao}" var="empresas">
+                                                <option value="<c:out value="${empresas.getIdEmpresa()}" />" ><c:out value="${empresas.getRazonSocial()}" /></option>
+                                            </c:forEach>  
+
                                         </select>
                                     </div>          
                                 </div>
@@ -73,8 +80,8 @@
                                 <label>Email de Contacto:</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                                    <input type="email" class="form-control" placeholder="Email" name="email" required="required"  id="mail">
-                                </div>
+                                    <input type="email" class="form-control" onkeyup="ValidaEmailOk();"  placeholder="email@correo.com" name="email" required="required"  id="mail">
+                                </div><span id="emailOK"></span>
                             </div>
                             <div class="row">
                                 <div class="col-xs-4">
@@ -84,7 +91,7 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-phone"></i>
                                             </div>
-                                            <input type="text" class="form-control" data-inputmask='"mask": "(99) 999-9999"' data-mask name="telefono" id="telefono">
+                                            <input type="text" class="form-control" placeholder="042555555"  name="telefono" id="telefono">
                                         </div>
 
                                     </div>
@@ -96,7 +103,7 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-phone"></i>
                                             </div>
-                                            <input type="text" class="form-control" data-inputmask='"mask": "(99) 999-9999"' data-mask name="telefono2" id="telefono2">
+                                            <input type="text" class="form-control" placeholder="042555555" name="telefono2" id="telefono2" >
                                         </div>                
                                     </div>
                                 </div>
@@ -107,7 +114,7 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-phone"></i>
                                             </div>
-                                            <input type="text" class="form-control" data-inputmask='"mask": "(99) 999-9999"' data-mask name="celular" id="celular">
+                                            <input type="text" class="form-control" placeholder="0999999999" name="celular" id="celular" >
                                         </div>
                                     </div>  
                                 </div>
@@ -117,7 +124,7 @@
 
                             <div class=" form-group">
                                 <!-- <button type="submit" class="btn btn-primary fa fa-save"> Registrar</button>-->
-                                <input id="btncrearagencia" type="submit" value="Registrar" class="btn btn-primary"  title="Crear Agencia">
+                                <input id="btncrearagencia" type="button" value="Registrar" class="btn btn-primary"  title="Crear Agencia">
                             </div>
 
                         </div>  
@@ -136,6 +143,16 @@
         <!-- /.content-wrapper -->
         <!-- ./wrapper -->
         <script src="dist/js/agencia.js"></script> 
+        <script src="dist/js/ValidaNumeros.js"></script>
+        <script src="dist/js/ValidaEmailOk.js"></script>            
+        <script type="text/javascript">
+            $(function(){
+                //Para escribir solo numeros    
+                $('#celular').validCampoFranz('0123456789');    
+                $('#telefono').validCampoFranz('0123456789');  
+                 $('#telefono2').validCampoFranz('0123456789');  
+            });
+        </script> 
     </body>
 </html>
 

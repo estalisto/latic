@@ -1,5 +1,5 @@
 package com.laticobsa.modelo;
-// Generated 31/03/2017 06:57:24 PM by Hibernate Tools 4.3.1
+// Generated 14-ene-2018 19:02:18 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -11,14 +11,15 @@ public class LcUsuarios  implements java.io.Serializable {
 
 
      private int idUsuario;
+     private LcEmpleados lcEmpleados;
      private LcEmpresa lcEmpresa;
      private LcRoles lcRoles;
-     private Integer idEmpleado;
      private String usuario;
      private String contrasenia;
      private String observacion;
      private Date fechaCreacion;
      private String estado;
+     private Date expiracionTmp;
 
     public LcUsuarios() {
     }
@@ -27,16 +28,17 @@ public class LcUsuarios  implements java.io.Serializable {
     public LcUsuarios(int idUsuario) {
         this.idUsuario = idUsuario;
     }
-    public LcUsuarios(int idUsuario, LcEmpresa lcEmpresa, LcRoles lcRoles, Integer idEmpleado, String usuario, String contrasenia, String observacion, Date fechaCreacion, String estado) {
+    public LcUsuarios(int idUsuario, LcEmpleados lcEmpleados, LcEmpresa lcEmpresa, LcRoles lcRoles, String usuario, String contrasenia, String observacion, Date fechaCreacion, String estado, Date expiracionTmp) {
        this.idUsuario = idUsuario;
+       this.lcEmpleados = lcEmpleados;
        this.lcEmpresa = lcEmpresa;
        this.lcRoles = lcRoles;
-       this.idEmpleado = idEmpleado;
        this.usuario = usuario;
        this.contrasenia = contrasenia;
        this.observacion = observacion;
        this.fechaCreacion = fechaCreacion;
        this.estado = estado;
+       this.expiracionTmp = expiracionTmp;
     }
    
     public int getIdUsuario() {
@@ -45,6 +47,13 @@ public class LcUsuarios  implements java.io.Serializable {
     
     public void setIdUsuario(int idUsuario) {
         this.idUsuario = idUsuario;
+    }
+    public LcEmpleados getLcEmpleados() {
+        return this.lcEmpleados;
+    }
+    
+    public void setLcEmpleados(LcEmpleados lcEmpleados) {
+        this.lcEmpleados = lcEmpleados;
     }
     public LcEmpresa getLcEmpresa() {
         return this.lcEmpresa;
@@ -59,13 +68,6 @@ public class LcUsuarios  implements java.io.Serializable {
     
     public void setLcRoles(LcRoles lcRoles) {
         this.lcRoles = lcRoles;
-    }
-    public Integer getIdEmpleado() {
-        return this.idEmpleado;
-    }
-    
-    public void setIdEmpleado(Integer idEmpleado) {
-        this.idEmpleado = idEmpleado;
     }
     public String getUsuario() {
         return this.usuario;
@@ -101,6 +103,13 @@ public class LcUsuarios  implements java.io.Serializable {
     
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+    public Date getExpiracionTmp() {
+        return this.expiracionTmp;
+    }
+    
+    public void setExpiracionTmp(Date expiracionTmp) {
+        this.expiracionTmp = expiracionTmp;
     }
 
 

@@ -5,8 +5,10 @@
  */
 package com.laticobsa.controller;
 
+import com.laticobsa.modelo.LcEmpresa;
+import com.laticobsa.servicios.EmpresaServicios;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +33,10 @@ public class Login extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
+        EmpresaServicios es =new EmpresaServicios();
+        ArrayList<LcEmpresa> empresas = es.getLcEmpresa();
+        
+        request.setAttribute("empresas", empresas); 
         request.getRequestDispatcher("login.jsp").forward(request, response);
 
     }

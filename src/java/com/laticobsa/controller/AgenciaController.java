@@ -7,6 +7,7 @@ package com.laticobsa.controller;
 
 import com.laticobsa.modelo.LcAgencia;
 import com.laticobsa.modelo.LcEmpresa;
+import com.laticobsa.modelo.LcRoles;
 import com.laticobsa.servicios.AgenciaServicios;
 import com.laticobsa.servicios.EmpresaServicios;
 import java.io.IOException;
@@ -19,6 +20,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -40,114 +42,190 @@ public class AgenciaController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String accion;
-        accion= request.getParameter("accion");
+        accion = request.getParameter("accion");
         AgenciaServicios ag = new AgenciaServicios();
-        EmpresaServicios es =new EmpresaServicios();
+        EmpresaServicios es = new EmpresaServicios();
         PrintWriter out = response.getWriter();
-        if(accion.equals("listar"))
-        {
-            
-        
-       List<LcAgencia> agencias = ag.getLcAgencias();
-       request.setAttribute("agencias", agencias);
-            
-              request.getRequestDispatcher("sistema/agencia/lista_agencia.jsp").forward(request, response);
-        //request.getContextPath()+
-        }
-         if(accion.equals("agregar"))
-        {
-        
-       ArrayList<LcEmpresa> empresas = es.getLcEmpresa();
-       request.setAttribute("empresas", empresas);
-       request.getRequestDispatcher("sistema/agencia/frm_agencia.jsp").forward(request, response);
-        //request.getContextPath()+
-        }
-        
-        if(accion.equals("registrar"))
-        { int id_agencia;
-            
-          //mpresaOperaciones op =new EmpresaOperaciones();
-        ArrayList<LcAgencia> datos = ag.getLcAgencia();
-        // en esta linea solo sirve cuando existen datos en la tabla
-         if(datos.isEmpty()){
-             id_agencia = 1;
-         }else {
-                LcAgencia idAgencia =datos.get(datos.size() -1);
-                id_agencia=idAgencia.getIdAgencia()+1;
-                }
-       
-                Date fecha_reg = new Date();
-                int empresa=Integer.parseInt(request.getParameter("empresa"));
-                String nombre=request.getParameter("nombre");
-                String opcion = request.getParameter("opcion");
-                String direccion=request.getParameter("direccion");
-                String telefono=request.getParameter("telefono");
-                String telefono2=request.getParameter("telefono2");
-                String celular=request.getParameter("celular");
-                String mail=request.getParameter("mail");
-                                                
-                ag.addAgencia(new LcAgencia
-                                     (id_agencia,
-                                      (new LcEmpresa(empresa)),
-                                      nombre,
-                                      opcion,
-                                      direccion,
-                                      telefono,
-                                      telefono2, 
-                                      celular,
-                                      mail,      
-                                      fecha_reg,"A"
-                                       ));
-       
-             //response.sendRedirect("/laticobsa/empresa?accion=listar");
-           response.getWriter().println("Agencia Creado Exitosamente");           
-         // request.getRequestDispatcher("sistema/empresa/frm_empresa.jsp").forward(request, response);
-        //request.getContextPath()+
-        }
-         if(accion.equals("eliminar")){
+        String id_empresas;
+        HttpSession sesion = request.getSession(true);
+        id_empresas = sesion.getAttribute("Sstrempresa").toString();
+        int EmpresaID = Integer.parseInt(id_empresas);
+        String id_rol;
+        id_rol = sesion.getAttribute("SstrRolID").toString();
+        int RolID = Integer.parseInt(id_rol);
+        String nivel;
+        nivel = sesion.getAttribute("SstrNivelUser").toString();
+        int NivelID = Integer.parseInt(nivel);
 
-                int id= Integer.parseInt(request.getParameter("id"));
-                ag.deleteAgencia(id);
-             //response.getWriter().println("Agencia Eliminada");
-         }
-         
-          if(accion.equals("buscaID")){
+        if (accion.equals("listar")) {
 
-            int id= Integer.parseInt(request.getParameter("id"));
-            
-            if(id!=0){
-               
+            if (NivelID == 0) {
+                List<LcAgencia> agencias = ag.getLcAgencias();
+                request.setAttribute("agencias", agencias);
+            }
+            if (NivelID == 1) {
+                List<LcAgencia> agencias = ag.getLcAgenciasxEmpresa(EmpresaID);
+                request.setAttribute("agencias", agencias);
+            }
+            if ((NivelID != 0) && (NivelID != 1)) {
+                List<LcAgencia> agencias = ag.getLcAgenciasxEmpresa(EmpresaID);
+                request.setAttribute("agencias", agencias);
+            }
+            request.getRequestDispatcher("sistema/agencia/lista_agencia.jsp").forward(request, response);
+
+        }
+        if (accion.equals("agregar")) {
+
+            if (NivelID == 0) {
+                ArrayList<LcEmpresa> empresas = es.getLcEmpresa();
+                request.setAttribute("empresas", empresas);
+            }
+            if (NivelID == 1) {
+
+                List<LcRoles> empresaso = es.getLcEmpresaRol(EmpresaID, RolID);
+                int Empresa = empresaso.get(0).getLcEmpresa().getIdEmpresa();
+                ArrayList<LcEmpresa> empresas = es.getLcEmpresalog(Empresa);
+                request.setAttribute("empresas", empresas);
+            }
+            if ((NivelID != 0) && (NivelID != 1)) {
+                List<LcRoles> empresaso = es.getLcEmpresaRol(EmpresaID, RolID);
+                int Empresa = empresaso.get(0).getLcEmpresa().getIdEmpresa();
+                ArrayList<LcEmpresa> empresas = es.getLcEmpresalog(Empresa);
+                request.setAttribute("empresas", empresas);
+            }
+            request.getRequestDispatcher("sistema/agencia/frm_agencia.jsp").forward(request, response);
+        }
+
+        if (accion.equals("registrar")) {
+            int id_agencia;
+            ArrayList<LcAgencia> datos = ag.getLcAgencia();
+            if (datos.isEmpty()) {
+                id_agencia = 1;
+            } else {
+                //int secuencia = ag.SecuenciaModulo();
+                int secuencia = Integer.parseInt(ag.getNext().toString());
+                id_agencia = secuencia ;
+            }
+           // int empresa2 = Integer.parseInt(request.getParameter("empresa2"));
+            Date fecha_reg = new Date();
+            int empresa = Integer.parseInt(request.getParameter("empresa"));
+            String nombre = request.getParameter("nombre");
+            String opcion = request.getParameter("opcion");
+            String direccion = request.getParameter("direccion");
+            String telefono = request.getParameter("telefono");
+            String telefono2 = request.getParameter("telefono2");
+            String celular = request.getParameter("celular");
+            String mail = request.getParameter("mail");
+            //if (empresa == 0) {
+                ag.addAgencia(new LcAgencia(id_agencia,
+                        (new LcEmpresa(empresa)),
+                        nombre,
+                        opcion,
+                        direccion,
+                        telefono,
+                        telefono2,
+                        celular,
+                        mail,
+                        fecha_reg, "A", null,
+                        null,null));
+/*
+                  private int idAgencia;
+     private LcEmpresa lcEmpresa;
+     private String nombre;
+     private String opcion;
+     private String direccion;
+     private String telefono;
+     private String telefono2;
+     private String celular;
+     private String email;
+     private Date fechaCreacion;
+     private String estado;
+                */
+                
+           /*}
+            if (empresa2 == 0) {
+                ag.addAgencia(new LcAgencia(id_agencia,
+                        (new LcEmpresa(empresa)),
+                        nombre,
+                        opcion,
+                        direccion,
+                        telefono,
+                        telefono2,
+                        celular,
+                        mail,
+                        fecha_reg, "A", null,
+                        null));
+            }*/
+            response.getWriter().println("Agencia Creado Exitosamente");
+        }
+        if (accion.equals("eliminar")) {
+
+            int id = Integer.parseInt(request.getParameter("id"));
+            ag.deleteAgencia(id);
+            //response.getWriter().println("Agencia Eliminada");
+        }
+
+        if (accion.equals("buscaID")) {
+
+            int id = Integer.parseInt(request.getParameter("id"));
+
+            if (id != 0) {
+
                 List<LcAgencia> agent = ag.getDatosLCAgenciaID(id);
                 request.setAttribute("agent", agent);
-                ArrayList<LcEmpresa> empresas = es.getLcEmpresa();
-                 request.setAttribute("empresas", empresas);
+                if (NivelID == 0) {
+                    ArrayList<LcEmpresa> empresas = es.getLcEmpresa();
+                    request.setAttribute("empresas", empresas);
+                } if (NivelID == 1) {
+
+                    ArrayList<LcEmpresa> empresas = es.getLcEmpresalog(EmpresaID);
+                    request.setAttribute("empresas", empresas);
+                }
+                if ((NivelID != 0) && (NivelID != 1)) {
+                    ArrayList<LcEmpresa> empresas = es.getLcEmpresalog(EmpresaID);
+                    request.setAttribute("empresas", empresas);
+                }
                 request.getRequestDispatcher("sistema/agencia/frm_agencia_up.jsp").forward(request, response);
-                
-                
-            }else{
-                 response.getWriter().println("No existen datos a consultar");
-                 
+
+            } else {
+                response.getWriter().println("No existen datos a consultar");
+
             }
-                    
-         }
-        if(accion.equals("editar")){
-            
-                int idagencia = Integer.parseInt(request.getParameter("idagencia"));
-                int empresa=Integer.parseInt(request.getParameter("empresa"));
-                String nombre=request.getParameter("nombre");
-                String opcion = request.getParameter("opcion");
-                String direccion=request.getParameter("direccion");
-                String telefono=request.getParameter("telefono");
-                String telefono2=request.getParameter("telefono2");
-                String celular=request.getParameter("celular");
-                String mail=request.getParameter("mail");
+
+        }
+        if (accion.equals("editar")) {
+
+            int idagencia = Integer.parseInt(request.getParameter("idagencia"));
+            int empresa = Integer.parseInt(request.getParameter("empresa"));
+            String nombre = request.getParameter("nombre");
+            String opcion = request.getParameter("opcion");
+            String direccion = request.getParameter("direccion");
+            String telefono = request.getParameter("telefono");
+            String telefono2 = request.getParameter("telefono2");
+            String celular = request.getParameter("celular");
+            String mail = request.getParameter("mail");
+
+            ag.updateAgencia(idagencia, empresa, nombre, opcion, direccion, telefono, telefono2, celular, mail);
+            response.getWriter().println("Datos de la Agencia Actualizado exitosamente");
+        }
+        
+        if (accion.equals("ConsultaAgencia")) {
+           int empresa = Integer.parseInt(request.getParameter("empresa"));
+           List<LcAgencia> agencias = ag.getLcAgenciasxEmpresa(empresa);
+           String DatosAgencias="";
+            for (LcAgencia agencia : agencias) {
+                DatosAgencias += "<option value="+agencia.getIdAgencia() + ">" + agencia.getNombre() + "</options>";
                 
-                ag.updateAgencia(idagencia, empresa, nombre, opcion, direccion, telefono, telefono2, celular, mail);
-                response.getWriter().println("Registro de Clientes Actualizado");
-    }
-         
-         
-         
+            }
+            
+           if(!DatosAgencias.isEmpty()){
+               String caebAgencia="<option value=0> Seleccione una Agencia</option>";
+               DatosAgencias=caebAgencia+DatosAgencias;
+                response.getWriter().println(DatosAgencias);
+           }
+           
+        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

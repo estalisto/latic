@@ -56,7 +56,7 @@
                   <label>Empresa:</label>
                  
                   <select class="form-control" name="empresa" required="required" id="empresa" disabled="true">
-                    <option value="<c:out value="${cargo.getLcEmpresa().getRazonSocial()}" />"><c:out value="${cargo.getLcEmpresa().getRazonSocial()}" /></option>
+                    <option value="<c:out value="${cargo.getLcEmpresa().getIdEmpresa()}" />"><c:out value="${cargo.getLcEmpresa().getRazonSocial()}" /></option>
                       <c:forEach items="${empresas}" var="empresa">
                        <option value="<c:out value="${empresa.getIdEmpresa()}" />"><c:out value="${empresa.getRazonSocial()}" /> </option>                         
                     </c:forEach>                 

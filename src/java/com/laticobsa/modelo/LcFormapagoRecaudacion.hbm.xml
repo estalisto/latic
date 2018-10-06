@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 14-ene-2018 19:02:21 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.laticobsa.modelo.LcFormapagoRecaudacion" table="lc_formapago_recaudacion" schema="public" optimistic-lock="version">
+        <id name="idFormpago" type="int">
+            <column name="id_formpago" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="lcRecaudaciones" class="com.laticobsa.modelo.LcRecaudaciones" fetch="select">
+            <column name="id_recaudacion" />
+        </many-to-one>
+        <many-to-one name="lcTipoFormaPago" class="com.laticobsa.modelo.LcTipoFormaPago" fetch="select">
+            <column name="tipo_forma_pago" />
+        </many-to-one>
+        <property name="totalRecaudado" type="big_decimal">
+            <column name="total_recaudado" precision="10" scale="3" />
+        </property>
+        <property name="idEntidadFinanciera" type="java.lang.Integer">
+            <column name="id_entidad_financiera" />
+        </property>
+        <property name="numCheque" type="string">
+            <column name="num_cheque" length="30" />
+        </property>
+        <property name="numCuenta" type="string">
+            <column name="num_cuenta" length="30" />
+        </property>
+        <property name="numTarjetaCred" type="string">
+            <column name="num_tarjeta_cred" length="30" />
+        </property>
+        <property name="fechaCobro" type="timestamp">
+            <column name="fecha_cobro" length="29" />
+        </property>
+        <property name="fechaRegistro" type="timestamp">
+            <column name="fecha_registro" length="29" />
+        </property>
+        <property name="fechaActualizado" type="timestamp">
+            <column name="fecha_actualizado" length="29" />
+        </property>
+        <property name="estado" type="string">
+            <column name="estado" length="1" />
+        </property>
+    </class>
+</hibernate-mapping>

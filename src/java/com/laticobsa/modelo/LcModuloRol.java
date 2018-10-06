@@ -1,5 +1,5 @@
 package com.laticobsa.modelo;
-// Generated 31/03/2017 06:57:24 PM by Hibernate Tools 4.3.1
+// Generated 14-ene-2018 19:02:18 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -11,13 +11,14 @@ public class LcModuloRol  implements java.io.Serializable {
 
 
      private int idModuloRol;
+     private LcEmpresa lcEmpresa;
      private LcModulos lcModulos;
      private LcRoles lcRoles;
-     private Integer idEmpresa;
      private Integer nivelModulo;
      private Integer grupoMod;
      private Date fechaCreacion;
      private String estado;
+     private Integer ordenReg;
 
     public LcModuloRol() {
     }
@@ -26,15 +27,16 @@ public class LcModuloRol  implements java.io.Serializable {
     public LcModuloRol(int idModuloRol) {
         this.idModuloRol = idModuloRol;
     }
-    public LcModuloRol(int idModuloRol, LcModulos lcModulos, LcRoles lcRoles, Integer idEmpresa, Integer nivelModulo, Integer grupoMod, Date fechaCreacion, String estado) {
+    public LcModuloRol(int idModuloRol, LcEmpresa lcEmpresa, LcModulos lcModulos, LcRoles lcRoles, Integer nivelModulo, Integer grupoMod, Date fechaCreacion, String estado, Integer ordenReg) {
        this.idModuloRol = idModuloRol;
+       this.lcEmpresa = lcEmpresa;
        this.lcModulos = lcModulos;
        this.lcRoles = lcRoles;
-       this.idEmpresa = idEmpresa;
        this.nivelModulo = nivelModulo;
        this.grupoMod = grupoMod;
        this.fechaCreacion = fechaCreacion;
        this.estado = estado;
+       this.ordenReg = ordenReg;
     }
    
     public int getIdModuloRol() {
@@ -43,6 +45,13 @@ public class LcModuloRol  implements java.io.Serializable {
     
     public void setIdModuloRol(int idModuloRol) {
         this.idModuloRol = idModuloRol;
+    }
+    public LcEmpresa getLcEmpresa() {
+        return this.lcEmpresa;
+    }
+    
+    public void setLcEmpresa(LcEmpresa lcEmpresa) {
+        this.lcEmpresa = lcEmpresa;
     }
     public LcModulos getLcModulos() {
         return this.lcModulos;
@@ -57,13 +66,6 @@ public class LcModuloRol  implements java.io.Serializable {
     
     public void setLcRoles(LcRoles lcRoles) {
         this.lcRoles = lcRoles;
-    }
-    public Integer getIdEmpresa() {
-        return this.idEmpresa;
-    }
-    
-    public void setIdEmpresa(Integer idEmpresa) {
-        this.idEmpresa = idEmpresa;
     }
     public Integer getNivelModulo() {
         return this.nivelModulo;
@@ -92,6 +94,13 @@ public class LcModuloRol  implements java.io.Serializable {
     
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+    public Integer getOrdenReg() {
+        return this.ordenReg;
+    }
+    
+    public void setOrdenReg(Integer ordenReg) {
+        this.ordenReg = ordenReg;
     }
 
 

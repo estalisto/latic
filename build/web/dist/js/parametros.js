@@ -16,19 +16,22 @@ function deleteparametro(data)
 {      if(confirm("Realmente desea eliminar los datos")){
     jQuery("#page-wrapper").html("<br/><br/><center><img alt='cargando' src='dist/img/hourglass.gif' /><center>"); 
         jQuery("#page-wrapper").load("parametros?accion=eliminar&id=" + data,{},function(){ });
-        }
-        parametros();
+            parametros();
+    }
+        
 }
 
-function validaDatos(codigo,parametross,valor,accion){
+function validaDatos(codigo,parametross,valor,descripcion,accion){
          
             if(codigo.length > 1  ){
                 if(parametross.length > 1 ){
-                    if(valor.length > 1 ){
-                        return true;
-                    }else{ alert("Debe ingresar el valor del parametro");}
-                }else{ alert("Debe ingresar parametros");}
-            }else{ alert("Debe ingresar codigo parametro");}
+                    if(valor.length > 0 ){
+                        if(descripcion.length > 1 ){
+                            return true;
+                        }else{ MsgSalidaModalA("Debe ingresar una descripcion del parametro");}
+                    }else{ MsgSalidaModalA("Debe ingresar el valor del parametro");}
+                }else{ MsgSalidaModalA("Debe ingresar parametros");}
+            }else{ MsgSalidaModalA("Debe ingresar codigo parametro");}
                
    return false; 
 }
@@ -48,17 +51,18 @@ $('#btncrearparametro').click(function(e){
    var codigo = $("#codigo").val();
    var nombre = $("#nombre").val();
    var valor = $("#valor").val();
-    
+   var descripcion = $("#descripcion").val(); 
     var accion = $("#accion").val();
    
-   //alert(t_identificacion);
-   if(validaDatos(codigo,nombre,valor,accion)){
+  // alert("t_identificacion"+codigo);
+   if(validaDatos(codigo,nombre,valor,descripcion,accion)){
       
           var parametros = {
                 "accion" : accion,
                 "codigo" : codigo,
                 "nombre" : nombre,
-                "valor" : valor };
+                "valor" : valor,
+                "descripcion":descripcion};
         $.ajax({
                 data:  parametros,
                 url:   'parametros',
@@ -67,9 +71,11 @@ $('#btncrearparametro').click(function(e){
                 } ,
                success:  function (response) {
                       if(response){
-                           alert(response);
+                           MsgSalidaModalA(response);
                             frm_parametros();//vuelvo a llamar a la pantalla
-                      }                        
+                      }    else{
+                          MsgSalidaModalA("codigo de Parametro ya existe");
+                      }                    
                 }
         });
    }
@@ -83,14 +89,15 @@ $('#btnactparametro').click(function(e){
     var valor = $("#valor").val();
     var accion = $("#accion").val();
     var id= $("#id").val();
-   
+    var descripcion = $("#descripcion").val();
     
              var parametros = {
                 "id":id,
                 "accion" : accion,
                 "codigo" : codigo,
                 "nombre" : nombre,
-                "valor" : valor  };
+                "valor" : valor,
+                "descripcion":descripcion};
         $.ajax({
                 data:  parametros,
                 url:   'parametros',
@@ -99,7 +106,7 @@ $('#btnactparametro').click(function(e){
                 } ,
                success:  function (response) {
                       if(response){
-                           alert(response);
+                           MsgSalidaModalM(response);
                            parametro();
                       }                        
                 }

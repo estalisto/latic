@@ -33,7 +33,7 @@
               <table id="example1" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                  <th>ID</th>
+                  <th class="hidden">ID</th>
                   <th>Empresa</th>
                   <th>Nombre</th>
                   <th>Opcion </th>
@@ -46,11 +46,11 @@
                   <th>Acción </th>
                 </tr>
                 </thead>
-                <tbody>
+                
                     
                     <c:forEach items="${agencias}" var="agencia">
                         <tr>
-                          <td><c:out value="${agencia.getIdAgencia()}" /> </td>
+                          <td class="hidden"><c:out value="${agencia.getIdAgencia()}" /> </td>
                           <td><c:out value="${agencia.getLcEmpresa().getRazonSocial()}" /> </td>
                           <td><c:out value="${agencia.getNombre()}" /> </td>
                           <td><c:out value="${agencia.getOpcion()}" /> </td>
@@ -64,7 +64,7 @@
                               <a href="javascript: void(0);" onclick="deleteagencia(${agencia.getIdAgencia()})"> <span  class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></td>      
                         </tr>     
                     </c:forEach>  
-                </tbody>
+                
 
               </table>
             </div>
@@ -86,7 +86,7 @@
     $('#example1').DataTable({
       "paging": true,
       "lengthChange": false,
-      "searching": false,
+      "searching": true,
       "ordering": true,
       "info": true,
       "autoWidth": false

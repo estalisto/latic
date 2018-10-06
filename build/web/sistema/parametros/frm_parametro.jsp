@@ -41,19 +41,24 @@
                                   
                  <div class="form-group">
                   <label>Código:</label>
-                  <input type="text" class="form-control"  placeholder="Ingrese el Cargo " required="required" name="codigo" id="codigo"> 
+                  <input type="text" class="form-control"  placeholder="Ingrese Código Parámetro [12345]" required="required" name="codigo" id="codigo"> 
                 </div> 
                   
                 <div class="form-group">
                   <label>Parámetro:</label>
-                  <input type="text" class="form-control"  placeholder="Ingrese el Cargo " required="required" name="nombre" id="nombre"> 
+                  <input type="text" class="form-control"  placeholder="Ingrese Nombre Parámetro" required="required" name="nombre" id="nombre"> 
                 </div> 
                 
                 <div class="form-group">
                   <label>Valor:</label>
-                  <textarea class="form-control" rows="5"  placeholder="Ingrese los valores del Parámetro" name="valor" id="valor"></textarea>
+                  <textarea class="form-control" rows="1"  placeholder="Ingrese los valores del Parámetro" name="valor" id="valor"></textarea>
                  
                 </div> 
+                <div class="form-group">
+                  <label>Descripcion:</label>
+                  <textarea class="form-control" rows="3"  placeholder="Ingrese una descripcion del Parámetro" name="descripcion" id="descripcion"></textarea>
+                 
+                </div>   
               <div class="form-group">
                 <input id="btncrearparametro" type="submit" value="Registrar" class="btn btn-primary"  title="Crear Parametros">
               </div>
@@ -70,7 +75,11 @@
 
   
 <!-- ./wrapper -->
-<script src="dist/js/parametros.js"></script>     
+<script src="dist/js/parametros.js"></script> 
+<script src="dist/js/ValidaNumeros.js"></script>
+<<script>
+      $('#codigo').validCampoFranz('0123456789');  
+</script>
 </body>
 </html>
 

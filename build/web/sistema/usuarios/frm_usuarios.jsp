@@ -47,27 +47,26 @@
                         </div>
                     <!-- /input-group -->
                 <div class="form-group">
-                    <label>Cédula:</label>
+                    <label>Identificación:</label>
                     <div class="input-group">                    
-                                <input type="text" class="form-control" id="sel_cedula" name="sel_cedula" onkeypress="ValidaSoloNumeros()" >
+                                <input type="numeric" class="form-control" id="sel_cedula"/>
+                                
                     <span class="input-group-btn">
-                              <button id="cedula_valida" type="button"  class="btn btn-info btn-flat">Go!</button>
+                        <button id="cedula_valida" type="button" onclick="ExisteUsuario();" class="btn btn-info btn-flat">Go!</button>
                     </span>
                     
                     </div>
-                             <div id="not_found" class="form-group has-success" style="display: none"> <!--hidden-->
-                                <span class="help-block">Empleado Registrado.Asignar Usuario</span>
+                             <div id="not_found" class="form-group has-error" style="display: none"> <!--hidden-->
+                                <span class="help-block text-danger">Empleado Ya posee un Usuario Asignado</span>
                              </div>
-                            <div id="found" class="form-group has-error" style="display: none"> <!--hidden-->
-                                <span class="help-block">Empleado no se encuentra Registrado</span>
-                     </div>
+                            <div id="found" class="form-group has-success" style="display: none"> <!--hidden-->
+                                <span class="help-block text-danger">Empleado listo para crear Usuario</span>
+                            </div>
+                            <div id="nada" class="form-group has-warning" style="display: none"> <!--hidden-->
+                                <span class="help-block text-danger">Empleado listo para crear Usuario</span>
+                            </div> <span id="id_msg"></span>
                 </div>
-                
-                  <!--div class="form-group">
-                    <label>Nombre: </label>
-                    <input id="nom_user" type="text" class="form-control" placeholder="Ingrese el Nombre "  name="nom_user" onkeypress="txNombres()" disabled="true" >
-                  </div-->
-              
+
                 <div class="form-group">
                   <label>Empresa:</label>
                  
@@ -78,16 +77,22 @@
                      </c:forEach>  
                     </select>
                 </div>
-                                
+                  <div id="IdSelect" class="form-group">
+                      <select class="form-control" name="empresa" id="empresa2"   required="required" style="display: none">
+                          <c:forEach items="${empresao}" var="empresas">
+                              <option value="<c:out value="${empresas.getIdEmpresa()}" />" ><c:out value="${empresas.getRazonSocial()}" /></option>
+                          </c:forEach>  
+
+                      </select>
+                  </div>               
                 <div class="form-group">
                     <label>Rol: </label>
+                    <div id="IdRolesEmpresa">
                             <select id="rol" class="form-control" name="rol" required="required" disabled="true">
                                 <option value="">Seleccionar rol</option>
-                                <c:forEach items="${roles}" var="rol">
-                                 <option value="<c:out value="${rol.getIdRol()}"/>" ><c:out value="${rol.getDescripcion()}" /></option>
-                             </c:forEach>
-                            </select>
                                 
+                            </select>
+                    </div>            
                 </div>
               
                            
@@ -96,6 +101,9 @@
                             <input id="nusuario" type="text" class="form-control" placeholder="Ingrese Usuario" required="required" name="nusuario" disabled="true">
                                 
                 </div>
+                 <div id="user_found" class="form-group has-error" style="display: none"> <!--hidden-->
+                                <span class="help-block">Usuario Existente. Ingrese uno nuevo.</span>
+                 </div>  
                 <div class="form-group">
                             <label>Ingrese Contraseña:</label>
                             <input id="ncontrasenia" type="password" class="form-control" placeholder="Ingrese Contraseña" required="required" name="ncontrasenia" disabled="true">
@@ -128,7 +136,16 @@
 <!-- ./wrapper -->
 <script src="dist/js/usuario.js"></script>   
 <script src="dist/js/validaciones.js"></script>  
-  
+ <script src="dist/js/ValidaNumeros.js"></script>
+ <script type="text/javascript">
+            $(function(){
+                //Para escribir solo numeros    
+                $('#sel_cedula').validCampoFranz('0123456789');    
+                  
+            });
+            
+            
+        </script> 
 </body>
 </html>
 

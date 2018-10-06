@@ -46,9 +46,12 @@
                         <tr>
                           <td><c:out value="${cargo.getIdCargo()}" /> </td>
                           <td><c:out value="${cargo.getCargo()}" /> </td>                
-                          <td><c:out value="${cargo.getLcEmpresa().getRazonSocial()}" /> </td> 
-                          <td><a  onclick="ConnsultaDatosID(${cargo.getIdCargo()})" ><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
-                              <a onclick="deletecargo(${cargo.getIdCargo()})"> <span  class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></td>      
+                          <td><c:out value="${cargo.getLcEmpresa().getRazonSocial()}" /> </td>  
+                          <td>
+                              <a  onclick="ConnsultaDatosID(${cargo.getIdCargo()})" > <span class="glyphicon glyphicon-pencil" aria-hidden="true"> </span></a>
+                              
+                              <a onclick="deletecargo(${cargo.getIdCargo()})"> <span  class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></td>  
+                          
                         </tr>     
                     </c:forEach>  
              
@@ -79,7 +82,7 @@
     $('#example2').DataTable({
       "paging": true,
       "lengthChange": false,
-      "searching": false,
+      "searching": true,
       "ordering": true,
       "info": true,
       "autoWidth": false

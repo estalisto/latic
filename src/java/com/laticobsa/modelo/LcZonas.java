@@ -1,5 +1,5 @@
 package com.laticobsa.modelo;
-// Generated 31/03/2017 06:57:24 PM by Hibernate Tools 4.3.1
+// Generated 14-ene-2018 19:02:18 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -11,10 +11,10 @@ public class LcZonas  implements java.io.Serializable {
 
 
      private int idZona;
+     private LcCiudad lcCiudad;
      private LcEmpresa lcEmpresa;
-     private String idPais;
-     private Integer idProvincia;
-     private String idCiudad;
+     private LcPais lcPais;
+     private LcProvincia lcProvincia;
      private String nombreZona;
      private String sectorDescripcion;
      private Date fechaCreacion;
@@ -27,12 +27,12 @@ public class LcZonas  implements java.io.Serializable {
     public LcZonas(int idZona) {
         this.idZona = idZona;
     }
-    public LcZonas(int idZona, LcEmpresa lcEmpresa, String idPais, Integer idProvincia, String idCiudad, String nombreZona, String sectorDescripcion, Date fechaCreacion, String estado) {
+    public LcZonas(int idZona, LcCiudad lcCiudad, LcEmpresa lcEmpresa, LcPais lcPais, LcProvincia lcProvincia, String nombreZona, String sectorDescripcion, Date fechaCreacion, String estado) {
        this.idZona = idZona;
+       this.lcCiudad = lcCiudad;
        this.lcEmpresa = lcEmpresa;
-       this.idPais = idPais;
-       this.idProvincia = idProvincia;
-       this.idCiudad = idCiudad;
+       this.lcPais = lcPais;
+       this.lcProvincia = lcProvincia;
        this.nombreZona = nombreZona;
        this.sectorDescripcion = sectorDescripcion;
        this.fechaCreacion = fechaCreacion;
@@ -46,6 +46,13 @@ public class LcZonas  implements java.io.Serializable {
     public void setIdZona(int idZona) {
         this.idZona = idZona;
     }
+    public LcCiudad getLcCiudad() {
+        return this.lcCiudad;
+    }
+    
+    public void setLcCiudad(LcCiudad lcCiudad) {
+        this.lcCiudad = lcCiudad;
+    }
     public LcEmpresa getLcEmpresa() {
         return this.lcEmpresa;
     }
@@ -53,26 +60,19 @@ public class LcZonas  implements java.io.Serializable {
     public void setLcEmpresa(LcEmpresa lcEmpresa) {
         this.lcEmpresa = lcEmpresa;
     }
-    public String getIdPais() {
-        return this.idPais;
+    public LcPais getLcPais() {
+        return this.lcPais;
     }
     
-    public void setIdPais(String idPais) {
-        this.idPais = idPais;
+    public void setLcPais(LcPais lcPais) {
+        this.lcPais = lcPais;
     }
-    public Integer getIdProvincia() {
-        return this.idProvincia;
-    }
-    
-    public void setIdProvincia(Integer idProvincia) {
-        this.idProvincia = idProvincia;
-    }
-    public String getIdCiudad() {
-        return this.idCiudad;
+    public LcProvincia getLcProvincia() {
+        return this.lcProvincia;
     }
     
-    public void setIdCiudad(String idCiudad) {
-        this.idCiudad = idCiudad;
+    public void setLcProvincia(LcProvincia lcProvincia) {
+        this.lcProvincia = lcProvincia;
     }
     public String getNombreZona() {
         return this.nombreZona;

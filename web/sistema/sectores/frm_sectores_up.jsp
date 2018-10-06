@@ -30,7 +30,7 @@
                     <!-- /.box-header -->
                     <!-- form start -->
 
-                    <form name="form" action="sectores" method="get" class="well">
+                    <form name="form" action="sectores" method="post" class="well" id="data">
                      <c:forEach items="${zonas}" var="zona">
                                                                      
                                            
@@ -52,8 +52,8 @@
                                 <div class="col-xs-6">
                                     <div class="form-group">
                                         <label>Empresa:</label>
-                                        <select id="empresa" class="form-control" name="empresa" disabled="true">
-                                            <option value="<c:out value="${zona.getLcEmpresa().getRazonSocial()}" />" ><c:out value="${zona.getLcEmpresa().getRazonSocial()}" /></option>
+                                        <select id="empresa" class="form-control" name="empresa" disabled="true" >
+                                            <option value="<c:out value="${zona.getLcEmpresa().getIdEmpresa()}" />" ><c:out value="${zona.getLcEmpresa().getRazonSocial()}" /></option>
                                             <c:forEach items="${empresas}" var="empresa">
                                                 <option value="<c:out value="${empresa.getIdEmpresa()}" />"><c:out value="${empresa.getRazonSocial()}" /> </option>                         
                                             </c:forEach>                 
@@ -72,25 +72,22 @@
                                 <div class="col-xs-4">
                                     <div class="form-group">
                                         <label>País</label>
-                                        <select class="form-control" name="pais" required="required" id="pais" >
-                                            <option value="<c:out value="${zona.getIdPais()}"/>"><c:out value="${zona.getIdPais()}"/></option>
-                                            <option value='ECU' >Ecuador</option>
-                                            <option value='CO' >Colombia</option>
-                                            <option value='PE' >Peru</option>
-                                            <option value='EU' >EE.UU</option>
-                                            <option value='BR' >Brasil</option>
-                                            <option value='AR' >Argentina</option>
+                                        <select class="form-control" name="pais" required="required" id="pais" onchange="obtenerProvincia()">
+                                            <option value="<c:out value="${zona.getLcPais().getIdPais()}"/>"><c:out value="${zona.getLcPais().getPais()}"/></option>
+                                            <c:forEach items="${paises}" var="pais">
+                                            <option value="<c:out value="${pais.getIdPais()}" />" ><c:out value="${pais.getPais()}" /></option>
+                                            </c:forEach>
                                         </select>
                                     </div>      
                                 </div>    
                                 <div class="col-xs-4">
                                     <div class="form-group">
                                         <label>Provincia</label>
-                                        <select class="form-control" name="provincia" required="required" id="provincia" >
-                                            <option value="<c:out value="${zona.getIdProvincia()}" />"><c:out value="${zona.getIdProvincia()}" /></option>
-                                            <option value='1' >Guayas</option>
-                                            <option value='2' >Pichincha</option>
-                                            <option value='3' >Azuay</option>
+                                        <select class="form-control" name="provincia" required="required" id="provincia" onchange="obtenerCiudad()">
+                                            <option value="<c:out value="${zona.getLcProvincia().getIdProvincia()}" />"><c:out value="${zona.getLcProvincia().getProvincia()}" /></option>
+                                            <!-- <c:forEach items="${provincias}" var="prov">
+                                            <option value="<c:out value="${prov.getIdProvincia()}" />" ><c:out value="${prov.getProvincia()}" /></option>
+                                            </c:forEach>-->
 
                                         </select>
                                     </div>
@@ -99,11 +96,10 @@
                                     <div class="form-group">
                                         <label>Ciudad</label>
                                         <select class="form-control" name="ciudad" required="required" id="ciudad" >
-                                            <option value="<c:out value="${zona.getIdCiudad()}" />"><c:out value="${zona.getIdCiudad()}" /></option>
-                                            <option value='GYE' >Guayaquil</option>
-                                            <option value='UIO' >Quito</option>
-                                            <option value='CUE' >Cuenca</option>
-                                            <option value='AMB' >Ambato</option>
+                                            <option value="<c:out value="${zona.getLcCiudad().getIdCiudad()}" />"><c:out value="${zona.getLcCiudad().getCiudad()}" /></option>
+                                            <!--<c:forEach items="${ciudades}" var="ciudad">
+                                            <option value="<c:out value="${ciudad.getIdCiudad()}" />" ><c:out value="${ciudad.getCiudad()}" /></option>
+                                            </c:forEach>-->
                                         </select>
                                     </div>
                                 </div>

@@ -33,39 +33,32 @@
             </div>
                <form name="form" action="usuarios" method="get" class="well">
                     
-                <div class="form-group">
-                  <label>Usuarios:</label>
-                 
-                    <select id="usuario" class="form-control" name="usuario" required="required" >
-                    <option value=''>Seleccionar Usuario</option>
-                     <c:forEach items="${usuarios}" var="user">
-                             <option value="<c:out value="${user.getIdUsuario()}" />"><c:out value="${user.getUsuario()}" /> </option>                         
-                     </c:forEach>  
-                    </select>
-                </div>
-                
-                  <div class="form-group hidden">
-                    <label for="exampleInputClave1">Clave: </label>
-                    <input type="password" class="form-control" id="exampleInputClave1" placeholder="Ingrese clave actual " required="required" name="clave">
-                  </div>
-                
-               
-                  
+               <div class="form-group">
+                    <label>Usuario: </label>
+                    <input type="text" class="form-control" id="nombre" placeholder="Ingrese su usuario"  required="required" name="nombre" onchange="validador()">
+               </div>
+                <div id="found" class="form-group has-success" style="display: none"> <!--hidden-->
+                        <span class="help-block">Usuario Registrado.</span>
+                    </div>
+                    <div id="nada" class="form-group has-warning" style="display: none"> <!--hidden-->
+                        <span class="help-block">Usuario no registrado.</span>
+                    </div>
+           
                   <div class="form-group">
                     <label for="exampleInputClave2">Nueva Clave: </label>
-                    <input type="password" class="form-control" id="newclave" placeholder="Ingrese nueva clave " required="required" name="newclave">
+                    <input type="password" class="form-control" id="newclave" placeholder="Ingrese nueva clave " required="required" name="newclave" disabled="true">
                   </div>
                 
               
                   
                   <div class="form-group">
                     <label for="exampleInputClave3">Confirmar Clave: </label>
-                    <input type="password" class="form-control" id="confirmaclave" placeholder="Confirme nueva clave " required="required" name="confirmaclave">
+                    <input type="password" class="form-control" id="confirmaclave" placeholder="Confirme nueva clave " required="required" name="confirmaclave" disabled="true">
                   </div>
                 
                 
                 <div class="form-group">
-                  <input id="btn-cambio_clave" type="submit" value="Cambiar Contraseña" class="btn btn-primary"  title="Cambio contraseña" >                       
+                  <input id="btncambio_clave" type="submit" value="Cambiar Contraseña" class="btn btn-primary"  title="Cambio contraseña" disabled="true">                       
                 </div>
             </form>
               <!-- /.box-body -->
@@ -77,8 +70,9 @@
       
   </div>
   <!-- /.content-wrapper -->
-
+ <script src="dist/js/valida_usuario.js"></script> 
  <script src="dist/js/usuario.js"></script>
+
 
 </body>
 </html>

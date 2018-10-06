@@ -67,7 +67,6 @@ public class ParametrosController extends HttpServlet {
           
       
             request.getRequestDispatcher("sistema/parametros/frm_parametro.jsp").forward(request, response);
-        //request.getContextPath()+
         }
         
         if(accion.equals("registrar"))
@@ -78,29 +77,30 @@ public class ParametrosController extends HttpServlet {
          int  codigo=Integer.parseInt(request.getParameter("codigo"));
          String  nom_parametros=request.getParameter("nombre");
          System.out.print(nom_parametros);
-         String valor=request.getParameter("valor");
-         
+         String valor=request.getParameter("valor").toString();
+         String descripcion=request.getParameter("descripcion");
          int id_parametro;
          ArrayList<LcParametros> parametros = ps.getLcParametros();
          
           if(parametros.isEmpty()){
              id_parametro = 1;
          }else {
-               // LcEmpresa idEmpresa =parametros.get(parametros.size() -1);
-                 LcParametros idParametro =parametros.get(parametros.size() -1);
-                id_parametro=idParametro.getId()+1;
+                //int secuencia = ps.SecuenciaModulo();
+                int secuencia = Integer.parseInt(ps.getNext().toString());
+                id_parametro= secuencia;
                 }
-
-          ps.addLcParametros(new LcParametros
-                            (id_parametro,
-                             codigo,
-                            nom_parametros.toUpperCase(),
-                            valor,    
-                            fecha_reg,
-                            "A"));
+                ArrayList<LcParametros> encuentra = ps.getDatoEncontrado(codigo);
+                if(encuentra.isEmpty()){
+                        ps.addLcParametros(new LcParametros
+                                          (id_parametro,
+                                           codigo,
+                                          nom_parametros.toUpperCase(),
+                                          valor,
+                                          descripcion,
+                                          fecha_reg,
+                                          "A"));
           
-          response.getWriter().println("Parametro registrado correctamente");
-             //response.sendRedirect("/laticobsa/parametros?accion=listar");
+          response.getWriter().println("Parametro registrado correctamente");}
         }
         if(accion.equals("buscaID")){
 
@@ -127,8 +127,8 @@ public class ParametrosController extends HttpServlet {
                 int  codigo = Integer.parseInt(request.getParameter("codigo"));
                 String  nombre=request.getParameter("nombre");
                 String valor=request.getParameter("valor");
-                
-                ps.updateParametros(id, codigo, nombre, valor);
+                String descripcion=request.getParameter("descripcion");
+                ps.updateParametros(id, codigo, nombre, valor,descripcion);
                 response.getWriter().println("Registro de Parametros Actualizado");
                
     }
@@ -136,6 +136,12 @@ public class ParametrosController extends HttpServlet {
 
                 int id= Integer.parseInt(request.getParameter("id"));
                 ps.deleteParametros(id);
+             //response.getWriter().println("Zona Eliminada");
+         }
+        if(accion.equals("consulta_parametro")){
+             String Dato=ps.Consulta_Parametro("LB_CONSULTA_NOTIFICACIONES");
+
+                response.getWriter().println(Dato);
              //response.getWriter().println("Zona Eliminada");
          }
     }

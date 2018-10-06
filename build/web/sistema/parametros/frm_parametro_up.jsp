@@ -54,9 +54,14 @@
                 
                     <div class="form-group">
                   <label>Valor:</label>
-                  <textarea class="form-control" rows="5"  placeholder="Ingrese los valores del Parámetro" name="valor" id="valor" value="<c:out value="${paro.getValor()}"/>"><c:out value="${paro.getValor()}"/></textarea>
+                  <textarea class="form-control" rows="1"  placeholder="Ingrese los valores del Parámetro" name="valor" id="valor" value="<c:out value="${paro.getValor()}"/>"><c:out value="${paro.getValor()}"/></textarea>
                  
                 </div> 
+                  <div class="form-group">
+                  <label>Descripcion:</label>
+                  <textarea class="form-control" rows="3"  placeholder="Ingrese una descripcion del Parámetro" name="descripcion" id="descripcion" value="<c:out value="${paro.getDescripcion()}"/>"><c:out value="${paro.getDescripcion()}"/></textarea>
+                 
+                </div>
                     <div class="form-group">
                 <input id="btnactparametro" type="submit" value="Actualizar" class="btn btn-primary"  title="Actualizar Parametros">
               </div>

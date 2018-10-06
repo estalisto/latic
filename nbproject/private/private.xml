@@ -3,9 +3,22 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/D:/Proyecto/laticobsa/web/sistema/gestion/frm_consulta_cartera_new.jsp</file>
             <file>file:/D:/Proyecto/laticobsa/web/sistema/index2.jsp</file>
+            <file>file:/D:/Proyecto/laticobsa/src/java/com/laticobsa/controller/Home.java</file>
+            <file>file:/D:/Proyecto/laticobsa/web/sistema/gestion/frm_gestion_cobranzas.jsp</file>
+            <file>file:/D:/Proyecto/laticobsa/src/java/com/laticobsa/servicios/DashcboardOk.java</file>
             <file>file:/D:/Proyecto/laticobsa/web/dist/js/menu.js</file>
-            <file>file:/D:/Proyecto/laticobsa/src/java/com/laticobsa/controller/AutorizaController.java</file>
+            <file>file:/D:/Proyecto/laticobsa/src/java/com/laticobsa/controller/CobranzaController.java</file>
+            <file>file:/D:/Proyecto/laticobsa/web/sistema/index.jsp</file>
+            <file>file:/D:/Proyecto/laticobsa/web/sistema/gestion/frm_compromiso_pago.jsp</file>
+            <file>file:/D:/Proyecto/laticobsa/src/java/com/laticobsa/controller/ConsultaxCartera.java</file>
+            <file>file:/D:/Proyecto/laticobsa/web/sistema/gestion/frm_gestion_digitador.jsp</file>
+            <file>file:/D:/Proyecto/laticobsa/src/java/com/laticobsa/servicios/ConsultaxCarteraServicios.java</file>
+            <file>file:/D:/Proyecto/laticobsa/web/sistema/gestion/frm_consulta_por_cartera_new.jsp</file>
+            <file>file:/D:/Proyecto/laticobsa/web/dist/js/consultaxcatera.js</file>
+            <file>file:/D:/Proyecto/laticobsa/src/java/com/laticobsa/servicios/UsuariosServicios.java</file>
+            <file>file:/D:/Proyecto/laticobsa/web/dist/js/cobranzas.js</file>
         </group>
     </open-files>
 </project-private>

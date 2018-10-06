@@ -15,10 +15,12 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -45,15 +47,22 @@ public class CarteraController extends HttpServlet {
         String accion;
         accion= request.getParameter("accion");
 
-
+         String id_empresas;    
+       HttpSession sesion = request.getSession(true);
+       id_empresas = sesion.getAttribute("Sstrempresa").toString();
+       int EmpresaID= Integer.parseInt(id_empresas);
       
         
         if(accion.equals("listar"))
         {
             
-        
-       ArrayList<LcDeudor> deudor = du.getLcDeudor();
+       if (EmpresaID == 1){  
+       List<LcDeudor> deudor = du.getLcDeudores();
        request.setAttribute("deudor", deudor);
+       }else{
+       List<LcDeudor> deudor = du.getLcDeudorxEmpresa(EmpresaID);
+       request.setAttribute("deudor", deudor);
+       }
          request.getRequestDispatcher("sistema/cartera/lista_cartera.jsp").forward(request, response);   
           
         //request.getContextPath()+
@@ -64,10 +73,21 @@ public class CarteraController extends HttpServlet {
         {
          
                
-       ArrayList<LcEmpresa> empresas = es.getLcEmpresa();
-       request.setAttribute("empresas", empresas);
-       ArrayList<LcClientes> clientes = cl.getLcClientes();
-       request.setAttribute("clientes", clientes);
+        if(EmpresaID==1){
+                ArrayList<LcEmpresa> empresas = es.getLcEmpresa();
+                request.setAttribute("empresas", empresas); 
+                
+                ArrayList<LcClientes> clientes = cl.getLcClientes();
+                request.setAttribute("clientes", clientes);
+                }else{
+
+                ArrayList<LcEmpresa> empresas = es.getLcEmpresalog(EmpresaID);
+                request.setAttribute("empresas", empresas); 
+                
+                List<LcClientes> clientes = cl.getClientesxempresa(EmpresaID);
+                request.setAttribute("clientes", clientes);
+                }
+      
        
        request.getRequestDispatcher("sistema/cartera/frm_cartera.jsp").forward(request, response);
         //request.getContextPath()+
@@ -85,8 +105,11 @@ public class CarteraController extends HttpServlet {
          if(zona.isEmpty()){
              id_deudor = 1;
          }else {
-                LcDeudor iduser =zona.get(zona.size() -1);
-                id_deudor=iduser.getIdDeudor()+1;
+//                LcDeudor iduser =zona.get(zona.size() -1);
+//                id_deudor=iduser.getIdDeudor()+1;
+                int secuencia = du.SecuenciaModulo();
+                //id_deudor=zona.size()+1;
+                id_deudor= secuencia+1;
                 }
                 Date fecha_reg = new Date();
                 int  empresa=Integer.parseInt(request.getParameter("empresa"));
@@ -97,8 +120,8 @@ public class CarteraController extends HttpServlet {
                
                 du.addDeudor(new LcDeudor
                                 (id_deudor,
-                                 empresa,
-                                 cliente,
+                                 (new LcClientes(cliente)),
+                                 (new LcEmpresa(empresa)),       
                                  nombre,
                                  observacion,
                                  adicional,       
@@ -115,12 +138,22 @@ public class CarteraController extends HttpServlet {
             
             if(id!=0){
                
-                ArrayList<LcDeudor> deuda = du.getDatosLCDeudorID(id);
+                List<LcDeudor> deuda = du.getDatosLCDeudorID(id);
                 request.setAttribute("deuda", deuda);
+                if(EmpresaID==1){
                 ArrayList<LcEmpresa> empresas = es.getLcEmpresa();
-                request.setAttribute("empresas", empresas);
+                request.setAttribute("empresas", empresas); 
+                
                 ArrayList<LcClientes> clientes = cl.getLcClientes();
                 request.setAttribute("clientes", clientes);
+                }else{
+
+                ArrayList<LcEmpresa> empresas = es.getLcEmpresalog(EmpresaID);
+                request.setAttribute("empresas", empresas); 
+                
+                List<LcClientes> clientes = cl.getClientesxempresa(EmpresaID);
+                request.setAttribute("clientes", clientes);
+                }
                 //se envia los datos al formulario para actualizar
                 request.getRequestDispatcher("sistema/cartera/frm_cartera_up.jsp").forward(request, response);
                 

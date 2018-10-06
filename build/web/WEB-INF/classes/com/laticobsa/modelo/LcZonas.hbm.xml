@@ -1,25 +1,25 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 31/03/2017 06:57:26 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated 14-ene-2018 19:02:21 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.laticobsa.modelo.LcZonas" table="lc_zonas" schema="public" optimistic-lock="version">
         <id name="idZona" type="int">
             <column name="id_zona" />
             <generator class="assigned" />
         </id>
+        <many-to-one name="lcCiudad" class="com.laticobsa.modelo.LcCiudad" fetch="select">
+            <column name="id_ciudad" />
+        </many-to-one>
         <many-to-one name="lcEmpresa" class="com.laticobsa.modelo.LcEmpresa" fetch="select">
             <column name="id_empresa" />
         </many-to-one>
-        <property name="idPais" type="string">
-            <column name="id_pais" length="100" />
-        </property>
-        <property name="idProvincia" type="java.lang.Integer">
+        <many-to-one name="lcPais" class="com.laticobsa.modelo.LcPais" fetch="select">
+            <column name="id_pais" />
+        </many-to-one>
+        <many-to-one name="lcProvincia" class="com.laticobsa.modelo.LcProvincia" fetch="select">
             <column name="id_provincia" />
-        </property>
-        <property name="idCiudad" type="string">
-            <column name="id_ciudad" length="100" />
-        </property>
+        </many-to-one>
         <property name="nombreZona" type="string">
             <column name="nombre_zona" length="100" />
         </property>

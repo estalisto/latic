@@ -5,20 +5,25 @@
  */
 package com.laticobsa.controller;
 
+import com.laticobsa.modelo.LcCiudad;
 import com.laticobsa.modelo.LcClientes;
 import com.laticobsa.modelo.LcEmpresa;
+import com.laticobsa.modelo.LcPais;
+import com.laticobsa.modelo.LcProvincia;
+import com.laticobsa.modelo.LcRoles;
+import com.laticobsa.modelo.LcTiposIdentificacion;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.laticobsa.servicios.ClientesServicios;
 import com.laticobsa.servicios.EmpresaServicios;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.servlet.http.HttpSession;
+
 /**
  *
  * @author ViewSoft
@@ -37,133 +42,171 @@ public class ClientesController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-         ClientesServicios es =new ClientesServicios();
-         EmpresaServicios em =new EmpresaServicios();
-       String accion;
-       accion= request.getParameter("accion");
-       
-       if(accion.equals("listar"))
-        {
-            
-        
-        List<LcClientes> clientes = es.getLcClientess();
-        request.setAttribute("clientes", clientes);
-            
-          request.getRequestDispatcher("sistema/cliente/lista_clientes.jsp").forward(request, response);
-        //request.getContextPath()+
-        }
-        if(accion.equals("agregar"))
-        {
-        ArrayList<LcEmpresa> empresas = em.getLcEmpresa();
-        request.setAttribute("empresas", empresas);
-          request.getRequestDispatcher("sistema/cliente/frm_clientes.jsp").forward(request, response);
-        //request.getContextPath()+
-        }
-        
-        if(accion.equals("registrar"))
-        { int id_cliente;
-            
-          //mpresaOperaciones op =new EmpresaOperaciones();
-        ArrayList<LcClientes> datos = es.getLcClientes();
-        // en esta linea solo sirve cuando existen datos en la tabla
-         if(datos.isEmpty()){
-             id_cliente = 1;
-         }else {
-                LcClientes idCliente =datos.get(datos.size() -1);
-                id_cliente=idCliente.getIdCliente()+1;
-                }
-                
-                int  empresa=Integer.parseInt(request.getParameter("empresa"));
-                String tipo_identificacion = request.getParameter("Tipo_Identificacion");
-                String identificacion=request.getParameter("identificacion");
-                String razon_social=request.getParameter("razon");
-                String direccion=request.getParameter("direccion");
-                String pais=request.getParameter("pais");
-                int provincia=Integer.parseInt(request.getParameter("Provincia"));
-                String ciudad=request.getParameter("Ciudad");
-                String contacto=request.getParameter("contacto");
-                String email=request.getParameter("email");
-                String telefono=request.getParameter("fono1");
-                String extensioon=request.getParameter("ext");
-                String celular=request.getParameter("celular");
-                Date fecha_reg = new Date();
-                es.addclientes(new LcClientes
-                                     (id_cliente,
-                                      (new LcEmpresa (empresa)),
-                                      tipo_identificacion,
-                                      identificacion,
-                                      razon_social,
-                                      direccion,
-                                      pais, 
-                                      provincia,
-                                      ciudad,
-                                      contacto,
-                                      email,
-                                      telefono,
-                                      extensioon,
-                                      celular,
-                                      fecha_reg,"A"));
-       
-             //response.sendRedirect("/laticobsa/clientes?accion=listar");
-             response.getWriter().println("Cliente Ingresado correctamente");
-            
-    }
-     if(accion.equals("buscaID")){
+        ClientesServicios es = new ClientesServicios();
+        EmpresaServicios em = new EmpresaServicios();
+        String accion;
+        accion = request.getParameter("accion");
+        HttpSession sesion = request.getSession(true);
+        String id_empresas;
 
-            int id= Integer.parseInt(request.getParameter("id"));
-            
-            if(id!=0){
-               
-                List<LcClientes> client = es.getDatosLClienteID(id);
-                request.setAttribute("client", client);
+        id_empresas = sesion.getAttribute("Sstrempresa").toString();
+        int EmpresaID = Integer.parseInt(id_empresas);
+        String id_rol;
+        id_rol = sesion.getAttribute("SstrRolID").toString();
+        int RolID = Integer.parseInt(id_rol);
+        String nivel;
+        nivel = sesion.getAttribute("SstrNivelUser").toString();
+        int NivelID = Integer.parseInt(nivel);
+
+        if (accion.equals("listar")) {
+            if (NivelID == 0) {
+                List<LcClientes> clientes = es.getLcClientess();
+                request.setAttribute("clientes", clientes);
+            }
+            if (NivelID == 1) {
+                List<LcClientes> clientes = es.getClientesxempresa(EmpresaID);
+                request.setAttribute("clientes", clientes);
+            }
+            if ((NivelID != 0) && (NivelID != 1)) {
+                List<LcClientes> clientes = es.getClientesxempresa(EmpresaID);
+                request.setAttribute("clientes", clientes);
+            }
+
+            request.getRequestDispatcher("sistema/cliente/lista_clientes.jsp").forward(request, response);
+        }
+        if (accion.equals("agregar")) {
+            if (NivelID == 0) {
                 ArrayList<LcEmpresa> empresas = em.getLcEmpresa();
                 request.setAttribute("empresas", empresas);
-                
-//                ArrayList<LcCargos> cargos = cs.getLcCargos();
-//                request.setAttribute("cargos", cargos);   
-//
-//                ArrayList<LcEmpleados> empleados = emp.getLCEmpleados();
-//                request.setAttribute("empleados", empleados);
-                //se envia los datos al formulario para actualizar
-                request.getRequestDispatcher("sistema/cliente/frm_clientes_up.jsp").forward(request, response);
-                
-                
-            }else{
-                 response.getWriter().println("No existen datos a consultar");
-                 
             }
-                    
-         }
-        if(accion.equals("editar")){
+            if (NivelID == 1) {
+                List<LcRoles> empresaso = em.getLcEmpresaRol(EmpresaID, RolID);
+                int Empresa = empresaso.get(0).getLcEmpresa().getIdEmpresa();
+                ArrayList<LcEmpresa> empresas = em.getLcEmpresalog(Empresa);
+                request.setAttribute("empresas", empresas);
+            }
+            if ((NivelID != 0) && (NivelID != 1)) {
+                List<LcRoles> empresaso = em.getLcEmpresaRol(EmpresaID, RolID);
+                int Empresa = empresaso.get(0).getLcEmpresa().getIdEmpresa();
+                ArrayList<LcEmpresa> empresas = em.getLcEmpresalog(Empresa);
+                request.setAttribute("empresas", empresas);
+            }
             
-                int idcliente = Integer.parseInt(request.getParameter("idcliente"));
-                int  empresa=Integer.parseInt(request.getParameter("empresa"));
-                String tipo_identificacion = request.getParameter("Tipo_Identificacion");
-                String identificacion=request.getParameter("identificacion");
-                String razon_social=request.getParameter("razon");
-                String direccion=request.getParameter("direccion");
-                String pais=request.getParameter("pais");
-                int provincia=Integer.parseInt(request.getParameter("Provincia"));
-                String ciudad=request.getParameter("Ciudad");
-                String contacto=request.getParameter("contacto");
-                String email=request.getParameter("email");
-                String telefono=request.getParameter("fono1");
-                String extensioon=request.getParameter("ext");
-                String celular=request.getParameter("celular");
-                
-                es.updateClientes(idcliente, empresa, tipo_identificacion, identificacion, razon_social, direccion, pais, provincia, ciudad, contacto, email, telefono, extensioon, celular);
-                response.getWriter().println("Registro de Clientes Actualizado");
-               
-    }
-        if(accion.equals("eliminar")){
+            ArrayList<LcPais> paises = em.getLcEmpPais();
+            request.setAttribute("paises", paises);
+            ArrayList<LcTiposIdentificacion> tipIDE = em.getLcEmpTipIDE();
+            request.setAttribute("tipIDE", tipIDE);
+            request.getRequestDispatcher("sistema/cliente/frm_clientes.jsp").forward(request, response);
+        }
 
-                int id= Integer.parseInt(request.getParameter("id"));
-                es.deleteClientes(id);
-             //response.getWriter().println("Zona Eliminada");
-         }
-    
-    
-    
+        if (accion.equals("registrar")) {
+            int id_cliente;
+            ArrayList<LcClientes> datos = es.getLcClientes();
+            if (datos.isEmpty()) {
+                id_cliente = 1;
+            } else {
+                //int secuencia = es.SecuenciaModulo();
+                int secuencia = Integer.parseInt(es.getNext().toString());
+                id_cliente = secuencia;
+            }
+           // int empresa2 = Integer.parseInt(request.getParameter("empresa2"));
+            int empresa = Integer.parseInt(request.getParameter("empresa"));
+            int tipo_identificacion = Integer.parseInt(request.getParameter("Tipo_Identificacion"));
+            String identificacion = request.getParameter("identificacion");
+            String razon_social = request.getParameter("razon");
+            String direccion = request.getParameter("direccion");
+            int pais = Integer.parseInt(request.getParameter("pais"));
+            int provincia = Integer.parseInt(request.getParameter("provincia"));
+            int ciudad = Integer.parseInt(request.getParameter("ciudad"));
+            String contacto = request.getParameter("contacto");
+            String email = request.getParameter("email");
+            String telefono = request.getParameter("fono1");
+            String extensioon = request.getParameter("ext");
+            String celular = request.getParameter("celular");
+            Date fecha_reg = new Date();
+
+            ArrayList<LcClientes> encuentra = es.getDatoEncontrado(identificacion);
+            
+            if (encuentra.isEmpty()) {
+               // if (empresa == 0) {
+                    es.addclientes(new LcClientes(id_cliente,
+                            (new LcCiudad(ciudad)),
+                            (new LcEmpresa(empresa)),
+                            (new LcPais(pais)),
+                            (new LcProvincia(provincia)),
+                            (new LcTiposIdentificacion(tipo_identificacion)),
+                            identificacion,
+                            razon_social,
+                            direccion,
+                            contacto,
+                            email,
+                            telefono,
+                            extensioon,
+                            celular,
+                            //fecha_reg, "A", null, null, null, null,null));
+                            fecha_reg, "A",  null, null, null,null,null,null,null));
+
+                response.getWriter().println("Cliente Ingresado Correctamente");
+            }
+
+        }
+        if (accion.equals("buscaID")) {
+
+            int id = Integer.parseInt(request.getParameter("id"));
+
+            if (id != 0) {
+
+                List<LcClientes> client = es.getDatosLClienteID(id);
+                request.setAttribute("client", client);
+                if (EmpresaID == 1) {
+                    ArrayList<LcEmpresa> empresas = em.getLcEmpresa();
+                    request.setAttribute("empresas", empresas);
+                } else {
+
+                    ArrayList<LcEmpresa> empresas = em.getLcEmpresalog(EmpresaID);
+                    request.setAttribute("empresas", empresas);
+                }
+                ArrayList<LcTiposIdentificacion> tipIDE = em.getLcEmpTipIDE();
+                request.setAttribute("tipIDE", tipIDE);
+                ArrayList<LcPais> paises = em.getLcEmpPais();
+                request.setAttribute("paises", paises);
+
+                request.getRequestDispatcher("sistema/cliente/frm_clientes_up.jsp").forward(request, response);
+
+            } else {
+                response.getWriter().println("No existen datos a consultar");
+
+            }
+
+        }
+        if (accion.equals("editar")) {
+
+            int idcliente = Integer.parseInt(request.getParameter("idcliente"));
+            int empresa = Integer.parseInt(request.getParameter("empresa"));
+            int tipo_identificacion = Integer.parseInt(request.getParameter("Tipo_Identificacion"));
+            String identificacion = request.getParameter("identificacion");
+            String razon_social = request.getParameter("razon");
+            String direccion = request.getParameter("direccion");
+            int pais = Integer.parseInt(request.getParameter("pais"));
+            int provincia = Integer.parseInt(request.getParameter("provincia"));
+            int ciudad = Integer.parseInt(request.getParameter("ciudad"));
+            String contacto = request.getParameter("contacto");
+            String email = request.getParameter("email");
+            String telefono = request.getParameter("fono1");
+            String extensioon = request.getParameter("ext");
+            String celular = request.getParameter("celular");
+
+            es.updateClientes(idcliente, empresa, tipo_identificacion, identificacion, razon_social, direccion, pais, provincia, ciudad, contacto, email, telefono, extensioon, celular);
+            response.getWriter().println("Registro de Clientes Actualizado");
+
+        }
+        if (accion.equals("eliminar")) {
+
+            int id = Integer.parseInt(request.getParameter("id"));
+            es.deleteClientes(id);
+            //response.getWriter().println("Zona Eliminada");
+        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

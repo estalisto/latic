@@ -55,23 +55,23 @@
                             <div class="form-group">
                                 <label>Cédula:</label>
                                 <div class="input-group">                    
-                                    <input type="text" class="form-control" id="sel_cedula" name="sel_cedula" onkeypress="ValidaSoloNumeros()" value="<c:out value="${usuar.getIdEmpleado()}"/>">
+                                    <input type="text" class="form-control" id="sel_cedula" name="sel_cedula" onkeypress="ValidaSoloNumeros()" disabled="true" value="<c:out value="${usuar.getLcEmpleados().getIdentificacion()}"/>">
                                     <span class="input-group-btn">
                                         <button id="cedula_valida" type="button"  class="btn btn-info btn-flat" disabled="true">Go!</button>
                                     </span>
 
                                 </div>
-                                <div id="not_found" class="form-group has-success" style="display: none"> <!--hidden-->
-                                    <span class="help-block">Empleado Registrado.Asignar Usuario</span>
-                                </div>
-                                <div id="found" class="form-group has-error" style="display: none"> <!--hidden-->
-                                    <span class="help-block">Empleado no se encuentra Registrado</span>
-                                </div>
+                                <div id="not_found" class="form-group has-error" style="display: none"> <!--hidden-->
+                                <span class="help-block">Empleado Registrado.Ya posee un Usuario Asignado</span>
+                             </div>
+                            <div id="found" class="form-group has-success" style="display: none"> <!--hidden-->
+                                <span class="help-block">Empleado Registrado.Asignar Usuario</span>
+                            </div>
                             </div>
 
                             <!--div class="form-group">
                                 <label>Nombre: </label>
-                                <input id="nom_user" type="text" class="form-control" placeholder="Ingrese el Nombre "  name="nombre" onkeypress="txNombres()" value="<c:out value="${usuar.getIdEmpleado()}"/>" disabled="true">
+                                <input id="nom_user" type="text" class="form-control" placeholder="Ingrese el Nombre "  name="nombre" onkeypress="txNombres()" value="<c:out value="${usuar.getLcEmpleados().getIdEmpleado()}"/>" disabled="true">
                             </div-->
 
                             <div class="form-group">
@@ -90,7 +90,7 @@
                                 <select id="rol" class="form-control" name="rol" required="required" >
                                     <option value="<c:out value="${usuar.getLcRoles().getIdRol()}"/>"><c:out value="${usuar.getLcRoles().getDescripcion()}"/></option>
                                     <c:forEach items="${roles}" var="rol">
-                                        <option value="<c:out value="${rol.getIdRol()}"/>" ><c:out value="${rol.getIdRol()}" /></option>
+                                        <option value="<c:out value="${rol.getIdRol()}"/>" ><c:out value="${rol.getDescripcion()}" /></option>
                                     </c:forEach>
                                 </select>
 

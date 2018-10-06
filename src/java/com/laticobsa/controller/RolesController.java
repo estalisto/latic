@@ -10,13 +10,13 @@ import com.laticobsa.modelo.LcRoles;
 import com.laticobsa.servicios.EmpresaServicios;
 import com.laticobsa.servicios.RolesOperaciones;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -40,11 +40,17 @@ public class RolesController extends HttpServlet {
         accion= request.getParameter("accion");
         RolesOperaciones op = new RolesOperaciones();
         EmpresaServicios es =new EmpresaServicios();
+        HttpSession sesion = request.getSession(true);
+       String id_empresas;    
+        id_empresas = sesion.getAttribute("Sstrempresa").toString();
+        int EmpresaID= Integer.parseInt(id_empresas);
+       
+       
         if(accion.equals("eliminar")){
 
                 int id= Integer.parseInt(request.getParameter("id"));
                 op.deleteRol(id);
-             //response.getWriter().println("Zona Eliminada");
+             response.getWriter().println("Rol Eliminado Exitosamente.");
          }
         
                if(accion.equals("buscaID")){
@@ -55,8 +61,14 @@ public class RolesController extends HttpServlet {
                
                 List<LcRoles> roles = op.getDatosLCRolesID(id);
                 request.setAttribute("roles", roles);
-                ArrayList<LcEmpresa> empresas = es.getLcEmpresa();
-                request.setAttribute("empresas", empresas);
+                if(EmpresaID==1){
+                    ArrayList<LcEmpresa> empresas = es.getLcEmpresa();
+                    request.setAttribute("empresas", empresas); 
+                    }else{
+
+                    ArrayList<LcEmpresa> empresas = es.getLcEmpresalog(EmpresaID);
+                    request.setAttribute("empresas", empresas); 
+                    }
                 
                 //se envia los datos al formulario para actualizar
                 request.getRequestDispatcher("sistema/roles/rol_up.jsp").forward(request, response);

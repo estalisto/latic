@@ -30,7 +30,7 @@
                     <!-- /.box-header -->
                     <!-- form start -->
 
-                    <form name="form" action="sectores" method="get" class="well">
+                    <form name="form" action="sectores" method="post" class="well" id="data">
 
                         <div class="box-body">
 
@@ -38,8 +38,8 @@
                                 <input type="text" class="form-control" placeholder="Ingrese Nombre Rol" value="registrar" required="required" name="accion" id="accion">
                             </div>
                             <div class="row">
-                                <div class="col-xs-6">
-                                    <div class="form-group">
+                                <div class="col-lg-6">
+                                    
                                         <label>Empresa:</label>
                                         <select id="empresa" class="form-control" name="empresa" >
                                             <option value=''>Seleccionar Empresa</option>
@@ -47,7 +47,15 @@
                                                 <option value="<c:out value="${empresa.getIdEmpresa()}" />"><c:out value="${empresa.getRazonSocial()}" /> </option>                         
                                             </c:forEach>                 
                                         </select>
-                                    </div> 
+                                    
+                                    <div class="form-group">
+                                        <select class="form-control" name="empresa" id="empresa2"  required="required" style="display: none">
+                                            <c:forEach items="${empresao}" var="empresas">
+                                                <option value="<c:out value="${empresas.getIdEmpresa()}" />" ><c:out value="${empresas.getRazonSocial()}" /></option>
+                                            </c:forEach>  
+
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="col-xs-6">
                                     <div class="form-group">
@@ -61,25 +69,22 @@
                                 <div class="col-xs-4">
                                     <div class="form-group">
                                         <label>País</label>
-                                        <select class="form-control" name="pais" required="required" id="pais" >
+                                        <select class="form-control" name="pais" required="required" id="pais" onchange="obtenerProvincia()">
                                             <option value='' >Seleccionar País</option>
-                                            <option value='ECU' >Ecuador</option>
-                                            <option value='CO' >Colombia</option>
-                                            <option value='PE' >Peru</option>
-                                            <option value='EU' >EE.UU</option>
-                                            <option value='BR' >Brasil</option>
-                                            <option value='AR' >Argentina</option>
+                                            <c:forEach items="${paises}" var="pais">
+                                                <option value="<c:out value="${pais.getIdPais()}" />" ><c:out value="${pais.getPais()}" /></option>
+                                            </c:forEach>
                                         </select>
                                     </div>      
                                 </div>    
                                 <div class="col-xs-4">
                                     <div class="form-group">
                                         <label>Provincia</label>
-                                        <select class="form-control" name="provincia" required="required" id="provincia" >
+                                        <select class="form-control" name="provincia" required="required" id="provincia" disabled="true" onchange="obtenerCiudad()">
                                             <option value='' >Seleccionar Provincia</option>
-                                            <option value='1' >Guayas</option>
-                                            <option value='2' >Pichincha</option>
-                                            <option value='3' >Azuay</option>
+                                            <!-- <c:forEach items="${provincias}" var="prov">
+                                             <option value="<c:out value="${prov.getIdProvincia()}" />" ><c:out value="${prov.getProvincia()}" /></option>
+                                            </c:forEach>-->
 
                                         </select>
                                     </div>
@@ -87,12 +92,11 @@
                                 <div class="col-xs-4">
                                     <div class="form-group">
                                         <label>Ciudad</label>
-                                        <select class="form-control" name="ciudad" required="required" id="ciudad" >
+                                        <select class="form-control" name="ciudad" required="required" id="ciudad" disabled="true">
                                             <option value='' >Seleccionar Ciudad</option>
-                                            <option value='GYE' >Guayaquil</option>
-                                            <option value='UIO' >Quito</option>
-                                            <option value='CUE' >Cuenca</option>
-                                            <option value='AMB' >Ambato</option>
+                                            <!--<c:forEach items="${ciudades}" var="ciudad">
+                                            <option value="<c:out value="${ciudad.getIdCiudad()}" />" ><c:out value="${ciudad.getCiudad()}" /></option>
+                                            </c:forEach>-->
                                         </select>
                                     </div>
                                 </div>

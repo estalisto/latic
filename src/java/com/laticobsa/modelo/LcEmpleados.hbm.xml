@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 31/03/2017 06:57:26 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated 14-ene-2018 19:02:21 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.laticobsa.modelo.LcEmpleados" table="lc_empleados" schema="public" optimistic-lock="version">
         <comment>Registro los empleados</comment>
@@ -9,6 +9,9 @@
             <column name="id_empleado" />
             <generator class="assigned" />
         </id>
+        <many-to-one name="lcAgencia" class="com.laticobsa.modelo.LcAgencia" fetch="select">
+            <column name="id_agencia" />
+        </many-to-one>
         <many-to-one name="lcCargos" class="com.laticobsa.modelo.LcCargos" fetch="select">
             <column name="id_cargo" />
         </many-to-one>
@@ -17,11 +20,21 @@
                 <comment>Identificador &#250;nico de la empresa</comment>
             </column>
         </many-to-one>
-        <property name="tipoIdentificacion" type="string">
-            <column name="tipo_identificacion" length="10">
+        <many-to-one name="lcEstadoCivil" class="com.laticobsa.modelo.LcEstadoCivil" fetch="select">
+            <column name="estado_civil">
+                <comment>Estado Civila</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="lcGenero" class="com.laticobsa.modelo.LcGenero" fetch="select">
+            <column name="genero">
+                <comment>Masculino (M), Fenemino F</comment>
+            </column>
+        </many-to-one>
+        <many-to-one name="lcTiposIdentificacion" class="com.laticobsa.modelo.LcTiposIdentificacion" fetch="select">
+            <column name="tipo_identificacion">
                 <comment>Tipo de Identificaci&#243;n</comment>
             </column>
-        </property>
+        </many-to-one>
         <property name="identificacion" type="string">
             <column name="identificacion" length="13">
                 <comment>Identificaci&#243;n</comment>
@@ -67,16 +80,6 @@
                 <comment>Direcci&#243;n de Domicilio</comment>
             </column>
         </property>
-        <property name="estadoCivil" type="string">
-            <column name="estado_civil" length="1">
-                <comment>Estado Civila</comment>
-            </column>
-        </property>
-        <property name="genero" type="string">
-            <column name="genero" length="1">
-                <comment>Masculino (M), Fenemino F</comment>
-            </column>
-        </property>
         <property name="profesion" type="string">
             <column name="profesion" length="200">
                 <comment>Profesion del empleado</comment>
@@ -105,5 +108,43 @@
                 <comment>"A" Activo, "I" Inactivo</comment>
             </column>
         </property>
+        <set name="lcUsuarioses" table="lc_usuarios" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_empleado">
+                    <comment>Id de la Persona</comment>
+                </column>
+            </key>
+            <one-to-many class="com.laticobsa.modelo.LcUsuarios" />
+        </set>
+        <set name="lcTransaccioneses" table="lc_transacciones" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_empleado" />
+            </key>
+            <one-to-many class="com.laticobsa.modelo.LcTransacciones" />
+        </set>
+        <set name="lcDetCampaniases" table="lc_det_campanias" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_empleado" />
+            </key>
+            <one-to-many class="com.laticobsa.modelo.LcDetCampanias" />
+        </set>
+        <set name="lcAsignaEmpleadosTmps" table="lc_asigna_empleados_tmp" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_empleado" />
+            </key>
+            <one-to-many class="com.laticobsa.modelo.LcAsignaEmpleadosTmp" />
+        </set>
+        <set name="lcRecordatorioses" table="lc_recordatorios" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_empleado" />
+            </key>
+            <one-to-many class="com.laticobsa.modelo.LcRecordatorios" />
+        </set>
+        <set name="lcGestioneses" table="lc_gestiones" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_empleado" />
+            </key>
+            <one-to-many class="com.laticobsa.modelo.LcGestiones" />
+        </set>
     </class>
 </hibernate-mapping>

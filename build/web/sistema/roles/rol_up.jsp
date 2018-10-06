@@ -48,7 +48,7 @@
                         <!-- Color Picker -->
                         <div class="form-group">
                           <label>Empresa:</label>
-                          <select class="form-control" name="empresa" id="empresa"  required="required">
+                          <select class="form-control" name="empresa" id="empresa"  required="required" disabled="true">
                             <option value="<c:out value="${rol.getLcEmpresa().getIdEmpresa()}" />" ><c:out value="${rol.getLcEmpresa().getRazonSocial()}" /></option>
                              <c:forEach items="${empresas}" var="empresa">
                                  <option value="<c:out value="${empresa.getIdEmpresa()}" />" ><c:out value="${empresa.getRazonSocial()}" /></option>

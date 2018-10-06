@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 14-ene-2018 19:02:21 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.laticobsa.modelo.LcNotas" table="lc_notas" schema="public" optimistic-lock="version">
+        <id name="idNota" type="int">
+            <column name="id_nota" />
+            <generator class="assigned" />
+        </id>
+        <property name="idDeudor" type="java.lang.Integer">
+            <column name="id_deudor" />
+        </property>
+        <property name="idCliente" type="java.lang.Integer">
+            <column name="id_cliente" />
+        </property>
+        <property name="observacion" type="string">
+            <column name="observacion" />
+        </property>
+        <property name="fechaTransaccion" type="timestamp">
+            <column name="fecha_transaccion" length="29" />
+        </property>
+        <property name="estado" type="string">
+            <column name="estado" length="1" />
+        </property>
+    </class>
+</hibernate-mapping>

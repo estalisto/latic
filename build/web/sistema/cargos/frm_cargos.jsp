@@ -56,7 +56,14 @@
                   
                     </select>
                 </div>
-                  
+                    <div class="form-group">
+                          <select class="form-control" name="empresa" id="empresa2"  required="required" style="display: none">
+                             <c:forEach items="${empresao}" var="empresas">
+                                 <option value="<c:out value="${empresas.getIdEmpresa()}" />" ><c:out value="${empresas.getRazonSocial()}" /></option>
+                             </c:forEach>  
+                            
+                          </select>
+                        </div>
                                
                  <div class="form-group">
                   <label for="exampleInputCargo1">Cargo</label>

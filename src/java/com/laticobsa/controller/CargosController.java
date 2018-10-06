@@ -17,6 +17,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -37,56 +38,68 @@ public class CargosController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-                response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
         EmpresaServicios es =new EmpresaServicios();
         CargosServicios cs = new CargosServicios();
         String accion;
         accion= request.getParameter("accion");
-
-
-      
+        String id_empresas;    
+       HttpSession sesion = request.getSession(true);
+       id_empresas = sesion.getAttribute("Sstrempresa").toString();
+       int EmpresaID= Integer.parseInt(id_empresas); 
+        String id_rol;    
+        id_rol = sesion.getAttribute("SstrRolID").toString();
+        int RolID= Integer.parseInt(id_rol);
+       int accesoROLES= Integer.parseInt(sesion.getAttribute("NivelAccesoRolID").toString());
         
         if(accion.equals("listar"))
         {
             
-        
+        if (accesoROLES == 0){  
        List<LcCargos> cargos = cs.getLcCargoss();
        request.setAttribute("cargos", cargos);
-            
+        }else{
+        List<LcCargos> cargos = cs.getLcCargoxEmpresa(EmpresaID);
+       request.setAttribute("cargos", cargos);
+        }  
+        
+        
+        
+        
         request.getRequestDispatcher("sistema/cargos/lista_cargos.jsp").forward(request, response);
         //request.getContextPath()+
         }
         
        if(accion.equals("agregar"))
         {
-            
-                    
-               
-       ArrayList<LcEmpresa> empresas = es.getLcEmpresa();
-       request.setAttribute("empresas", empresas);
-            
-              request.getRequestDispatcher("sistema/cargos/frm_cargos.jsp").forward(request, response);
-        //request.getContextPath()+
+            List<LcEmpresa> empresas = es.getLcEmpresaRolSuper(EmpresaID,accesoROLES);       
+            request.setAttribute("empresas", empresas);   
+            request.getRequestDispatcher("sistema/cargos/frm_cargos.jsp").forward(request, response);
         }
         
        if(accion.equals("registrar"))
         {
-            
-            int  empresa=Integer.parseInt(request.getParameter("empresa"));
-            String cargo=request.getParameter("cargo");
+           // int empresa2 = Integer.parseInt(request.getParameter("empresa2"));
+            int empresa = Integer.parseInt(request.getParameter("empresa"));
+            String cargo = request.getParameter("cargo");
             String observacion = request.getParameter("observacion");
             Date fecha_reg = new Date();
-            ArrayList<LcCargos> cargos = cs.getLcCargos();
-            int id_cargo;
-            if(cargos.isEmpty()){
-             id_cargo = 1;
-            }else {
-            LcCargos idEmpelado =cargos.get(cargos.size() -1);
-             id_cargo=idEmpelado.getIdCargo()+1;
-            }
-            cs.addCargos(new LcCargos(id_cargo,(new LcEmpresa(empresa)),cargo,observacion, fecha_reg,"A",null));
+             int id_cargo;
             
-            response.getWriter().println("Cargo Creado Exitosamente");
+            
+            
+               // if (empresa == 0) {
+                ArrayList<LcCargos> encuentra = cs.getDatoEncontrado(empresa, cargo);
+                if (encuentra.isEmpty()) {
+                    id_cargo= Integer.parseInt(cs.getNextValCargos().toString());
+                    cs.addCargos(new LcCargos(id_cargo, (new LcEmpresa(empresa)), cargo, observacion, fecha_reg, "A", null));
+                     response.getWriter().println("Cargo Creado Exitosamente");
+                }else{
+                 response.getWriter().println("Ya existe un Cargo creado con el mismo nombre para esta EMPRESA");
+                }
+                
+               
+            
         }
         
        if(accion.equals("buscaID")){
@@ -97,8 +110,9 @@ public class CargosController extends HttpServlet {
                
                 List<LcCargos> cargos = cs.getDatosLCargosID(id);
                 request.setAttribute("cargos", cargos);
-                ArrayList<LcEmpresa> empresas = es.getLcEmpresa();
-                request.setAttribute("empresas", empresas);
+                
+                 List<LcEmpresa> empresas = es.getLcEmpresaRolSuper(EmpresaID,accesoROLES);       
+                request.setAttribute("empresas", empresas);   
                 
                 //se envia los datos al formulario para actualizar
                 request.getRequestDispatcher("sistema/cargos/frm_cargos_up.jsp").forward(request, response);

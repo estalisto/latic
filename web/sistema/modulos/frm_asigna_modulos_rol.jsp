@@ -29,7 +29,7 @@
                             <div class="box-header with-border bg-yellow">
                                 <h3 class="box-title">Asignar Módulos del Sistema por Nivel de Acceso</h3>
                             </div>
-                           <!-- <form name="form" action="modulos" method="get" class="well">-->
+                           <form name="form" action="modulos" method="post" class="well" id="data">
 
                                 <div class="box-body"> 
                                     <!--div class="form-group hidden">
@@ -37,7 +37,7 @@
                                     </div-->
                                     <div class="form-group">
                                         <label>Empresa:</label>
-                                        <select id="empresa" class="form-control" name="empresa" >
+                                        <select id="empresa" class="form-control" name="empresa" onchange="LlenarROl()">
                                             <option value=''>Seleccionar Empresa</option>
                                             <c:forEach items="${empresas}" var="empresa">
                                                 <option value="<c:out value="${empresa.getIdEmpresa()}" />"><c:out value="${empresa.getRazonSocial()}" /> </option>                         
@@ -47,18 +47,18 @@
 
                                     <div class="form-group">
                                         <label>Rol:</label>
-                                        <select id="rol" class="form-control" name="rol" required="required">
+                                        <select id="rol" class="form-control" name="rol" disabled="true">
                                             <option value=''>Seleccionar Rol</option>
-                                            <c:forEach items="${roles}" var="rol">
-                                                <option value="<c:out value="${rol.getIdRol()}" />"><c:out value="${rol.getDescripcion()}"/> </option>                         
-                                            </c:forEach> 
+                                            <!--<c:forEach items="${roles}" var="rol">
+                                                <option value="<c:out value="${rol.getIdRol()}" />"><c:out value="${rol.getIdRol()}"/> </option>                         
+                                            </c:forEach> -->
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <input id="btncrearmodulo" type="submit"  value="Ver Módulos" onclick=""  class="btn btn-primary"  title="Ver modulos">
+                                        <input id="btncrearmodulo" type="submit"  value="Ver Módulos"   class="btn btn-primary"  title="Ver modulos">
                                     </div>
                                 </div>
-                           <!-- </form>-->
+                            </form>
                         </div>    
                     </div>
                     
@@ -74,9 +74,10 @@
                             <table id="example1" class="table table-bordered table-hover">
                               <thead>
                               <tr>
-                                <th>ID</th>
+                                  <th class="hidden">ID</th>
                                 <th>Modulo</th>
-                                <th>Nivel</th>
+                                <th class="hidden">Nivel</th>
+                                <th class="hidden">Orden</th>
                                 <th><center>Acción</center></th>
                               </tr>
                               </thead>
@@ -84,10 +85,29 @@
 
                                   <c:forEach items="${modu}" var="modulo">
                                       <tr>
-                                        <td><c:out value="${modulo.getIdModulo()}" /> </td>
-                                        <td><c:out value="${modulo.getMenuOpciones()}"/> </td>
-                                        <td><c:out value="${modulo.getNivel()}"/> </td>
-                                        <td><center><label>Activar &nbsp;</label><input id="check_active" onclick="ActivaModulo(${modulo.getIdModulo()},${modulo.getNivel()},${modulo.getGrupo()})" name="check_active"  type="checkbox">&nbsp;</center></td> 
+                                          <td class="hidden"><c:if test="${modulo.getNivel()==0}"><strong><h5 style="color:#337ab7"></c:if>
+                                                <c:out value="${modulo.getIdModulo()}" /> 
+                                                <c:if test="${modulo.getNivel()==0}" ></h5></strong></c:if>
+                                        </td>
+                                        <td><c:if test="${modulo.getNivel()==0}" ><strong><h5 style="color:#337ab7"></c:if>
+                                                <c:out value="${modulo.getMenuOpciones()}"/>
+                                            <c:if test="${modulo.getNivel()==0}" ></h5></strong></c:if>
+                                        </td>
+                                        <td class="hidden">
+                                            <c:if test="${modulo.getNivel()==0}" ><strong></c:if>
+                                                <c:out value="${modulo.getNivel()}"/> 
+                                            <c:if test="${modulo.getNivel()==0}" ></strong></c:if>
+                                        </td>
+                                        <td class="hidden">
+                                            <c:if test="${modulo.getNivel()==0}" ><strong></c:if>
+                                                <c:out value="${modulo.getOrden()}"/> 
+                                            <c:if test="${modulo.getNivel()==0}" ></strong></c:if>
+                                        </td>
+                                        <td><c:if test="${modulo.getNivel()==0}" ><strong><h5 style="color:#337ab7"></c:if>
+                                            
+                                                <center><label>Activar &nbsp;</label><input id="check_active<c:out value="${modulo.getIdModulo()}" />" onclick="ActivaModulo(${modulo.getIdModulo()},${modulo.getNivel()},${modulo.getGrupo()},${modulo.getOrden()})" name="check_active"  type="checkbox">&nbsp;</center>
+                                                <c:if test="${modulo.getNivel()==0}" ></h5></strong></c:if>
+                                            </td> 
                                       </tr>     
                                   </c:forEach>  
                               </tbody>

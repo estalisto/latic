@@ -7,10 +7,14 @@ package com.laticobsa.servicios;
 
 import com.laticobsa.modelo.HibernateUtil;
 import com.laticobsa.modelo.LcEmpresa;
-import com.laticobsa.modelo.LcPassword;
+
 import com.laticobsa.modelo.LcRoles;
 import com.laticobsa.modelo.LcUsuarios;
-import com.laticobsa.utils.EnviarEmail;
+import com.laticobsa.utils.Conexion;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -27,25 +31,22 @@ import org.hibernate.Transaction;
 public class ValidaUsuario {
     
     ArrayList<LcUsuarios> usuarioOK;
-    ArrayList<LcPassword> passwordOk;
+    List<LcUsuarios> usuarioOK2;
+    
+
     ArrayList<LcRoles> rolesOk;
     ArrayList<LcEmpresa>empresaOk;
-    public ArrayList<LcUsuarios> getLcValidaUser(String user ,String pass){
-         
-        
-         //String encript2=DigestUtils.sha1Hex(pass);
-         
+    public ArrayList<LcUsuarios> getLcValidaUser(String user ,String pass, int empresaID){
         SessionFactory sesion = HibernateUtil.getSessionFactory();
         Session session;
         session = sesion.openSession();
         Transaction tx= session.beginTransaction();
         // hacemos la transaccion
         ArrayList<LcUsuarios> arreglo = new ArrayList<LcUsuarios>();
-        Query q = session.createQuery("from LcUsuarios E WHERE E.usuario= :usuario and E.contrasenia= :contrasenia and E.estado = :estado ");
+        Query q = session.createQuery("from LcUsuarios E WHERE E.usuario= :usuario and E.lcEmpresa.idEmpresa= :empresa and E.contrasenia= :contrasenia  and E.estado = :estado ");
         q.setParameter("usuario",user);
         q.setParameter("contrasenia",pass);
-        //q.setParameter("idEmpresa",strempresa);
-        //q.setParameter("idRol",strUsuarioRol);
+        q.setParameter("empresa",empresaID);
         q.setParameter("estado","A");
         List<LcUsuarios> lista=q.list();
         Iterator<LcUsuarios> iter=lista.iterator();
@@ -60,35 +61,51 @@ public class ValidaUsuario {
         
         return arreglo;
     }
-    
-    public ArrayList<LcPassword> getLcValidaPass(String pass, int persona){
-         
-        //String sql;
-      //  sql="from LcPassword E WHERE E.password= "+pass+" AND e.idPersona= "+persona+" and  E.estado = :estado ";
+    public List<LcUsuarios> getLcValidaUser2(String user ,String pass, int empresaID){
         SessionFactory sesion = HibernateUtil.getSessionFactory();
         Session session;
         session = sesion.openSession();
         Transaction tx= session.beginTransaction();
-        // hacemos la transaccion
-        ArrayList<LcPassword> arreglo = new ArrayList<LcPassword>();
-        Query q = session.createQuery("from LcPassword E WHERE E.password= :id_pass AND E.idPersona= :persona and  E.estado = :estado ");
-        q.setParameter("id_pass",pass);
-        q.setParameter("persona",persona);
+
+        Query q = session.createQuery("from LcUsuarios E WHERE E.usuario= :usuario and E.lcEmpresa.idEmpresa= :empresa and E.contrasenia= :contrasenia  and E.estado = :estado ");
+        q.setParameter("usuario",user);
+        q.setParameter("contrasenia",pass);
+        q.setParameter("empresa",empresaID);
         q.setParameter("estado","A");
-        List<LcPassword> lista=q.list();
-        Iterator<LcPassword> iter=lista.iterator();
+        List<LcUsuarios> lista=q.list();
+        
+         for(LcUsuarios mrol:lista )
+        {
+              System.out.println("user1: "+mrol.getIdUsuario()+", Apellidos "+mrol.getLcEmpleados().getApellidos());
+             System.out.println("user2: "+mrol.getLcEmpleados().getNombres()+", Id: "+mrol.getLcEmpleados().getIdEmpleado()+" Rol: "+mrol.getLcRoles().getDescripcion()+"Empresa"+mrol.getLcEmpresa().getRazonSocial());
+        }
         tx.commit();
         session.close();
-        //agrega los datos en la lista
-        while(iter.hasNext())
-        {
-            LcPassword rol= (LcPassword) iter.next();
-            arreglo.add(rol);
-        }
-        
-        return arreglo;
+        return lista;
     }
     
+    
+    public List<LcUsuarios> getLcValidaUserEx(String user ,String pass, int empresaID){
+        
+        SessionFactory sesion = HibernateUtil.getSessionFactory();
+        Session session;
+        session = sesion.openSession();
+        Transaction tx= session.beginTransaction();
+        Query q = session.createQuery("from LcUsuarios E WHERE E.usuario= :usuario and E.lcEmpresa.idEmpresa= :empresa and E.contrasenia= :contrasenia  and E.estado = :estado ");
+        q.setParameter("usuario",user);
+        q.setParameter("contrasenia",pass);
+        q.setParameter("empresa",empresaID);
+        q.setParameter("estado","E");
+        List<LcUsuarios> lista=q.list();        
+         for(LcUsuarios mrol:lista )
+        {
+              System.out.println("user1: "+mrol.getIdUsuario()+", Apellidos "+mrol.getLcEmpleados().getApellidos());
+             System.out.println("user2: "+mrol.getLcEmpleados().getNombres()+", Id: "+mrol.getLcEmpleados().getIdEmpleado()+" Rol: "+mrol.getLcRoles().getDescripcion()+"Empresa"+mrol.getLcEmpresa().getRazonSocial());
+        }
+        tx.commit();
+        session.close();
+        return lista;
+    }
     public ArrayList<LcRoles> getValidaRol(int strUsuarioRol){
          
         SessionFactory sesion = HibernateUtil.getSessionFactory();
@@ -114,7 +131,7 @@ public class ValidaUsuario {
         return arreglo;
     }  
         
-    public ArrayList<LcEmpresa> getValidaEmpresa(int strempresa){
+    public ArrayList<LcEmpresa> getValidaEmpresa(String strempresa){
          
         SessionFactory sesion = HibernateUtil.getSessionFactory();
         Session session;
@@ -122,8 +139,8 @@ public class ValidaUsuario {
         Transaction tx= session.beginTransaction();
         // hacemos la transaccion
         ArrayList<LcEmpresa> arreglo = new ArrayList<LcEmpresa>();
-        Query q = session.createQuery("from LcEmpresa E WHERE E.idEmpresa= :idEmpresa ");
-        q.setParameter("idEmpresa",strempresa);
+        Query q = session.createQuery("from LcEmpresa E WHERE E.razonSocial= :razonSocial ");
+        q.setParameter("razonSocial",strempresa);
         //q.setParameter("descripcion",user);
         List<LcEmpresa> lista=q.list();
         Iterator<LcEmpresa> iter=lista.iterator();
@@ -139,48 +156,22 @@ public class ValidaUsuario {
         return arreglo;
     }  
       
-    public boolean getValidaUsuario(String user, String pass){
-        String mensagemUsuario=null;
+    public boolean getValidaUsuario(String user, String pass, int empresasID){
+         String mensagemUsuario=null;
          String encript=DigestUtils.sha1Hex(pass);
-         
-         usuarioOK=getLcValidaUser(user,encript);
+         usuarioOK=getLcValidaUser(user,encript,empresasID );
            //  String encript=DigestUtils.sha1Hex(user);
-        System.out.println("shaHex:"+DigestUtils.sha1Hex(pass));
-       // System.out.println("shaHex:"+DigestUtils.sha1Hex(pass));
-          /*EnviarEmail enviar = new EnviarEmail();
-          System.out.println("shaHex:"+DigestUtils.sha1Hex(pass));
-              boolean enviou = enviar.enviarHotmail();
-            if (enviou) {
-            
-            mensagemUsuario = "Dados enviados com sucesso";
-            System.out.println("EMAIL"+mensagemUsuario);
-           
-            } else {
-            mensagemUsuario = "Não foi enviar as informações";
-            System.out.println("EMAIL"+mensagemUsuario);
-            
-         }*/
-         if (!usuarioOK.isEmpty() && usuarioOK.size()<= 1 ){// && !passwordOk.isEmpty()){
-//            LcUsuarios person;
-//            person=usuarioOK.get(0);
-//            LcUsuarios roll = null, empresa = null;
-//            roll= usuarioOK.get(0);
-//            strUsuarioRol = roll.getIdRol();
-//            empresa = usuarioOK.get(0);
-//            strempresa = empresa.getIdEmpresa();
-//            //consultamos el rol del usuario
-//            empresaOk = getValidaEmpresa(strempresa);
-//            rolesOk = getValidaRol(strUsuarioRol);
-            //consultamos la empresa del usuario
-            
-             // consultamos el password encriptado del usuario
-             //passwordOk=getLcValidaPass(DigestUtils.sha1Hex(pass),person.getIdUsuario()); 
-             return !usuarioOK.isEmpty();         
+        System.out.println("shaHex:"+DigestUtils.sha1Hex(pass));      
+         if (!usuarioOK.isEmpty() && usuarioOK.size()<= 1 ){
+             int identificador =1;
+             return !usuarioOK.isEmpty();  
              
-         }else{
-         return false;    
-         }
-       
+            }else{
+             int identificador =2;
+                usuarioOK2=getLcValidaUserEx(user,encript,empresasID );
+                return !usuarioOK2.isEmpty();     
+            }
+         
         }
     
     public ArrayList<LcUsuarios> getLcValidacion(String user ,String pass,int strempresa, int strUsuarioRol){
@@ -210,5 +201,47 @@ public class ValidaUsuario {
         }
         
         return arreglo;
+    }
+    
+    public boolean IsRoot(String users, String passwd)throws SQLException{
+    
+            Conexion conexion=new Conexion();
+            String encript=DigestUtils.sha1Hex(passwd);
+            PreparedStatement pst;
+            ResultSet rs;
+            boolean existe = false;
+            try
+            {
+            String SQL="select case when count(1)>0 then  true else false end  ok from lc_usuarios u, lc_roles r  where u.id_rol=r.id_rol  and usuario='"+users+"' and contrasenia='"+encript+"' and nivel=0";    
+            pst = conexion.getconexion().prepareStatement(SQL);
+            rs = pst.executeQuery();
+            
+            while( rs.next() )    //Mientras haya una sig. tupla
+                {
+                existe= rs.getBoolean("ok");
+                //System.out.println("ok");
+                }
+                rs.close();
+                pst.close();
+                conexion.cierraConexion();
+                return existe;
+            }catch(Exception ex){
+            }finally{
+                    if(conexion!=null)
+                    conexion.cierraConexion();
+                 }
+        return false;
+            
+    }
+    public void GuardarAudSesiones(int IDusuario,String Ip,String hostname,String descripcion) throws SQLException{
+             Conexion conexion=new Conexion();
+            PreparedStatement pst;
+            ResultSet rs;
+        pst = conexion.getconexion().prepareCall("SELECT fnc_aud_sesion("+IDusuario+",'"+Ip+"','"+hostname+"','"+descripcion+"');");   
+        //connBD.createStatement();
+        rs = pst.executeQuery();       
+        rs.close();    
+        pst.close();
+        conexion.cierraConexion();
     }
 }

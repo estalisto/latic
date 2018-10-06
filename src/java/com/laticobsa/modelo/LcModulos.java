@@ -1,5 +1,5 @@
 package com.laticobsa.modelo;
-// Generated 31/03/2017 06:57:24 PM by Hibernate Tools 4.3.1
+// Generated 14-ene-2018 19:02:18 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -20,6 +20,7 @@ public class LcModulos  implements java.io.Serializable {
      private String funciones;
      private Date fechaCreacion;
      private String estado;
+     private Integer orden;
      private Set lcModuloRols = new HashSet(0);
 
     public LcModulos() {
@@ -29,7 +30,7 @@ public class LcModulos  implements java.io.Serializable {
     public LcModulos(int idModulo) {
         this.idModulo = idModulo;
     }
-    public LcModulos(int idModulo, Integer idEmpresa, String menuOpciones, Integer nivel, Integer grupo, String funciones, Date fechaCreacion, String estado, Set lcModuloRols) {
+    public LcModulos(int idModulo, Integer idEmpresa, String menuOpciones, Integer nivel, Integer grupo, String funciones, Date fechaCreacion, String estado, Integer orden, Set lcModuloRols) {
        this.idModulo = idModulo;
        this.idEmpresa = idEmpresa;
        this.menuOpciones = menuOpciones;
@@ -38,6 +39,7 @@ public class LcModulos  implements java.io.Serializable {
        this.funciones = funciones;
        this.fechaCreacion = fechaCreacion;
        this.estado = estado;
+       this.orden = orden;
        this.lcModuloRols = lcModuloRols;
     }
    
@@ -96,6 +98,13 @@ public class LcModulos  implements java.io.Serializable {
     
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+    public Integer getOrden() {
+        return this.orden;
+    }
+    
+    public void setOrden(Integer orden) {
+        this.orden = orden;
     }
     public Set getLcModuloRols() {
         return this.lcModuloRols;

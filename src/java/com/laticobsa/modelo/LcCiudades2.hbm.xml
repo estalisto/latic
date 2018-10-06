@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 14-ene-2018 19:02:21 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.laticobsa.modelo.LcCiudades2" table="lc_ciudades2" schema="public" optimistic-lock="version">
+        <composite-id name="id" class="com.laticobsa.modelo.LcCiudades2Id">
+            <key-property name="idCiudad" type="java.lang.Integer">
+                <column name="id_ciudad" />
+            </key-property>
+            <key-property name="idProvincia" type="java.lang.Integer">
+                <column name="id_provincia" />
+            </key-property>
+            <key-property name="ciudad" type="string">
+                <column name="ciudad" length="100" />
+            </key-property>
+            <key-property name="estado" type="string">
+                <column name="estado" length="1" />
+            </key-property>
+        </composite-id>
+    </class>
+</hibernate-mapping>

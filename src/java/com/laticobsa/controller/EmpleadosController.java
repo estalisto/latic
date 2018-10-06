@@ -5,12 +5,19 @@
  */
 package com.laticobsa.controller;
 
+import com.laticobsa.modelo.LcAgencia;
 import com.laticobsa.modelo.LcCargos;
 import com.laticobsa.modelo.LcEmpleados;
 import com.laticobsa.modelo.LcEmpresa;
+import com.laticobsa.modelo.LcEstadoCivil;
+import com.laticobsa.modelo.LcGenero;
+import com.laticobsa.modelo.LcTiposIdentificacion;
+import com.laticobsa.servicios.AgenciaServicios;
 import com.laticobsa.servicios.CargosServicios;
 import com.laticobsa.servicios.EmpleadosServicios;
 import com.laticobsa.servicios.EmpresaServicios;
+import com.laticobsa.servicios.ParametrosServicios;
+import com.laticobsa.servicios.SucursalServicios;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -23,6 +30,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -42,47 +50,118 @@ public class EmpleadosController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ParseException {
         response.setContentType("text/html;charset=UTF-8");
-        
+        HttpSession sesion = request.getSession(true);
         EmpleadosServicios emp = new EmpleadosServicios();
         EmpresaServicios es =new EmpresaServicios();
         CargosServicios cs = new CargosServicios();
-        String accion;
+         AgenciaServicios ag = new AgenciaServicios();
+        SucursalServicios su = new SucursalServicios();
+        ParametrosServicios param = new ParametrosServicios();
+        String accion,id_rol_empleado;
         accion= request.getParameter("accion");
-
+        String id_empresas,id_empleados;    
+        String nivel;
+        nivel = sesion.getAttribute("SstrNivelUser").toString();
+        int NivelID = Integer.parseInt(nivel);        
+        id_empresas = sesion.getAttribute("Sstrempresa").toString();
+        int EmpresaID = Integer.parseInt(id_empresas);
+        String id_rol;
+        id_rol = sesion.getAttribute("SstrRolID").toString();
+        int RolID = Integer.parseInt(id_rol); 
+        int accesoROLES= Integer.parseInt(sesion.getAttribute("NivelAccesoRolID").toString());
+        id_rol_empleado = sesion.getAttribute("SstrUsuarioRol").toString();
+       int RolEmpleado= Integer.parseInt(id_rol_empleado);
+       id_empleados = sesion.getAttribute("Sstrempleado").toString();
+       int EmpleadoID= Integer.parseInt(id_empleados);
 
       
         
-        if(accion.equals("listar"))
-        {
-            
+        if (accion.equals("listar")) {
+            if (accesoROLES == 0) {
+                List<LcEmpleados> empleados = emp.getLcEmpleadoss();
+                request.setAttribute("empleados", empleados);
+
+                List<LcEmpleados> Activos = emp.getLcEmpleadosActivo();
+                request.setAttribute("Activos", Activos);
+
+                List<LcEmpleados> Inactivo = emp.getLcEmplInactivo();
+                request.setAttribute("Inactivo", Inactivo);
+            }else{
+
+                List<LcEmpleados> empleados = emp.getEmpleadoxempresa(EmpresaID);
+                request.setAttribute("empleados", empleados);
+
+                List<LcEmpleados> Activos = emp.getEmpleadoxempresaAct(EmpresaID);
+                request.setAttribute("Activos", Activos);
+
+                List<LcEmpleados> Inactivo = emp.getEmpleadoxempresaInact(EmpresaID);
+                request.setAttribute("Inactivo", Inactivo);
+            }/*
+            if ((NivelID != 0) && (NivelID != 1)) {
+                List<LcEmpleados> empleados = emp.getEmpleadoxempresa(EmpresaID);
+                request.setAttribute("empleados", empleados);
+
+                List<LcEmpleados> Activos = emp.getEmpleadoxempresaAct(EmpresaID);
+                request.setAttribute("Activos", Activos);
+
+                List<LcEmpleados> Inactivo = emp.getEmpleadoxempresaInact(EmpresaID);
+                request.setAttribute("Inactivo", Inactivo);
+            }*/
+        request.getRequestDispatcher("sistema/empleados/lista_empleados.jsp").forward(request, response);
         
-        List<LcEmpleados> empleados = emp.getLcEmpleadoss();
-        request.setAttribute("empleados", empleados);
-            
-            request.getRequestDispatcher("sistema/empleados/lista_empleados.jsp").forward(request, response);
-        //request.getContextPath()+
         }
         if(accion.equals("agregar"))
         {
             
-        //
-        ArrayList<LcEmpresa> empresas = es.getLcEmpresa();
-        request.setAttribute("empresas", empresas); 
-        
-        
-        ArrayList<LcCargos> cargos = cs.getLcCargos();
-        request.setAttribute("cargos", cargos);   
+            /*if (NivelID == 0) {
+                ArrayList<LcEmpresa> empresas = es.getLcEmpresa();
+                request.setAttribute("empresas", empresas);
+            }
+            if (NivelID == 1) {
+                List<LcRoles> empresaso = es.getLcEmpresaRol(EmpresaID, RolID);
+                int Empresa = empresaso.get(0).getLcEmpresa().getIdEmpresa();
+                ArrayList<LcEmpresa> empresao = es.getLcEmpresalog(Empresa);
+                request.setAttribute("empresao", empresao);
+            }
+            if ((NivelID != 0) && (NivelID != 1)) {
+                List<LcRoles> empresaso = es.getLcEmpresaRol(EmpresaID, RolID);
+                int Empresa = empresaso.get(0).getLcEmpresa().getIdEmpresa();
+                ArrayList<LcEmpresa> empresao = es.getLcEmpresalog(Empresa);
+                request.setAttribute("empresao", empresao);
+            }
+            */
+            List<LcEmpresa> empresas = es.getLcEmpresaRolSuper(EmpresaID,accesoROLES);       
+            request.setAttribute("empresas", empresas); 
        
-        ArrayList<LcEmpleados> empleados = emp.getLCEmpleados();
-        request.setAttribute("empleados", empleados);
+           /* if (accesoROLES == 0) {
+                ArrayList<LcCargos> cargos = cs.getLcCargos();
+                request.setAttribute("cargos", cargos);
+            }else{*/
+                List<LcCargos> cargos = cs.getLcCargosxEmpresa(EmpresaID);
+                request.setAttribute("cargos", cargos);
+            //}
+            /*if ((NivelID != 0) && (NivelID != 1)) {
+                List<LcCargos> cargos = cs.getLcCargosxEmpresa(EmpresaID);
+                request.setAttribute("cargos", cargos);
+            }
             
-          /*  
-        EmpleadosServicios es = new EmpleadosServicios();
-        ArrayList<LcEmpleados> empleados = es.getLCEmpleados();
-        request.setAttribute("empleados", empleados);*/
+            ArrayList<LcSucursal> sucursales = su.getLcSucursal();
+            request.setAttribute("sucursales", sucursales);*/
+            
+            List<LcAgencia> agencias = ag.getLcAgenciasxEmpresa(EmpresaID);
+            request.setAttribute("agencias", agencias);
+
+            ArrayList<LcGenero> generos = emp.getLcEmpGenero();
+            request.setAttribute("generos", generos);
+
+            ArrayList<LcEstadoCivil> estacivil = emp.getLcEmpcivil();
+            request.setAttribute("estacivil", estacivil);
+
+            ArrayList<LcTiposIdentificacion> tipIDE = emp.getLcEmpTipIDE();
+            request.setAttribute("tipIDE", tipIDE);
+
             
             request.getRequestDispatcher("sistema/empleados/frm_empleados.jsp").forward(request, response);
-        //request.getContextPath()+
         }
         if(accion.equals("registrar"))
         {
@@ -92,9 +171,9 @@ public class EmpleadosController extends HttpServlet {
         Date fecha_nac = formatter.parse(strDate);
         Date fecha_reg = new Date();
         
-        
+         //int empresa2 = Integer.parseInt(request.getParameter("empresa2"));
          int  empresa=Integer.parseInt(request.getParameter("empresa"));
-         String  t_identificacion=request.getParameter("t_identificacion");
+         int  t_identificacion=Integer.parseInt(request.getParameter("t_identificacion"));
          String identificacion=request.getParameter("identificacion");
          String nombres=request.getParameter("nombres");
          String apellidos=request.getParameter("apellidos");
@@ -103,35 +182,58 @@ public class EmpleadosController extends HttpServlet {
          String email=request.getParameter("email");
          String telefono=request.getParameter("telefono");
          String celular=request.getParameter("celular");        
-         String est_civil=request.getParameter("est_civil");
-         String genero=request.getParameter("genero");
+         int est_civil=Integer.parseInt(request.getParameter("est_civil"));
+         int genero=Integer.parseInt(request.getParameter("genero"));
          String profesion=request.getParameter("profesion");
          int cargo=Integer.parseInt(request.getParameter("cargo"));
          int jefe_directo=Integer.parseInt(request.getParameter("jefe_directo"));
          String dir_domicilio=request.getParameter("dir_domicilio");
          String observacion=request.getParameter("observacion");
-         
+         int agencias=Integer.parseInt(request.getParameter("sucursal"));
          ArrayList<LcEmpleados> empleados = emp.getLCEmpleados();
-         LcEmpleados idEmpelado =empleados.get(empleados.size() -1);
-         int id_empleado=idEmpelado.getIdEmpleado()+1;
-         /**
-          , , , ,, id_cargo, id_jefe_inmediato, observacion, fecha_creacion, 
-            fecha_actualizacion, estado)*/
-          emp.addEmpleado(new LcEmpleados
-                            (id_empleado,
+         int id_empleado;
+            /*if(empleados.isEmpty()){
+             id_empleado = 1;
+            }else {
+                //int secuencia = emp.SecuenciaModulo();
+                int secuencia = Integer.parseInt(emp.getNext().toString());
+                id_empleado=secuencia;
+            }*/
+
+            //if (empresa == 0) {
+                ArrayList<LcEmpleados> encuentra = emp.getDatoEncontrado(empresa, identificacion);
+
+                if (encuentra.isEmpty()) {
+                
+                id_empleado=Integer.parseInt(emp.getNext().toString());
+                
+                    emp.addEmpleado(new LcEmpleados(id_empleado,
+                            (new LcAgencia(agencias)),
                             (new LcCargos(cargo)),
                             (new LcEmpresa(empresa)),
-                            t_identificacion,    
+                            (new LcEstadoCivil(est_civil)),
+                            (new LcGenero(genero)),
+                           // (new LcSucursal(sucursal)),
+                            (new LcTiposIdentificacion(t_identificacion)),
                             identificacion,
-                            nombres.toUpperCase(),apellidos.toUpperCase(),lugar_nac.toUpperCase(),fecha_nac,email,telefono,celular,dir_domicilio,est_civil,genero,profesion.toUpperCase(),jefe_directo,observacion.toUpperCase(),fecha_reg,null,"A"));
+                            nombres.toUpperCase(),
+                            apellidos.toUpperCase(),
+                            lugar_nac.toUpperCase(),
+                            fecha_nac, email, telefono,
+                            celular, dir_domicilio, profesion.toUpperCase(),
+                            jefe_directo, observacion.toUpperCase(),
+                            fecha_reg, fecha_reg, "A", null, null, null,null,null,null));
+                    
+                        response.getWriter().println("Nuevo Empleado Registrado");
+                    
+                    
+                    
+                    
+                }else{
+                 response.getWriter().println("Ya se encuentra un Registrado el Empleado");
+                }
+          
        
-           
-            
-          response.getWriter().println("Nuevo Empleado Registrado");
-         //response.sendRedirect("/laticobsa/empleados?accion=listar");
-            
-           // request.getRequestDispatcher("sistema/empleados/lista_empleados.jsp").forward(request, response);
-        //request.getContextPath()+
         }
         
         if(accion.equals("inactivar"))
@@ -153,14 +255,34 @@ public class EmpleadosController extends HttpServlet {
                
                 List<LcEmpleados> emplea = emp.getDatosLCEmpleadosID(id);
                 request.setAttribute("emplea", emplea);
+                
+                if(EmpresaID==1){
                 ArrayList<LcEmpresa> empresas = es.getLcEmpresa();
-                request.setAttribute("empresas", empresas);
+                request.setAttribute("empresas", empresas); 
+                }else{
+
+                ArrayList<LcEmpresa> empresas = es.getLcEmpresalog(EmpresaID);
+                request.setAttribute("empresas", empresas); 
+                }
+                //ArrayList<LcSucursal> sucursales = su.getLcSucursal();
+                //request.setAttribute("sucursales", sucursales);
+                List<LcAgencia> agencias = ag.getLcAgenciasxEmpresa(EmpresaID);
+                request.setAttribute("agencias", agencias);
                 
                 ArrayList<LcCargos> cargos = cs.getLcCargos();
                 request.setAttribute("cargos", cargos);   
 
                 ArrayList<LcEmpleados> empleados = emp.getLCEmpleados();
                 request.setAttribute("empleados", empleados);
+                
+                ArrayList<LcGenero> generos = emp.getLcEmpGenero();
+                request.setAttribute("generos", generos);
+
+                ArrayList<LcEstadoCivil> estacivil = emp.getLcEmpcivil();
+                request.setAttribute("estacivil", estacivil);
+
+                ArrayList<LcTiposIdentificacion> tipIDE = emp.getLcEmpTipIDE();
+                request.setAttribute("tipIDE", tipIDE);
                 //se envia los datos al formulario para actualizar
                 request.getRequestDispatcher("sistema/empleados/frm_empleados_up.jsp").forward(request, response);
                 
@@ -178,24 +300,24 @@ public class EmpleadosController extends HttpServlet {
             
                 int idempleado = Integer.parseInt(request.getParameter("idempleado"));
                 int  empresa=Integer.parseInt(request.getParameter("empresa"));
-                String  t_identificacion=request.getParameter("t_identificacion");
+                int  t_identificacion=Integer.parseInt(request.getParameter("t_identificacion"));
                 String identificacion=request.getParameter("identificacion");
                 String nombres=request.getParameter("nombres");
                 String apellidos=request.getParameter("apellidos");
                 String lugar_nac=request.getParameter("lugar_nac");
-                
+                int agencia=Integer.parseInt(request.getParameter("sucursal"));
                 String email=request.getParameter("email");
                 String telefono=request.getParameter("telefono");
                 String celular=request.getParameter("celular");        
-                String est_civil=request.getParameter("est_civil");
-                String genero=request.getParameter("genero");
+                int est_civil=Integer.parseInt(request.getParameter("est_civil"));
+                int genero=Integer.parseInt(request.getParameter("genero"));
                 String profesion=request.getParameter("profesion");
                 int cargo=Integer.parseInt(request.getParameter("cargo"));
                 int jefe_directo=Integer.parseInt(request.getParameter("jefe_directo"));
                 String dir_domicilio=request.getParameter("dir_domicilio");
                 String observacion=request.getParameter("observacion"); 
                 
-                emp.updateEmpleados(idempleado, empresa, t_identificacion, identificacion, nombres, apellidos, lugar_nac, fecha_nac, email, telefono, celular, dir_domicilio, est_civil, genero, profesion, cargo, jefe_directo, observacion);
+                emp.updateEmpleados(idempleado, empresa, t_identificacion, identificacion, nombres, apellidos, lugar_nac, fecha_nac, email, telefono, celular, dir_domicilio, est_civil, genero, profesion, cargo, jefe_directo, observacion,agencia);
                 response.getWriter().println("Registro de Empleados Actualizado");
                
     }
@@ -205,6 +327,33 @@ public class EmpleadosController extends HttpServlet {
                 emp.deleteEmpleado(id);
              //response.getWriter().println("Zona Eliminada");
          }
+         if(accion.equals("MisEmpleados")){
+              String empleados="";
+              
+             if(param.permisos_admin(id_rol_empleado)){
+                            empleados = "{\"listaEmpleados\": "+emp.fnc_ConsultaEmpleados("select distinct(e.id_empleado) as id_empleado, e.apellidos||'' ''||e.nombres as empleado  from lc_usuarios u, lc_empleados e\n" +
+"where e.id_empleado=u.id_empleado\n" +
+"and e.id_empresa=u.id_empresa\n" +
+"and u.id_rol in (select r.id_rol from lc_roles r where r.descripcion in (select valor from lc_parametros p where p.id_parametro=2020))\n" +
+"and e.id_empresa=1\n" +
+"and u.id_empresa=1\n" +
+"and u.estado=''A''\n" +
+"and e.estado=''A''\n" +
+"order by empleado")+"}";
+              }else{
+                  System.out.println("select id_empleado, nombres||'' ''||apellidos as empleado from lc_empleados where id_empleado="+EmpleadoID+" '");
+                             empleados = "{\"listaEmpleados\": "+emp.fnc_ConsultaEmpleados("select distinct(e.id_empleado) as id_empleado, e.nombres||'' ''||e.apellidos as empleado  from lc_usuarios u, lc_empleados e\n" +
+"where e.id_empleado=u.id_empleado\n" +
+"and e.id_empresa=u.id_empresa\n" +
+"and u.id_rol in (select r.id_rol from lc_roles r where r.descripcion in (select valor from lc_parametros p where p.id_parametro=2020))\n" +
+"and e.id_empresa=1\n" +
+"and u.id_empresa=1\n" +
+"and u.estado=''A''\n" +
+"and e.estado=''A'' and e.id_empleado="+EmpleadoID)+"}";
+
+              }
+         response.getWriter().println(empleados);
+        }
         
         
     }
