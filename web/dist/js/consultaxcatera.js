@@ -230,7 +230,7 @@ $('#btnordenDesc2').click(function(e){
 });    
 
 
-function orderDiasMora(){
+function orderDiasMora(order){
     var orden_dia=  document.getElementById("IdDiasMora").value;
     var cartera=$("#cartera").val();
    // var accion="filtrosDiasMora";
@@ -245,11 +245,11 @@ function orderDiasMora(){
     if(orden_dia==="0" || orden_dia===""){
        document.getElementById("IdDiasMora").value="1"; //ascendente    Menor a Mayor      
      orden_dia=document.getElementById("IdDiasMora").value;
-     order_by = " ORDER BY s.dias_mora ASC, s.id_datos_deudor,s.id_transaccion ";
+     order_by = " ORDER BY s.dias_mora "+order+",s.nombres_completo";//, s.id_datos_deudor,s.id_transaccion ";
     }else{
          document.getElementById("IdDiasMora").value="0";   //descendente    Mayor a Menor  
     orden_dia=document.getElementById("IdDiasMora").value;
-    order_by = " ORDER BY s.dias_mora DESC, s.id_datos_deudor ,s.id_transaccion ";
+    order_by = " ORDER BY s.dias_mora "+order+",s.nombres_completo";//, s.id_datos_deudor ,s.id_transaccion ";
     }
     $('#id_loader').css("display", "block");
     document.getElementById("DiasMoraID").disabled="true";
@@ -283,7 +283,7 @@ function orderDiasMora(){
     
     
 }
-function orderFchGestion(){
+function orderFchGestion(order){
    var orden_Fecha=  document.getElementById("IdFechaUlt").value;
     var cartera=$("#cartera").val();
    // var accion="filtrosDiasFecha";
@@ -299,11 +299,11 @@ function orderFchGestion(){
     if(orden_Fecha==="0" || orden_Fecha===""){
        document.getElementById("IdFechaUlt").value="1"; //ascendente    Menor a Mayor      
      orden_Fecha=document.getElementById("IdFechaUlt").value;
-      order_by = " ORDER BY s.fech_ultima_gestion ASC, s.id_datos_deudor ,s.id_transaccion ";
+      order_by = " ORDER BY s.fech_ultima_gestion "+order+",s.nombres_completo";//, s.id_datos_deudor ,s.id_transaccion ";
     }else{
          document.getElementById("IdFechaUlt").value="0";   //descendente    Mayor a Menor  
     orden_Fecha=document.getElementById("IdFechaUlt").value;
-     order_by = " ORDER BY s.fech_ultima_gestion DESC, s.id_datos_deudor,s.id_transaccion ";
+     order_by = " ORDER BY s.fech_ultima_gestion "+order+",s.nombres_completo";//, s.id_datos_deudor,s.id_transaccion ";
     }
     $('#id_loader').css("display", "block");
     document.getElementById("FechaID").disabled="true";
@@ -335,7 +335,7 @@ function orderFchGestion(){
     }); */
 }
 
-function orderTotalVenc(){
+function orderTotalVenc(order){
    var orden_total=  document.getElementById("IdTotalVenc").value;
     var cartera=$("#cartera").val();
     //var accion="filtrosTotalVenc";
@@ -351,11 +351,11 @@ function orderTotalVenc(){
     if(orden_total==="0" || orden_total===""){
        document.getElementById("IdTotalVenc").value="1"; //ascendente    Menor a Mayor      
      orden_total=document.getElementById("IdTotalVenc").value;
-      order_by = " ORDER BY s.total_vencidos ASC, s.id_datos_deudor ,s.id_transaccion ";
+      order_by = " ORDER BY s.total_vencidos "+order+",s.nombres_completo";//, s.id_datos_deudor ,s.id_transaccion ";
     }else{
          document.getElementById("IdTotalVenc").value="0";   //descendente    Mayor a Menor  
     orden_total=document.getElementById("IdTotalVenc").value;
-     order_by = " ORDER BY s.total_vencidos DESC, s.id_datos_deudor ,s.id_transaccion ";
+     order_by = " ORDER BY s.total_vencidos "+order+",s.nombres_completo";//, s.id_datos_deudor ,s.id_transaccion ";
     }
     $('#id_loader').css("display", "block");
     document.getElementById("TotalID").disabled="true";
@@ -386,7 +386,7 @@ function orderTotalVenc(){
         }
     }); */
 }
-function orderIdent(){
+function orderIdent(order){
     console.log("Order Identificación");
    var orden_IDE=  document.getElementById("IdIdentificacion").value;
     var cartera=$("#cartera").val();
@@ -401,11 +401,11 @@ function orderIdent(){
     if(orden_IDE==="0" || orden_IDE===""){
        document.getElementById("IdIdentificacion").value="1"; //ascendente    Menor a Mayor      
      orden_IDE=document.getElementById("IdIdentificacion").value;
-     order_by = " ORDER BY s.identificacion ASC, s.id_datos_deudor ,s.id_transaccion ";
+     order_by = " ORDER BY s.identificacion "+order+",s.nombres_completo";//, s.id_datos_deudor ,s.id_transaccion ";
     }else{
          document.getElementById("IdIdentificacion").value="0";   //descendente    Mayor a Menor  
     orden_IDE=document.getElementById("IdIdentificacion").value;
-    order_by = " ORDER BY s.identificacion DESC, s.id_datos_deudor,s.id_transaccion ";
+    order_by = " ORDER BY s.identificacion "+order+",s.nombres_completo";//, s.id_datos_deudor,s.id_transaccion ";
     }
     $('#id_loader').css("display", "block");
     document.getElementById("IdentificacionID").disabled="true";
@@ -416,27 +416,9 @@ function orderIdent(){
     //consulta_query(sqlQuery,cartera);
      consulta_sec(sqlQuery,cartera,order_by);
     document.getElementById("IdentificacionID").disabled="false";
-    /* var parametros = {
-        "orden_IDE": orden_IDE,
-        "cartera": cartera,
-        "accion": accion
-    };
-        $.ajax({
-        data: parametros,
-        url: 'consultacartera',
-        type: 'GET',
-        beforeSend: function () {
-        },
-        success: function (response) {
-                $('#id_loader').css("display", "none");
-             document.getElementById("IdentificacionID").disabled="false";
-            var respuesta=response.toString();
-              document.getElementById("bodytable").innerHTML = "";
-              document.getElementById("bodytable").innerHTML = respuesta;
-        }
-    }); */
+    
 }
-function orderNombre(){
+function orderNombre(order){
    var orden_Nombre=  document.getElementById("IdNombres").value;
     var cartera=$("#cartera").val();
     //var accion="filtrosNombre";
@@ -452,11 +434,11 @@ function orderNombre(){
     if(orden_Nombre==="0" || orden_Nombre===""){
        document.getElementById("IdNombres").value="1"; //ascendente    Menor a Mayor      
      orden_Nombre=document.getElementById("IdNombres").value;
-      order_by = " ORDER BY s.nombres_completo ASC, s.id_datos_deudor,s.id_transaccion ,s.id_transaccion ";
+      order_by = " ORDER BY s.nombres_completo "+order;//, s.id_datos_deudor,s.id_transaccion ,s.id_transaccion ";
     }else{
          document.getElementById("IdNombres").value="0";   //descendente    Mayor a Menor  
     orden_Nombre=document.getElementById("IdNombres").value;
-     order_by = " ORDER BY s.nombres_completo DESC, s.id_datos_deudor,s.id_transaccion ,s.id_transaccion ";
+     order_by = " ORDER BY s.nombres_completo "+order;//, s.id_datos_deudor,s.id_transaccion ,s.id_transaccion ";
     }
     $('#id_loader').css("display", "block");
     document.getElementById("NombresID").disabled="true";
@@ -489,7 +471,7 @@ function orderNombre(){
         }
     }); */
 }
-function orderPagos(){
+function orderPagos(order){
    var orden_Pago=  document.getElementById("IdPagos").value;
     var cartera=$("#cartera").val();
    // var accion="filtrosPagos";
@@ -503,11 +485,11 @@ function orderPagos(){
     if(orden_Pago==="0" || orden_Pago===""){
        document.getElementById("IdPagos").value="1"; //ascendente    Menor a Mayor      
      orden_Pago=document.getElementById("IdPagos").value;
-     order_by = " ORDER BY s.pagos ASC, s.id_datos_deudor,s.id_transaccion ";
+     order_by = " ORDER BY s.pagos "+order+",s.nombres_completo";//, s.id_datos_deudor,s.id_transaccion ";
     }else{
          document.getElementById("IdPagos").value="0";   //descendente    Mayor a Menor  
     orden_Pago=document.getElementById("IdPagos").value;
-    order_by = " ORDER BY s.pagos DESC, s.id_datos_deudor,s.id_transaccion ";
+    order_by = " ORDER BY s.pagos "+order+",s.nombres_completo";//, s.id_datos_deudor,s.id_transaccion ";
     }
     $('#id_loader').css("display", "block");
     document.getElementById("PagosID").disabled="true";
@@ -539,7 +521,7 @@ function orderPagos(){
         }
     }); */
 }
-function orderSaldo(){
+function orderSaldo(order){
    var orden_Saldo=  document.getElementById("IdSaldo").value;
     var cartera=$("#cartera").val();
    // var accion="filtrosSaldo";
@@ -555,11 +537,11 @@ function orderSaldo(){
     if(orden_Saldo==="0" || orden_Saldo===""){
        document.getElementById("IdSaldo").value="1"; //ascendente    Menor a Mayor      
      orden_Saldo=document.getElementById("IdSaldo").value;
-     order_by = " ORDER BY s.saldo ASC, s.id_datos_deudor,s.id_transaccion ";
+     order_by = " ORDER BY s.saldo "+order+",s.nombres_completo";//, s.id_datos_deudor,s.id_transaccion ";
     }else{
          document.getElementById("IdSaldo").value="0";   //descendente    Mayor a Menor  
     orden_Saldo=document.getElementById("IdSaldo").value;
-    order_by = " ORDER BY s.saldo DESC, s.id_datos_deudor ,s.id_transaccion ";
+    order_by = " ORDER BY s.saldo "+order+",s.nombres_completo";//, s.id_datos_deudor ,s.id_transaccion ";
     }
     $('#id_loader').css("display", "block");
     document.getElementById("SaldosID").disabled="true";
@@ -593,7 +575,7 @@ function orderSaldo(){
         }
     }); */
 }
-function orderValorComp(){
+function orderValorComp(order){
    var orden_ValorComp=  document.getElementById("IdValorComp").value;
     var cartera=$("#cartera").val();
    // var accion="filtrosValorComp";
@@ -607,11 +589,11 @@ function orderValorComp(){
     if(orden_ValorComp==="0" || orden_ValorComp===""){
        document.getElementById("IdValorComp").value="1"; //ascendente    Menor a Mayor      
      orden_ValorComp=document.getElementById("IdValorComp").value;
-     order_by = " ORDER BY s.valor_compro ASC, s.id_datos_deudor ,s.id_transaccion ";
+     order_by = " ORDER BY s.valor_compro "+order+",s.nombres_completo";//, s.id_datos_deudor ,s.id_transaccion ";
     }else{
          document.getElementById("IdValorComp").value="0";   //descendente    Mayor a Menor  
     orden_ValorComp=document.getElementById("IdValorComp").value;
-    order_by = " ORDER BY s.valor_compro DESC, s.id_datos_deudor ,s.id_transaccion ";
+    order_by = " ORDER BY s.valor_compro "+order+",s.nombres_completo";//, s.id_datos_deudor ,s.id_transaccion ";
     }
     $('#id_loader').css("display", "block");
     document.getElementById("ValorCompID").disabled="true";
@@ -644,7 +626,7 @@ function orderValorComp(){
         }
     }); */
 }
-function orderFechaComp(){
+function orderFechaComp(order){
    var orden_FechaComp=  document.getElementById("IdFechaComp").value;
     var cartera=$("#cartera").val();
     //var accion="filtrosFechaComp";
@@ -658,11 +640,11 @@ function orderFechaComp(){
     if(orden_FechaComp==="0" || orden_FechaComp===""){
        document.getElementById("IdFechaComp").value="1"; //ascendente    Menor a Mayor      
        orden_FechaComp=document.getElementById("IdFechaComp").value;
-        order_by = " ORDER BY s.fecha_comp ASC, s.id_datos_deudor ,s.id_transaccion ";
+        order_by = " ORDER BY s.fecha_comp "+order+",s.nombres_completo";//, s.id_datos_deudor ,s.id_transaccion ";
     }else{
          document.getElementById("IdFechaComp").value="0";   //descendente    Mayor a Menor  
         orden_FechaComp=document.getElementById("IdFechaComp").value;
-         order_by = " ORDER BY s.fecha_comp DESC, s.id_datos_deudor,s.id_transaccion ";
+         order_by = " ORDER BY s.fecha_comp "+order+",s.nombres_completo";//, s.id_datos_deudor,s.id_transaccion ";
     }
     $('#id_loader').css("display", "block");
     document.getElementById("FechaCompID").disabled="true";
@@ -695,7 +677,7 @@ function orderFechaComp(){
         }
     }); */
 }
-function orderUltima(){
+function orderUltima(order){
    var orden_Ultima=  document.getElementById("IdUltima").value;
     var cartera=$("#cartera").val();
    // var accion="filtrosUltima";
@@ -709,11 +691,11 @@ function orderUltima(){
     if(orden_Ultima==="0" || orden_Ultima===""){
        document.getElementById("IdUltima").value="1"; //ascendente    Menor a Mayor      
        orden_Ultima=document.getElementById("IdUltima").value;
-       order_by = " ORDER BY s.ultima_gestion ASC, s.id_datos_deudor,s.id_transaccion ";
+       order_by = " ORDER BY s.ultima_gestion "+order+",s.nombres_completo";//, s.id_datos_deudor,s.id_transaccion ";
     }else{
          document.getElementById("IdUltima").value="0";   //descendente    Mayor a Menor  
          orden_Ultima=document.getElementById("IdUltima").value;
-         order_by = " ORDER BY s.ultima_gestion DESC, s.id_datos_deudor ,s.id_transaccion ";
+         order_by = " ORDER BY s.ultima_gestion "+order+",s.nombres_completo";//, s.id_datos_deudor ,s.id_transaccion ";
     }
     $('#id_loader').css("display", "block");
     document.getElementById("UltimaID").disabled="true";
@@ -744,7 +726,7 @@ function orderUltima(){
         }
     }); */
 }
-function orderResultado(){
+function orderResultado(order){
    var orden_Resultado=  document.getElementById("IdResultado").value;
     var cartera=$("#cartera").val();
     var accion="filtrosResultado";
@@ -758,11 +740,11 @@ function orderResultado(){
     if(orden_Resultado==="0" || orden_Resultado===""){
        document.getElementById("IdResultado").value="1"; //ascendente    Menor a Mayor      
      orden_Resultado=document.getElementById("IdResultado").value;
-        order_by = " ORDER BY s.resultado_gestion ASC, s.id_datos_deudor,s.id_transaccion ";
+        order_by = " ORDER BY s.resultado_gestion "+order+",s.nombres_completo";//, s.id_datos_deudor,s.id_transaccion ";
     }else{
          document.getElementById("IdResultado").value="0";   //descendente    Mayor a Menor  
     orden_Resultado=document.getElementById("IdResultado").value;
-       order_by = " ORDER BY s.resultado_gestion DESC, s.id_datos_deudor,s.id_transaccion ";
+       order_by = " ORDER BY s.resultado_gestion "+order+",s.nombres_completo";//, s.id_datos_deudor,s.id_transaccion ";
     }
     $('#id_loader').css("display", "block");
     document.getElementById("ResultadoID").disabled="true";
@@ -793,7 +775,35 @@ function orderResultado(){
         }
     }); */
 }
-function orderFechaUltPagos(){
+function orderCuenta(order){
+   var orden_Resultado=  document.getElementById("IdResultado").value;
+    var cartera=$("#cartera").val();
+    var accion="filtrosResultado";
+    var order_by="";
+   var sqlQuery=$("#input_query").val();
+   
+    if(sqlQuery===""){
+         MsgSalidaModalA("Debe realizar la consulta en la pantalla de filtros");
+    return;    
+    }
+    if(orden_Resultado==="0" || orden_Resultado===""){
+       document.getElementById("IdResultado").value="1"; //ascendente    Menor a Mayor      
+     orden_Resultado=document.getElementById("IdResultado").value;
+        order_by = " ORDER BY s.num_cuenta "+order+",s.nombres_completo";//, s.id_datos_deudor,s.id_transaccion ";
+    }else{
+         document.getElementById("IdResultado").value="0";   //descendente    Mayor a Menor  
+    orden_Resultado=document.getElementById("IdResultado").value;
+       order_by = " ORDER BY s.num_cuenta "+order+",s.nombres_completo";//, s.id_datos_deudor,s.id_transaccion ";
+    }
+    $('#id_loader').css("display", "block");
+    document.getElementById("ResultadoID").disabled="true";    
+    sqlQuery=sqlQuery+order_by;
+    console.log(sqlQuery);
+    consulta_sec(sqlQuery,cartera,order_by);
+    document.getElementById("ResultadoID").disabled="false";
+   
+}
+function orderFechaUltPagos(order){
    var orden_FechaUltPagos=  document.getElementById("IdFecUltPagos").value;
     var cartera=$("#cartera").val();
     var accion="filtrosFechaUltPagos";
@@ -808,19 +818,17 @@ function orderFechaUltPagos(){
     if(orden_FechaUltPagos==="0" || orden_FechaUltPagos===""){
       document.getElementById("IdFecUltPagos").value="1"; //ascendente    Menor a Mayor      
      orden_FechaUltPagos=document.getElementById("IdFecUltPagos").value;
-      order_by = " ORDER BY s.fecha_ult_pagos ASC, s.id_datos_deudor ,s.id_transaccion ";
+      order_by = " ORDER BY s.fecha_ult_pagos "+order+",s.nombres_completo";//, s.id_datos_deudor ,s.id_transaccion ";
     }else{
          document.getElementById("IdFecUltPagos").value="0";   //descendente    Mayor a Menor  
     orden_FechaUltPagos=document.getElementById("IdFecUltPagos").value;
-     order_by = " ORDER BY s.fecha_ult_pagos DESC, s.id_datos_deudor ,s.id_transaccion ";
+     order_by = " ORDER BY s.fecha_ult_pagos "+order+",s.nombres_completo";//, s.id_datos_deudor ,s.id_transaccion ";
     }
     $('#id_loader').css("display", "block");
     document.getElementById("FecUltPagosID").disabled="true";
     
     sqlQuery=sqlQuery+order_by;
     console.log(sqlQuery);
-    //realiza la consulta
-    //consulta_query(sqlQuery,cartera);
      consulta_sec(sqlQuery,cartera,order_by);
     document.getElementById("FecUltPagosID").disabled="false";
     /*
@@ -886,7 +894,7 @@ document.getElementById("escogecliente").innerHTML="";
     var accion = "nuevaConsulta";
     var order_by=$('#order_by').val();
     var lv_select=" select";
-    var lv_datos=" count(*) OVER (ORDER BY s.id_transaccion) AS secuencia2,'<a href=\"#\" onclick=\"GestionCliente('||s.id_cliente||','||s.id_datos_deudor||');\" >'||s.nombres_completo||'</a>' nombres_completo2,s.*  ";
+    var lv_datos=" 1 AS secuencia2,'<a href=\"#\" onclick=\"GestionCliente('||s.id_cliente||','||s.id_datos_deudor||');\" >'||s.nombres_completo||'</a>' nombres_completo2,s.*  ";
     var lv_from=" from ";
     var lv_filtros=" where s.id_cliente=IDClienteConsulta and s.id_empleado=IDEmpleadoConsulta and s.estado != 'E'";
     var lv_query=" vw_consulta_cartera s  ";
@@ -1045,7 +1053,7 @@ document.getElementById("escogecliente").innerHTML="";
     } );
     $('#id_loader').css("display", "none");
     $('#det_filtro').modal('hide');   
-
+ 
    consulta_sec(sqlQuery,cartera,"");
     
 //var table = $('#consul_cartera').DataTable();
@@ -1059,55 +1067,237 @@ $('#consul_cartera thead').on('click', 'th', function () {
 console.log('consulta de columna>>>>: '+index);
 
         var data = table.rows().data();
-/*
-data.each(function (value, index) {
-   console.log('Data in index: ' + index + ' is: ' + value.identificacion+ ' is: ' + value.secuencia2);
-   value.secuencia2=index;
-    console.log('value.secuencia2: ' + value.secuencia2);
-    
-    
-});*/
-/* var rows = table.rows().data();
- 
-console.log( 'Pupil name in the first row is: '+ rows[0].name() );*/
-
-
+     var tord=$('#torder').val();//document.getElementById("torder").value;
      switch (index) {
     case 1:
-        orderIdent();
+       
+       
+        if(tord==="asc"){
+           
+        table.order( [ 1, tord ],[ 3, 'asc' ] ).draw();
+        console.log("ASC 1>>>"+tord);  //torder 
+        tord='desc';
+        document.getElementById("torder").value=tord;
+         orderIdent('ASC');
+        }else{
+            
+            table.order( [ 1, tord ],[ 3, 'asc' ] ).draw();
+            console.log("desc 1>>>"+tord); 
+            tord='asc';
+            document.getElementById("torder").value=tord;
+             orderIdent('DESC');
+        }
+        //orderCuenta
         break;
+    case 2:
+       
+       
+        if(tord==="asc"){
+           
+        table.order( [ 2, tord ],[ 3, 'asc' ] ).draw();
+        console.log("ASC 1>>>"+tord);  //torder 
+        tord='desc';
+        document.getElementById("torder").value=tord;
+         orderCuenta('ASC');
+        }else{
+            
+            table.order( [ 2, tord ],[ 3, 'asc' ] ).draw();
+            console.log("desc 1>>>"+tord); 
+            tord='asc';
+            document.getElementById("torder").value=tord;
+             orderCuenta('DESC');
+        }
+         break;
     case 3:
-        orderNombre();
+         if(tord==="asc"){
+           
+        table.order( [ 3, tord ] ).draw();
+        console.log("ASC 1>>>"+tord);  //torder 
+        tord='desc';
+        document.getElementById("torder").value=tord;
+         orderNombre('ASC');
+        }else{
+            
+            table.order( [ 3, tord ] ).draw();
+            console.log("desc 1>>>"+tord); 
+            tord='asc';
+            document.getElementById("torder").value=tord;
+             orderNombre('DESC');
+        }
+       // orderNombre();
         break;
     case 4:
-        orderDiasMora();
+         if(tord==="asc"){
+           
+        table.order( [ 4, tord ],[ 3, 'asc' ] ).draw();
+        console.log("ASC 1>>>"+tord);  //torder 
+        tord='desc';
+        document.getElementById("torder").value=tord;
+         orderDiasMora('ASC');
+        }else{
+            
+            table.order( [ 4, tord ],[ 3, 'asc' ] ).draw();
+            console.log("desc 1>>>"+tord); 
+            tord='asc';
+            document.getElementById("torder").value=tord;
+             orderDiasMora('DESC');
+        }
+        
+       // orderDiasMora();
         break;
     case 5:
-        orderTotalVenc();
+        if(tord==="asc"){           
+            table.order( [ 5, tord ],[ 3, 'asc' ] ).draw();
+            console.log("ASC 1>>>"+tord);  //torder 
+            tord='desc';
+            document.getElementById("torder").value=tord;
+            orderTotalVenc('ASC');
+        }else{
+            
+            table.order( [ 5, tord ],[ 3, 'asc' ] ).draw();
+            console.log("desc 1>>>"+tord); 
+            tord='asc';
+            document.getElementById("torder").value=tord;
+            orderTotalVenc('DESC');
+        }
+        
+       // orderTotalVenc();
         break;
     case 6:
-        orderPagos();
+        if(tord==="asc"){           
+            table.order( [ 6, tord ],[ 3, 'asc' ] ).draw();
+            console.log("ASC 1>>>"+tord);  //torder 
+            tord='desc';
+            document.getElementById("torder").value=tord;
+            orderPagos('ASC');
+        }else{
+            
+            table.order( [ 6, tord ],[ 3, 'asc' ] ).draw();
+            console.log("desc 1>>>"+tord); 
+            tord='asc';
+            document.getElementById("torder").value=tord;
+            orderPagos('DESC');
+        }
+        //orderPagos();
         break;
     case 7:
-        orderFechaUltPagos();
+        if(tord==="asc"){           
+            table.order( [ 7, tord ],[ 3, 'asc' ] ).draw();
+            console.log("ASC 1>>>"+tord);  //torder 
+            tord='desc';
+            document.getElementById("torder").value=tord;
+            orderFechaUltPagos('ASC');
+        }else{
+            
+            table.order( [ 7, tord ],[ 3, 'asc' ] ).draw();
+            console.log("desc 1>>>"+tord); 
+            tord='asc';
+            document.getElementById("torder").value=tord;
+            orderFechaUltPagos('DESC');
+        }
+        //orderFechaUltPagos();
         break;
     case 8:
-        orderSaldo();
+        if(tord==="asc"){           
+            table.order( [ 8, tord ],[ 3, 'asc' ] ).draw();
+            console.log("ASC 1>>>"+tord);  //torder 
+            tord='desc';
+            document.getElementById("torder").value=tord;
+            orderSaldo('ASC');
+        }else{
+            
+            table.order( [ 8, tord ],[ 3, 'asc' ] ).draw();
+            console.log("desc 1>>>"+tord); 
+            tord='asc';
+            document.getElementById("torder").value=tord;
+            orderSaldo('DESC');
+        }
+        //orderSaldo();
         break;
     case 9:
-        orderValorComp();
+        if(tord==="asc"){           
+            table.order( [ 9, tord ],[ 3, 'asc' ] ).draw();
+            console.log("ASC 1>>>"+tord);  //torder 
+            tord='desc';
+            document.getElementById("torder").value=tord;
+            orderValorComp('ASC');
+        }else{
+            
+            table.order( [ 9, tord ],[ 3, 'asc' ] ).draw();
+            console.log("desc 1>>>"+tord); 
+            tord='asc';
+            document.getElementById("torder").value=tord;
+            orderValorComp('DESC');
+        }
+        //orderValorComp();
         break;
     case 10:
-        orderFechaComp();
+        if(tord==="asc"){           
+            table.order( [ 10, tord ],[ 3, 'asc' ] ).draw();
+            console.log("ASC 1>>>"+tord);  //torder 
+            tord='desc';
+            document.getElementById("torder").value=tord;
+            orderFechaComp('ASC');
+        }else{
+            
+            table.order( [ 10, tord ],[ 3, 'asc' ] ).draw();
+            console.log("desc 1>>>"+tord); 
+            tord='asc';
+            document.getElementById("torder").value=tord;
+            orderFechaComp('DESC');
+        }
+        //orderFechaComp();
         break;
     case 11:
-        orderFchGestion();
+        if(tord==="asc"){           
+            table.order( [ 11, tord ],[ 3, 'asc' ] ).draw();
+            console.log("ASC 1>>>"+tord);  //torder 
+            tord='desc';
+            document.getElementById("torder").value=tord;
+            orderFchGestion('ASC');
+        }else{
+            
+            table.order( [ 11, tord ],[ 3, 'asc' ] ).draw();
+            console.log("desc 1>>>"+tord); 
+            tord='asc';
+            document.getElementById("torder").value=tord;
+            orderFchGestion('DESC');
+        }
+        //orderFchGestion();
         break;
     case 12:
-        orderUltima();
+        if(tord==="asc"){           
+            table.order( [ 12, tord ],[ 3, 'asc' ] ).draw();
+            console.log("ASC 1>>>"+tord);  //torder 
+            tord='desc';
+            document.getElementById("torder").value=tord;
+            orderUltima('ASC');
+        }else{
+            
+            table.order( [ 12, tord ],[ 3, 'asc' ] ).draw();
+            console.log("desc 1>>>"+tord); 
+            tord='asc';
+            document.getElementById("torder").value=tord;
+            orderUltima('DESC');
+        }
+        //orderUltima();
         break;
     case 13:
-        orderResultado();
+        if(tord==="asc"){           
+            table.order( [ 13, tord ],[ 3, 'asc' ] ).draw();
+            console.log("ASC 1>>>"+tord);  //torder 
+            tord='desc';
+            document.getElementById("torder").value=tord;
+            orderResultado('ASC');
+        }else{
+            
+            table.order( [ 13, tord ],[ 3, 'asc' ] ).draw();
+            console.log("desc 1>>>"+tord); 
+            tord='asc';
+            document.getElementById("torder").value=tord;
+            orderResultado('DESC');
+        }
+        //orderResultado();
         break;    
 }
 
@@ -1528,7 +1718,7 @@ function datatableok(){
         
 function consulta_sec(sqlQuery,cartera,ordenQuery){
     var accion="consulta_secuencia";
-     console.log('consulta_sec>>> '+sqlQuery);
+     console.log('consulta_sec>>> '+sqlQuery+" cartera:"+cartera+" ordenQuery:"+ordenQuery);
      
      
      var parametros = {
@@ -1547,6 +1737,7 @@ function consulta_sec(sqlQuery,cartera,ordenQuery){
              document.getElementById("secuencia_query").value = "";   
              document.getElementById("secuencia_query").value = response.toString(); 
              console.log("secuencia_query>>>>>>>>>>"+document.getElementById("secuencia_query").value);
+             
              //alert(response);
         }
     });

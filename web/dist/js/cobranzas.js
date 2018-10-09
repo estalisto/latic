@@ -7,6 +7,7 @@ function Sgtedeudor(stridDeudor, stridCliente) {
     var idDeudor = stridDeudor;
     var idCliente = stridCliente;
     var accion = "deudor";
+    
     $('#img_cargando').css("display", "block");
     var parametros = {
         "idCliente": idCliente,
@@ -37,7 +38,7 @@ function Sgtedeudor2() {
     var idDeudor = document.getElementById("id_deudor").value;
     var idCliente = document.getElementById("idcliente").value;
     var secQuery = document.getElementById("secuencia_query").value;
-
+    console.log("Sgtedeudor2::id_deudor: "+idDeudor+" idcliente: "+idCliente+" secuencia_query: "+secQuery);
               
     var accion = "deudor";
     $('#img_cargando').css("display", "block");
@@ -104,6 +105,7 @@ function Antdeudor2() {
     var idDeudor = document.getElementById("id_deudor").value;
     var idCliente = document.getElementById("idcliente").value;
     var secQuery = document.getElementById("secuencia_query").value;
+     console.log("Antdeudor2::id_deudor: "+idDeudor+" idcliente: "+idCliente+" secuencia_query: "+secQuery);
   //  alert(secQuery);
     var accion = "anterior";
     $('#img_cargando').css("display", "block");

@@ -526,6 +526,11 @@ public class ConsultaxCartera extends HttpServlet {
                         QueryConsulta = QueryConsulta.replaceAll("'", "''");
 
                         sesion.setAttribute("SSqlDatosDeudor",QueryConsulta);
+                        String orderby = "ORDER BY";
+                            if(!QueryConsulta.toUpperCase().contains(orderby)){
+                                QueryConsulta=QueryConsulta+" ORDER BY s.nombres_completo";
+
+                            }
                         NuevosDatos=cd.getNuevaConsulta(QueryConsulta);
                         if(NuevosDatos==null){
                             NuevosDatos="{\"data\":[]}";
@@ -539,7 +544,7 @@ public class ConsultaxCartera extends HttpServlet {
                     QueryConsulta = QueryConsulta.replaceAll("IDClienteConsulta", Integer.toString(cartera));
                     QueryConsulta = QueryConsulta.replaceAll("IDEmpleadoConsulta", Integer.toString(EmpleadoID));
                     QueryConsulta = QueryConsulta.replaceAll("'", "''");
-
+                    
                     sesion.setAttribute("SSqlDatosDeudor",QueryConsulta);
                     NuevosDatos="{\"data\": "+cd.getNuevaConsulta(QueryConsulta)+"}";
                     response.getWriter().println(NuevosDatos);
@@ -555,7 +560,9 @@ public class ConsultaxCartera extends HttpServlet {
          }
          if(accion.equals("consulta_secuencia")){
              int cartera = Integer.parseInt(request.getParameter("cartera")); 
-                 String QueryConsulta =request.getParameter("sqlQuery"),datos="", orden=request.getParameter("ordenQuery");
+             String QueryConsulta;
+            QueryConsulta = request.getParameter("sqlQuery");
+                 String datos="", orden=request.getParameter("ordenQuery");
                  //String NuevosDatos="";
                  int secuancia;
                  if(param.Consulta_Parametro("LB_HABILITA_CAMPANIA").equals("S")){

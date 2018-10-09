@@ -2216,7 +2216,7 @@ String color;
         Transaction tx= session.beginTransaction();
         String orderby = "ORDER BY";
             if(!str_query.toUpperCase().contains(orderby)){
-                str_query=str_query+" ORDER BY s.id_datos_deudor";
+                str_query=str_query+" ORDER BY s.nombres_completo";
                 
             }
         

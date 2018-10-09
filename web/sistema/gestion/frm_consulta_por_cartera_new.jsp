@@ -153,8 +153,10 @@ table tr {
         <input  type="text" class="form-control input-sm hidden" id="IdResultado">  
         <input  type="text" class="form-control input-sm hidden" id="input_query" >
         <input  type="text" class="form-control input-sm hidden" id="secuencia_query" >
+        <input type="text" class="form-control text-right hidden" id="torder" value="asc" >
          <input  type="text" class="form-control input-sm hidden" id="idNotas" value="0" >
       </div> 
+      
       <div class="panel panel-default well-lg margin"  style="overflow-x: auto">
           <div id="tabla_div">
           
