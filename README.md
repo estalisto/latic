@@ -1,2 +1,2 @@
-# Laticobsa S.A.
+# Sistema Cuentas X Cobrar
 Proyecto
